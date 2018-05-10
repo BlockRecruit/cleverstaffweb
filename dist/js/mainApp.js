@@ -1205,163 +1205,163 @@
                         //};
 
 
-                        function openCandidate(event) {
-                            console.log(event.target);
-                            console.log(event.target.getAttribute("file-to-preview"));
-                            let fileId = event.target.getAttribute("file-to-preview");
-                            $rootScope.previewInfoIsMissing = false;
-                            Candidate.one({"localId": scope.candidate.localId}, function(resp) {
-                                var array = [];
-                                angular.forEach(resp.object.files,function(res){
-                                    initDocuments(res);
-                                    console.log(res);
-                                    if(res.showGDocs && ($(element).hasClass("preview-docs")) && fileId === res.fileId){
-                                        resp.object.showDocument = true;
-                                        res.linkFileForShow = "https://docs.google.com/viewer?embedded=true&url=http://" + $location.$$host + "/hr/showFile/" + res.fileId + "/" + encodeURI(res.fileName) + '?decache=' + Math.random();
-                                        res.linkFileForShow = $sce.trustAsResourceUrl(res.linkFileForShow);
-                                        array.push(res);
-                                    }
-                                });
-                                resp.object.files = array;
-                                open(resp.object);
-                                CacheCandidates.add(resp.object);
+                    function openCandidate(event) {
+                        console.log(event.target);
+                        console.log(event.target.getAttribute("file-to-preview"));
+                        let fileId = event.target.getAttribute("file-to-preview");
+                        $rootScope.previewInfoIsMissing = false;
+                        Candidate.one({"localId": scope.candidate.localId}, function(resp) {
+                            var array = [];
+                            angular.forEach(resp.object.files,function(res){
+                                initDocuments(res);
+                                console.log(res);
+                                if(res.showGDocs && ($(element).hasClass("preview-docs")) && fileId === res.fileId){
+                                    resp.object.showDocument = true;
+                                    res.linkFileForShow = "https://docs.google.com/viewer?embedded=true&url=http://" + $location.$$host + "/hr/showFile/" + res.fileId + "/" + encodeURI(res.fileName) + '?decache=' + Math.random();
+                                    res.linkFileForShow = $sce.trustAsResourceUrl(res.linkFileForShow);
+                                    array.push(res);
+                                }
                             });
-                        }
+                            resp.object.files = array;
+                            open(resp.object);
+                            CacheCandidates.add(resp.object);
+                        });
                     }
                 }
-            }]
-        ).directive('ngEnterSearch', function() {
-                return function(scope, element, attrs) {
-                    element.bind("keypress", function(event) {
-                        if (event.which === 13) {
-                            scope.clickSearch();
+            }
+        }]
+    ).directive('ngEnterSearch', function() {
+            return function(scope, element, attrs) {
+                element.bind("keypress", function(event) {
+                    if (event.which === 13) {
+                        scope.clickSearch();
+                    }
+                });
+            }
+        }
+    )
+    .directive('recommendation', function() {
+            return {
+                restrict: "EA",
+                link: function(scope, element, attr) {
+                    var buttonAdd = element.next(".recommendationAdd");
+                    element.hover(function() {
+                        var buttonAdd = element.next(".recommendationAdd");
+                        buttonAdd.removeClass("blockDisplay");
+                        var position = getPosition(buttonAdd[0]);
+                        if (element[0].getAttribute("isOfset") == undefined) {
+                            buttonAdd.offset({
+                                top: (buttonAdd.offset().top - element[0].scrollHeight / 2) - 13,
+                                left: (element[0].scrollWidth / 2) - 6
+                            });
+                            element[0].setAttribute("isOfset", "true");
                         }
+                    });
+                    element.mouseleave(function(event) {
+                        var buttonAdd = element.next('.recommendationAdd');
+                        buttonAdd.addClass("blockDisplay");
                     });
                 }
             }
-        )
-        .directive('recommendation', function() {
-                return {
-                    restrict: "EA",
-                    link: function(scope, element, attr) {
-                        var buttonAdd = element.next(".recommendationAdd");
-                        element.hover(function() {
-                            var buttonAdd = element.next(".recommendationAdd");
-                            buttonAdd.removeClass("blockDisplay");
-                            var position = getPosition(buttonAdd[0]);
-                            if (element[0].getAttribute("isOfset") == undefined) {
-                                buttonAdd.offset({
-                                    top: (buttonAdd.offset().top - element[0].scrollHeight / 2) - 13,
-                                    left: (element[0].scrollWidth / 2) - 6
-                                });
-                                element[0].setAttribute("isOfset", "true");
-                            }
-                        });
-                        element.mouseleave(function(event) {
-                            var buttonAdd = element.next('.recommendationAdd');
-                            buttonAdd.addClass("blockDisplay");
-                        });
-                    }
+        }
+    ).directive('recbutton', function() {
+            return {
+                restrict: "EA",
+                link: function(scope, element, attr) {
+                    element.hover(function() {
+                        element.removeClass("blockDisplay");
+                    });
+                    element.mouseleave(function() {
+                        element.addClass("blockDisplay");
+                    })
                 }
             }
-        ).directive('recbutton', function() {
-                return {
-                    restrict: "EA",
-                    link: function(scope, element, attr) {
-                        element.hover(function() {
-                            element.removeClass("blockDisplay");
-                        });
-                        element.mouseleave(function() {
-                            element.addClass("blockDisplay");
-                        })
+        }
+    )
+    .directive('modalAddFile', ["$filter", function($filter) {
+            return {
+                restrict: "EA",
+                templateUrl: "partials/modal/add-photo-candidate.html",
+                link: function(scope, element, attr) {
+                    scope.loader = true;
+                    scope.modalAddPhoto = true;
+                    scope.showErrorAddPhotoMessage = false;
+                    if (attr.page == "candidate") {
+                        scope.headerFile = $filter('translate')('You can select a photo on your computer');
+                        scope.headerLink = $filter('translate')('Or provide a link to photos on the internet');
+                    } else if (attr.page == "client") {
+                        scope.headerFile = $filter('translate')('You can select a logo on your computer');
+                        scope.headerLink = $filter('translate')('Or provide a link to logo on the internet');
                     }
-                }
-            }
-        )
-        .directive('modalAddFile', ["$filter", function($filter) {
-                return {
-                    restrict: "EA",
-                    templateUrl: "partials/modal/add-photo-candidate.html",
-                    link: function(scope, element, attr) {
-                        scope.loader = true;
+                    scope.showModalAddPhoto = function(headerText) {
+                        scope.modalAddPhotoHeaderText = $filter('translate')(headerText);
                         scope.modalAddPhoto = true;
-                        scope.showErrorAddPhotoMessage = false;
-                        if (attr.page == "candidate") {
-                            scope.headerFile = $filter('translate')('You can select a photo on your computer');
-                            scope.headerLink = $filter('translate')('Or provide a link to photos on the internet');
-                        } else if (attr.page == "client") {
-                            scope.headerFile = $filter('translate')('You can select a logo on your computer');
-                            scope.headerLink = $filter('translate')('Or provide a link to logo on the internet');
+                        element.children().addClass("active");
+                        element.children().removeClass("hide");
+                        element.children().children().addClass("active");
+                    };
+                    scope.hideModalAddPhoto = function() {
+                        if (scope.modalAddPhoto) {
+                            element.children().addClass("hide");
+                            element.children().removeClass("active");
+                            element.children().children().removeClass("active");
+                            scope.modalAddPhoto = false;
+                            scope.photoUrl = "";
                         }
-                        scope.showModalAddPhoto = function(headerText) {
-                            scope.modalAddPhotoHeaderText = $filter('translate')(headerText);
-                            scope.modalAddPhoto = true;
-                            element.children().addClass("active");
-                            element.children().removeClass("hide");
-                            element.children().children().addClass("active");
-                        };
-                        scope.hideModalAddPhoto = function() {
-                            if (scope.modalAddPhoto) {
-                                element.children().addClass("hide");
-                                element.children().removeClass("active");
-                                element.children().children().removeClass("active");
-                                scope.modalAddPhoto = false;
-                                scope.photoUrl = "";
+                    };
+                }
+            }
+        }]
+    ).directive('statusColorNew', ["$filter", function($filter) {
+            return {
+                restrict: "EA",
+                scope: {
+                    old: "=",
+                    new: "=",
+                    icon: "=",
+                    statusarr: "@"
+                },
+                link: function(scope, element) {
+                    if(!scope.statusarr){
+                        scope.statusarr = '';
+                    }
+                    if (scope.new) {
+                        element.append(createSpanForInterviewStatusHistory(scope.statusarr,scope.old, $filter)+
+                            "<i class='fa fa-angle-right' aria-hidden='true' style='color: black;padding-right: 6px;'></i>"
+                            + createSpanForInterviewStatusHistory(scope.statusarr, scope.new, $filter))
+                    } else {
+                        scope.$watch("old", function() {
+                            element.html(createSpanForInterviewStatusHistory(scope.statusarr, scope.old, $filter, true));
+                            if (scope.icon) {
+                                $(element).find("span").append('<i style="margin: 0px 0px 0px 5px;" class="caret small down icon"></i>');
                             }
-                        };
+                        });
                     }
                 }
-            }]
-        ).directive('statusColorNew', ["$filter", function($filter) {
-                return {
-                    restrict: "EA",
-                    scope: {
-                        old: "=",
-                        new: "=",
-                        icon: "=",
-                        statusarr: "@"
-                    },
-                    link: function(scope, element) {
-                        if(!scope.statusarr){
-                            scope.statusarr = '';
-                        }
-                        if (scope.new) {
-                            element.append(createSpanForInterviewStatusHistory(scope.statusarr,scope.old, $filter)+
-                                "<i class='fa fa-angle-right' aria-hidden='true' style='color: black;padding-right: 6px;'></i>"
-                                + createSpanForInterviewStatusHistory(scope.statusarr, scope.new, $filter))
-                        } else {
-                            scope.$watch("old", function() {
-                                element.html(createSpanForInterviewStatusHistory(scope.statusarr, scope.old, $filter, true));
-                                if (scope.icon) {
-                                    $(element).find("span").append('<i style="margin: 0px 0px 0px 5px;" class="caret small down icon"></i>');
-                                }
-                            });
-                        }
-                    }
+            }
+        }]
+    ).directive('statusColorDiv', ["$filter", "$translate", function($filter,  $translate) {
+            return {
+                restrict: "EA",
+                scope: {
+                    old: "="
+                },
+                link: function(scope, element) {
+                    element.html(createDivForInterviewStatusHistory(scope.old, $filter, $translate));
                 }
-            }]
-        ).directive('statusColorDiv', ["$filter", function($filter) {
-                return {
-                    restrict: "EA",
-                    scope: {
-                        old: "="
-                    },
-                    link: function(scope, element) {
-                        element.html(createDivForInterviewStatusHistory(scope.old, $filter));
-                    }
-                }
-            }]
-        ).directive('statusColor', ["$filter", function($filter) {
-                return {
-                    restrict: "EA",
-                    scope: {
-                        old: "=",
-                        new: "="
-                    },
-                    link: function(scope, element) {
-                        scope.one = true;
-                        var retText;
-                        var span;
+            }
+        }]
+    ).directive('statusColor', ["$filter", function($filter) {
+            return {
+                restrict: "EA",
+                scope: {
+                    old: "=",
+                    new: "="
+                },
+                link: function(scope, element) {
+                    scope.one = true;
+                    var retText;
+                    var span;
 
                         function translate(value) {
                             return $filter('translate')(value);
@@ -2807,55 +2807,55 @@
                             });
                             var inputText = "";
 
-                            $(element[0]).select2({
-                                    tags:  results,
-                                    tokenSeparators: [',', ' '],
-                                    data:{
-                                        results:  results,
-                                        text: function(item) { return item.text; }
-                                    },
-                                    createSearchChoice: function(term, data) {
-                                        if ($(data).filter(function() {
-                                                return this.text.localeCompare(term) === 0;
-                                            }).length === 0) {
-                                            inputText = term;
-                                            var inputElement = $('.select-lang-container .select2-input input');
-                                            inputElement.attr('placeholder', $filter('translate')('Choose/add'));
-                                            return {id: term, text: term};
+                        $(element[0]).select2({
+                                tags:  results,
+                                tokenSeparators: [',', ' '],
+                                data:{
+                                    results:  results,
+                                    text: function(item) { return item.text; }
+                                },
+                                createSearchChoice: function(term, data) {
+                                    if ($(data).filter(function() {
+                                            return this.text.localeCompare(term) === 0;
+                                        }).length === 0) {
+                                        inputText = term;
+                                        var inputElement = $('.select-lang-container .select2-input input');
+                                        inputElement.attr('placeholder', $filter('translate')('Choose/add'));
+                                        return {id: term, text: term};
+                                    }
+                                },
+                                formatSelection: format,
+                                formatResult: format,
+                                formatResultCssClass: function (data, container) { return data.text; }
+                            }
+                        ).on("change", function(e) {
+                            if(e.added != undefined){
+                                $scope.addedLang.push(e.added);
+                                var alreadySet = $scope.getSelect2Lang();
+                                var toStandardCase = alreadySet[alreadySet.length - 1];
+                                //toStandardCase.text = toStandardCase.text[0].toUpperCase() + toStandardCase.text.slice(1).toLowerCase();
+                                alreadySet.pop();
+                                alreadySet.push(toStandardCase);
+                                $scope.setSelect2Lang(alreadySet);
+                                angular.forEach(alreadySet, function(nval, index) {
+                                    if( alreadySet.length > 1 && index < alreadySet.length -1 ){
+                                        if(e.added.text.toUpperCase() == nval.text.toUpperCase()){
+                                            $scope.addedLang.splice(-1, 1);
+                                            var afterDelete = $scope.getSelect2Lang();
+                                            afterDelete.pop();
+                                            $scope.setSelect2Lang(afterDelete);
+                                            notificationService.success($filter('translate')('This language has already been added'));
+                                            $scope.$broadcast('addedLang',  $scope.addedLang);
                                         }
-                                    },
-                                    formatSelection: format,
-                                    formatResult: format,
-                                    formatResultCssClass: function (data, container) { return data.text; }
-                                }
-                            ).on("change", function(e) {
-                                if(e.added != undefined){
-                                    $scope.addedLang.push(e.added);
-                                    var alreadySet = $scope.getSelect2Lang();
-                                    var toStandardCase = alreadySet[alreadySet.length - 1];
-                                    toStandardCase.text = toStandardCase.text[0].toUpperCase() + toStandardCase.text.slice(1).toLowerCase();
-                                    alreadySet.pop();
-                                    alreadySet.push(toStandardCase);
-                                    $scope.setSelect2Lang(alreadySet);
-                                    angular.forEach(alreadySet, function(nval, index) {
-                                        if( alreadySet.length > 1 && index < alreadySet.length -1 ){
-                                            if(e.added.text.toUpperCase() == nval.text.toUpperCase()){
-                                                $scope.addedLang.splice(-1, 1);
-                                                var afterDelete = $scope.getSelect2Lang();
-                                                afterDelete.pop();
-                                                $scope.setSelect2Lang(afterDelete);
-                                                notificationService.success($filter('translate')('This language has already been added'));
-                                                $scope.$broadcast('addedLang',  $scope.addedLang);
-                                            }
-                                        }
-                                    });
-                                }
-                                if($scope.type != 'merge' && $scope.type != 'Vacancy add' && $scope.type != 'Vacancy edit') {
-                                    $scope.candidate.languages = $scope.getSelect2Lang();
-                                    $scope.progressUpdate();
-                                }
-                                var inputElement = $('.select-lang-container .select2-search-field input');
-                                inputElement.attr('placeholder', $filter('translate')('Choose/add'));
+                                    }
+                                });
+                            }
+                            if($scope.type != 'merge' && $scope.type != 'Vacancy add' && $scope.type != 'Vacancy edit') {
+                                $scope.candidate.languages = $scope.getSelect2Lang();
+                                $scope.progressUpdate();
+                            }
+                            var inputElement = $('.select-lang-container .select2-search-field input');
+                            inputElement.attr('placeholder', $filter('translate')('Choose/add'));
 
 
                                 if (e.removed) {
@@ -4527,7 +4527,8 @@
                 options: '=options',
                 model: '=model',
                 label: '=label',
-                value: '=value'
+                value: '=value',
+                disabled: '=disabled'
             },
             link: function(scope, element, attrs) {
                 // Selecting model value
@@ -4567,12 +4568,17 @@
 
                 // DOM Event Listeners
                 labelDom.on('click', function() {
-                    optionsDom.toggleClass('active');
-                    backdrop.toggleClass('active');
+                    if(!scope.disabled) {
+                        optionsDom.toggleClass('active');
+                        backdrop.toggleClass('active');
+                    } else {
+                        labelDom.addClass('disabled');
+                    }
                 });
                 backdrop.on('click', function() {
                     optionsDom.removeClass('active');
                     backdrop.removeClass('active');
+                    labelDom.removeClass('disabled');
                 });
                 element.on('keydown', function(ev) {
                     switch (ev.which) {
@@ -4808,25 +4814,25 @@ function accountScopePanel() {
         }
     }
 
-    function createDivForInterviewStatusHistory(status, $filter) {
-        var span = "<div class='grey-hover vacancy-stages' style='border-radius: 5px;padding-left: 4px;padding-right: 4px;color:white;background-color:";
-        switch (status) {
-            case "longlist":
-                return span + "#5e6d86'>" + $filter('translate')("interview_status_assoc_full.longlist") + "</div>";
-            case "shortlist":
-                return span + "#7887a0;'>" + $filter('translate')("interview_status_assoc_full.shortlist") + "</div>";
-            case "interview":
-                return span + "#3E3773'>" + $filter('translate')("interview_status_assoc_full.interview") + "</div>";
-            case "notafit":
-                return span + "#407682'>" + $filter('translate')("interview_status_assoc_full.notafit") + "</div>";
-            case "approved":
-                return span + "#76a563'>" + $filter('translate')("interview_status_assoc_full.approved") + "</div>";
-            case "declinedoffer":
-                return span + "#a56484'>" + $filter('translate')("interview_status_assoc_full.declinedoffer") + "</div>";
-            default:
-                return span + "rgba(88,88,88,0.96)'>" + $filter('translate')(status) + "</div>"
-        }
+function createDivForInterviewStatusHistory(status, $filter, $translate) {
+    var span = "<div class='grey-hover vacancy-stages' style='border-radius: 5px;padding-left: 4px;padding-right: 4px;color:white;background-color:";
+    switch (status) {
+        case "longlist":
+            return span + "#5e6d86'>" + ( $translate.instant("interview_status_assoc_full.longlist")) + "</div>";
+        case "shortlist":
+            return span + "#7887a0;'>" + ( $translate.instant("interview_status_assoc_full.shortlist")) + "</div>";
+        case "interview":
+            return span + "#3E3773'>" + ( $translate.instant("interview_status_assoc_full.interview")) + "</div>";
+        case "notafit":
+            return span + "#407682'>" + ( $translate.instant("interview_status_assoc_full.notafit")) + "</div>";
+        case "approved":
+            return span + "#76a563'>" + ( $translate.instant("interview_status_assoc_full.approved")) + "</div>";
+        case "declinedoffer":
+            return span + "#a56484'>" + ( $translate.instant("interview_status_assoc_full.declinedoffer")) + "</div>";
+        default:
+            return span + "rgba(88,88,88,0.96)'>" + ($translate.instant(status)) + "</div>"
     }
+}
 })();
 
 'use strict';
@@ -9787,7 +9793,7 @@ angular.module('services.employee', [
                         $scope.ngShowNewImage = true;
                     });
                     file.$upload(uri, $scope.file, setings, $scope).then(function(data) {
-                        $scope.loading = false;
+                        $('#file').val('');
                         var resp = JSON.parse(data.response);
 
                         if (data.statusText == 'OK' && resp.status != 'error') {
@@ -9809,8 +9815,8 @@ angular.module('services.employee', [
                         }
                     }).catch(function(data) {
 
+                        $('#file').val('');
                         $rootScope.loading = false;
-
 //                            data.response= JSON.parse(data.response);
                         if (data.response[0].code == 'type') {
                             new PNotify({
@@ -11239,7 +11245,7 @@ angular.module('services.globalService', [
         }
 
         function setCookies(key, value) {
-            document.cookie = key + "=" + value;
+            document.cookie = key + "=" + value + "; expires=Thu, 18 Dec 2033 12:00:00 UTC";
         }
     };
 
@@ -15429,7 +15435,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=93'
+        suffix: '.json?b=97'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -18935,7 +18941,11 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             if($scope.addedLang != undefined){
                 angular.forEach($scope.addedLang, function (val) {
                     if(val.level != undefined && val.level != ''){
-                        candidate.languages.push({ name: val.text, level: val.level});
+                        if(val.level != undefined && val.level != ''){
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
+                        }
                     }
                 });
             }
@@ -20554,7 +20564,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     localStorage.countCandidate = 15;
                 }
 
-                console.log($scope.searchParam.status, '($scope.searchParam.status');
 
                 if($scope.searchParam.status.translate === "our employee"){
                     $scope.searchParam.status.value = 'work';
@@ -20562,8 +20571,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
                 $scope.searchParam.pages.count = params.$params.count;
 
+                if(activeParam.name == 'region'){
+                    Candidate.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
+                }else{
+                    Candidate.setOptions("country", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
+                }
+
+
                 Candidate.setOptions("allContainsWords", $scope.searchParam.allContainsWords);
-                Candidate.setOptions("country", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
                 Candidate.setOptions("city", $scope.searchParam.regionIdCity.value? $scope.searchParam.regionIdCity.value : null);
                 Candidate.setOptions("name", $scope.searchParam.name);
                 Candidate.setOptions("position", $scope.searchParam.position);
@@ -20884,7 +20899,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
         if(isDuplicateLanguage(data[indexLang],level, indexLang)) {
             notificationService.error("Language with this level is already selected");
-            // document.querySelectorAll('.language-level');
             console.log(scope.level = '', 'scope')
             return;
         }
@@ -21702,7 +21716,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.staticSearchParam[0].languages = 'null';
         $scope.searchParam.languages = [];
         $scope.currentLang = 'null';
-        $scope.level = '_undefined';
+        $scope.level = "";
         languagetLevelDataForTranslates = [];
     }
 
@@ -22867,7 +22881,9 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
                         if(val.level != undefined && val.level != ''){
-                            candidate.languages.push({ name: val.text, level: val.level});
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
                         }
                     });
                 }
@@ -30801,13 +30817,14 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
         Account.getAccountsInfo({},function (resp) {
             $rootScope.loading = false;
             if(!resp)return;
+
             $scope.data = resp['object'];
         });
 
 
 
         $scope.tableHeads = ['points','score','account','country','created','regUsers','tarif','trialEnd','block',
-                             'integratedEmails','invites', 'hrModule','balance','payUsers','latestPaymentByCard','amount',
+                             'integratedEmails','invites', 'hrModule','balance','payUsers','latestPaymentByCard','generated invoices','amount',
                              'purpose','activeUsers','vacancies','lastAtion','server'];
 
 
@@ -30841,7 +30858,7 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
                     elems[0].children[0].children[0].children[0].children[0].children[9].style.width = '1.7%';
                     elems[0].children[0].children[0].children[0].children[0].children[15].style.width = '4%';
                     elems[0].children[0].children[0].children[0].children[0].children[18].style.width = '2.7%';
-                    elems[0].children[0].children[0].children[0].children[0].children[22].style.width = '3.5%';
+                    // elems[0].children[0].children[0].children[0].children[0].children[22].style.width = '3.5%';
                     elems.forEach(item => {
                         if(max <= 0){
                             max = item.scrollWidth - item.scrollLeft - item.clientWidth - 1;
@@ -32510,7 +32527,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
 
     $scope.changeScope = function (name, orgId, event) {
-        if(event && isCheckBoxChecked(event.target) && (name === $scope.currentSelectScope || orgId !== $scope.orgId)) return;
+        if(event && isCheckBoxChecked(event.target) || (name === $scope.currentSelectScope && orgId === $scope.orgId)) return;
         setCurrentScopeForNavBar(name);
 
         if (name == 'region') {
@@ -32797,6 +32814,12 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                 }
             });
+            if($rootScope.blockUserData && $rootScope.blockUserData.payment_min_users > $scope.paidUsers.length) {
+                const diff = $rootScope.blockUserData.payment_min_users - $scope.paidUsers.length;
+                for(let i = 0; i < diff + 2; i++) {
+                    $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
+                }
+            }
             $scope.countPeople = $scope.paidUsers.length;
         });
 
@@ -35492,7 +35515,9 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
                         if(val.level != undefined && val.level != ''){
-                            $scope.vacancy.languages.push({ name: val.text, level: val.level});
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
                         }
                     });
                 }
@@ -36633,7 +36658,11 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
                 $scope.vacancy.languages = [];
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
-                        $scope.vacancy.languages.push({ name: val.text, level: val.level});
+                        if(val.level != undefined && val.level != ''){
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
+                        }
                     });
                 }
                 $scope.vacancy.clientId.clientId = $("#clientAutocompleater").select2('data') !== null ? $("#clientAutocompleater").select2('data').id : null;

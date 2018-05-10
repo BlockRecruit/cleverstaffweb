@@ -522,7 +522,7 @@
                         $scope.ngShowNewImage = true;
                     });
                     file.$upload(uri, $scope.file, setings, $scope).then(function(data) {
-                        $scope.loading = false;
+                        $('#file').val('');
                         var resp = JSON.parse(data.response);
 
                         if (data.statusText == 'OK' && resp.status != 'error') {
@@ -544,8 +544,8 @@
                         }
                     }).catch(function(data) {
 
+                        $('#file').val('');
                         $rootScope.loading = false;
-
 //                            data.response= JSON.parse(data.response);
                         if (data.response[0].code == 'type') {
                             new PNotify({

@@ -761,7 +761,9 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
                         if(val.level != undefined && val.level != ''){
-                            candidate.languages.push({ name: val.text, level: val.level});
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
                         }
                     });
                 }

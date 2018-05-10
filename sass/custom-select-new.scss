@@ -48,9 +48,23 @@
 		outline: none;
 		.select-label-text {
 			border-radius: 5px 0 0 0;
+			&.disabled {
+				border-radius: 5px 0 0 5px;
+			}
 		}
 		.select-caret {
 			border-radius: 0 5px 0 0;
+			&.disabled {
+				border-radius: 0 5px 5px 0;
+			}
+		}
+		&.disabled {
+			.select-label-text {
+				border-radius: 5px 0 0 5px;
+			}
+			.select-caret {
+				border-radius: 0 5px 5px 0;
+			}
 		}
 	}
 }
