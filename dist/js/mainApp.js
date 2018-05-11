@@ -4524,15 +4524,26 @@ directive('appVersion', ['version', function(version) {
             scope: {
                 options: '=options',
                 model: '=model',
-                label: '=label',
-                value: '=value',
+                path: '=path',
                 disabled: '=disabled'
             },
             link: function(scope, element, attrs) {
-                // Selecting model value
-                for (let index in scope.options) {
-                    if (scope.options[index].value === scope.model) {
-                        scope.selectedOpt = scope.options[index];
+
+                scope.getPropertyValue = function(obj = null, path = ""){
+                    if(!path) return obj;
+
+                    let prevProp = null;
+
+                    path.split('.').forEach(prop => {
+                        prevProp = prevProp ? prevProp[prop] : obj[prop];
+                    });
+
+                    return prevProp || obj;
+                };
+
+                for (let i in scope.options) {
+                    if (scope.getPropertyValue(scope.options[i], scope.path) === scope.model) {
+                        scope.selectedOpt = scope.options[i];
                     }
                 }
 
@@ -4544,16 +4555,16 @@ directive('appVersion', ['version', function(version) {
 
                 // Select an option
                 scope.selectOpt = function(opt) {
-                    scope.model = opt.value;
+                    scope.model = scope.getPropertyValue(opt, scope.path);
                     //scope.selectedOpt = opt;
                     optionsDom.removeClass('active');
                     backdrop.removeClass('active');
                 };
 
                 scope.$watch('model', function(newVal) {
-                    for (var index in scope.options) {
-                        if (scope.options[index].value == newVal) {
-                            scope.selectedOpt = scope.options[index];
+                    for (let i in scope.options) {
+                        if (scope.getPropertyValue(scope.options[i], scope.path) == newVal) {
+                            scope.selectedOpt = scope.options[i];
                         }
                     }
                 }, true);
@@ -4578,27 +4589,11 @@ directive('appVersion', ['version', function(version) {
                     backdrop.removeClass('active');
                     labelDom.removeClass('disabled');
                 });
-                element.on('keydown', function(ev) {
-                    switch (ev.which) {
-                        case 37: // left arrow
-                        case 38: // top arrow
-                            preSelectPrev();
-                            break;
-                        case 39: // right arrow
-                        case 40: // down arrow
-                            preSelectNext();
-                            break;
-                        case 13: // enter key
-                            preSelectPush();
-                    }
-                });
 
                 if (isMobile) {
                     mobileSelect.addClass('active');
                 }
-                // PreSelection logic:
-                //  This controls option selecting and highlighting by pressing the arrow
-                //  keys.
+
                 var preSelected = 0;
 
                 function updatePreSelection() {
@@ -4606,33 +4601,16 @@ directive('appVersion', ['version', function(version) {
                     optionsDom.find('div').eq(preSelected).addClass('preselected');
                 }
                 updatePreSelection();
-
-                function preSelectNext() {
-                    console.log(scope.options.length);
-                    preSelected = (preSelected + 1) % scope.options.length;
-                    updatePreSelection();
-                }
-
-                function preSelectPrev() {
-                    console.log(scope.ops.length);
-                    preSelected = (preSelected - 1) % scope.options.length;
-                    updatePreSelection();
-                }
-
-                function preSelectPush() {
-                    scope.selectOpt(scope.options[preSelected]);
-                    scope.$apply();
-                }
             },
             template: `<div class="select-label custom-new" tabindex="0" title="{{selectedOpt.label}}">
-                            <span class="select-label-text">{{selectedOpt.label}}</span>
+                            <span class="select-label-text">{{getPropertyValue(selectedOpt, path)}}</span>
                             <span class="select-caret">
                                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
                             </span>
                         </div>
                         <div class="select-backdrop custom-new"></div>
                         <div class="select-ops custom-new">
-                            <div ng-repeat="o in options" ng-click="selectOpt(o)">{{o.label || o.value}}</div>
+                            <div ng-repeat="o in options" ng-click="selectOpt(o)">{{getPropertyValue(o, path)}}</div>
                         </div>
                         <select class="custom-new" style="display:none!important;" ng-options="opt.value as opt.label for opt in options" model="model"></select>`
         };
@@ -31471,16 +31449,15 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
     $scope.allPersons = [];
     $scope.accountInfo = {};
     $scope.paidUsers = [];
-    $scope.invoice = { users: 0, currency: null, months: null, price: null };
+    $scope.invoice = { users: 0, currency: 'USD', months: null, price: null };
     $scope.customer = { address: null, country: null, city: null, companyName: null, companyId: null, fullName: null, position: null, postalCode: null };
     $scope.validation = { invalidFields: [], checking: false};
 
     $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
-    $scope.currencies = [{label:'UAH', value:'UAH'},{label:'RUB', value:'RUB'},{label:'EUR', value:'EUR'},{label:'USD', value:'USD'}];
+    $scope.currencies = ['UAH','RUB','EUR','USD'];
 
     $scope.currenciesSigns = Invoice.getCurrenciesSigns();
     $scope.countries = Service.getAllCounties($rootScope.currentLang);
-
 
     function getTranslatedCountry(countries, argCountry) {
         let translatedCountry = {key: "", value: ""};
@@ -35000,7 +34977,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         $rootScope.blockUser = false;
         $scope.bonus = 0;
         $scope.paidUsers = [];
-        $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
+        $scope.months = [1,2,3,4,5,6,7,8,9,10,11,12];
         $scope.countPeople = 0;
         $scope.countMonth = 4;
         $scope.isOnBilling = false;
@@ -35057,7 +35034,8 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
                 angular.forEach($scope.associativePerson, function (val) {
                     if (val.status == "A" && val.recrutRole != 'client') {
                         $scope.numberVacancy = ++$scope.numberVacancy;
-                        $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
+                        // $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
+                        $scope.paidUsers.push($scope.paidUsers.length + 1);
                     }
                 });
                 $scope.countPeople = $scope.paidUsers.length;

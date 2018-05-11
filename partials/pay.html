@@ -216,22 +216,22 @@
                         <td>{{payment.dc| dateFormat2:true}}</td>
                         <td>
                              <span ng-if="payment.status === 'success' || payment.status === 'Approved' || payment.status === 'sandbox' || payment.status === 'SALE'">
-                                <i class="fa fa-check" aria-hidden="true"></i>{{payment.dm| dateFormat2:true}}
+                                <i class="fa fa-check" aria-hidden="true"></i>{{::payment.dm| dateFormat2:true}}
                             </span>
                             <div ng-if="payment.status != 'success' && payment.status != 'Approved' && payment.status != 'sandbox' && payment.status != 'SALE'">
-                                <span class="paymentStatus danger">{{payment.status}}</span>
+                                <span class="paymentStatus danger">{{::payment.status}}</span>
                                 <i class="fa fa-question tooltip-icon" tooltip-placement="top-right"  uib-tooltip="{{'Payment was not confirmed via SMS' | translate}}" tooltip-class="tooltip-dark"  aria-hidden="true"></i>
                             </div>
                         </td>
-                        <td>{{payment.amount}} {{payment.currency}}</td>
+                        <td>{{::payment.amount}} {{::payment.currency}}</td>
                         <td>
-                            {{'For'|translate}} {{payment.params.users}}
-                            <span ng-if="payment.params.users == 1">{{'User2'|translate}}</span>
-                            <span ng-if="payment.params.users > 1">{{'Users2'|translate}}</span>
-                            {{'For2'|translate}} {{payment.params.months}}
-                            <span ng-if="payment.params.months == 1">{{'Month2'|translate}}</span>
-                            <span ng-if="payment.params.months <= 4 && payment.params.months > 1">{{'Months3'|translate}}</span>
-                            <span ng-if="payment.params.months > 4">{{'Months2'|translate}}</span>
+                            {{'For'|translate}} {{::payment.params.users}}
+                            <span ng-if="payment.params.users == 1" translate="User2"></span>
+                            <span ng-if="payment.params.users > 1" translate="Users2"></span>
+                            {{'For2'|translate}} {{::payment.params.months}}
+                            <span ng-if="payment.params.months == 1" translate="Month2"></span>
+                            <span ng-if="payment.params.months <= 4 && payment.params.months > 1" translate="Months3"></span>
+                            <span ng-if="payment.params.months > 4" translate="Months2"></span>
                         </td>
                         <td class="delete-icon">
                             <i title="{{'Delete'|translate}}" ng-click="deletePayment(payment)" ng-if="payment.status == 'new' || payment.status == 'Expired'" class="fa fa-times" aria-hidden="true"></i>
@@ -256,16 +256,16 @@
                             <span ng-if="expense.peopleCount > 1">{{'Users2'|translate}}</span>
                         </td>
                         <td ng-show="(!expense.descr) && (expense.type == 'pay')">
-                            <span>{{"Reffilling the balance"|translate}}</span>
+                            <span translate="Reffilling the balance"></span>
                         </td>
                         <td ng-show="(expense.descr) && (expense.type == 'adjustment')">
-                            {{expense.descr}}
+                            {{::expense.descr}}
                         </td>
                         <td ng-show="(expense.descr) && (expense.type != 'adjustment')">
-                            {{expense.descr}}
+                            {{::expense.descr}}
                         </td>
-                        <td>{{expense.amountDouble + ' '}} USD</td>
-                        <td>{{expense.balanceDouble + ' '}}USD</td>
+                        <td>{{::expense.amountDouble + ' '}} USD</td>
+                        <td>{{::expense.balanceDouble + ' '}}USD</td>
                     </tr>
                 </table>
             </div>

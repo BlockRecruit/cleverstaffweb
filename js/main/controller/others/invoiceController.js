@@ -4,16 +4,15 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
     $scope.allPersons = [];
     $scope.accountInfo = {};
     $scope.paidUsers = [];
-    $scope.invoice = { users: 0, currency: null, months: null, price: null };
+    $scope.invoice = { users: 0, currency: 'USD', months: null, price: null };
     $scope.customer = { address: null, country: null, city: null, companyName: null, companyId: null, fullName: null, position: null, postalCode: null };
     $scope.validation = { invalidFields: [], checking: false};
 
     $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
-    $scope.currencies = [{label:'UAH', value:'UAH'},{label:'RUB', value:'RUB'},{label:'EUR', value:'EUR'},{label:'USD', value:'USD'}];
+    $scope.currencies = ['UAH','RUB','EUR','USD'];
 
     $scope.currenciesSigns = Invoice.getCurrenciesSigns();
     $scope.countries = Service.getAllCounties($rootScope.currentLang);
-
 
     function getTranslatedCountry(countries, argCountry) {
         let translatedCountry = {key: "", value: ""};

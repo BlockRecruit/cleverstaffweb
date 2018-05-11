@@ -86,6 +86,8 @@
 	background: white;
 
 	&.active {
+		z-index: 910;
+
 		display: inline-block;
 	}
 
@@ -106,6 +108,7 @@
 }
 .select-backdrop.custom-new {
 	position: fixed;
+	z-index: 900;
 	top: 0;
 	left: 0;
 
