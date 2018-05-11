@@ -12139,317 +12139,323 @@ angular.module('services.slider', [
     'ngResource',
     'ngCookies'
 ]).factory('sliderElements', ['$resource', 'serverAddress', '$filter', '$localStorage',"notificationService","$rootScope","$translate","$location","Candidate","Vacancy", function($resource, serverAddress, $filter, $localStorage,notificationService, $rootScope,$translate, $location, Candidate, Vacancy) {
-    let sliderElements = {},currentPage,
-         iterator = (function () {
-    let index = 0,
-        collection = [],
-        length = 0;
+   try{
+       let sliderElements = {},currentPage,
+           iterator = (function () {
+               let index = 0,
+                   collection = [],
+                   length = 0;
 
-        function getNewPackCandidatesNext($scope) {
-            if(currentPage === 'candidates'){
-                Candidate.getAllCandidates(sliderElements.params)
-                    .then((resp, params) => {
-                        collection = collection.concat(resp.objects.map(item => item.localId))
-                        return {
-                            collection: collection,
-                            params: sliderElements.params
-                        }
-                    })
-                    .then(data => {
-                        $scope.$apply(() =>{
-                            Candidate.getCandidate = data.collection;
-                            localStorage.setItem('getAllCandidates', JSON.stringify(Candidate.getCandidate));
-                            sliderElements.params = data.params;
-                            console.log(sliderElements.params, 'sliderElements.params')
-                            $location.path("candidates/" +  (data["collection"][length]));
-                            length = data.collection.length;
-                            sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'up']);
-                            $rootScope.loading = false;
-                        })
-                    });
-            }else{
-                Vacancy.requestGetCandidatesInStages(sliderElements.params)
-                    .then((resp) => {
-                        console.log(resp, 'resp');
-                        collection = collection.concat(resp.objects.map(item => item.candidateId.localId));
-                        console.log(collection, 'collection!2222!!!!!');
-                        return {
-                            collection: collection,
-                            params: sliderElements.params
-                        }
-                    })
-                    .then(data => {
-                        $scope.$apply(() =>{
-                            Vacancy.getCandidate = data.collection;
-                            localStorage.setItem('getAllCandidates', JSON.stringify(Vacancy.getCandidate));
-                            sliderElements.params = data.params;
-                            $location.path("candidates/" +  (data["collection"][length]));
-                            length = data.collection.length;
-                            sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'up']);
-                            $rootScope.setCurrent = false;
-                            localStorage.setItem('setCurrent', false);
-                            $rootScope.loading = false;
-                        })
-                    });
-            }
-            return null;
-        }
+               function getNewPackCandidatesNext($scope) {
+                   if(currentPage === 'candidates'){
+                       Candidate.getAllCandidates(sliderElements.params)
+                           .then((resp, params) => {
+                               collection = collection.concat(resp.objects.map(item => item.localId))
+                               return {
+                                   collection: collection,
+                                   params: sliderElements.params
+                               }
+                           })
+                           .then(data => {
+                               $scope.$apply(() =>{
+                                   Candidate.getCandidate = data.collection;
+                                   localStorage.setItem('getAllCandidates', JSON.stringify(Candidate.getCandidate));
+                                   sliderElements.params = data.params;
+                                   console.log(sliderElements.params, 'sliderElements.params')
+                                   $location.path("candidates/" +  (data["collection"][length]));
+                                   length = data.collection.length;
+                                   sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'up']);
+                                   $rootScope.loading = false;
+                               })
+                           });
+                   }else{
+                       Vacancy.requestGetCandidatesInStages(sliderElements.params)
+                           .then((resp) => {
+                               console.log(resp, 'resp');
+                               collection = collection.concat(resp.objects.map(item => item.candidateId.localId));
+                               console.log(collection, 'collection!2222!!!!!');
+                               return {
+                                   collection: collection,
+                                   params: sliderElements.params
+                               }
+                           })
+                           .then(data => {
+                               $scope.$apply(() =>{
+                                   Vacancy.getCandidate = data.collection;
+                                   localStorage.setItem('getAllCandidates', JSON.stringify(Vacancy.getCandidate));
+                                   sliderElements.params = data.params;
+                                   $location.path("candidates/" +  (data["collection"][length]));
+                                   length = data.collection.length;
+                                   sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'up']);
+                                   $rootScope.setCurrent = false;
+                                   localStorage.setItem('setCurrent', false);
+                                   $rootScope.loading = false;
+                               })
+                           });
+                   }
+                   return null;
+               }
 
-        function getNewPackCandidatesPrevious($scope, type) {
-            if(currentPage === 'candidates'){
-                Candidate.getAllCandidates(sliderElements.params)
-                    .then((resp, params) => {
-                        console.log(resp, 'resp');
-                        resp.objects.reverse().map(item =>{
-                            collection.unshift(item.localId)
-                        });
-                        return {
-                            collection: collection,
-                            params: sliderElements.params
-                        }
-                    })
-                    .then(data => {
-                        $scope.$apply(() =>{
-                            Candidate.getCandidate = data.collection;
-                            localStorage.setItem('getAllCandidates', JSON.stringify(Candidate.getCandidate));
-                            sliderElements.params = data.params;
-                            $location.path("candidates/" +  (data["collection"][data.params.page.count - 1]));
-                            length = data.collection.length;
-                            index  = data.params.page.count - 2;
-                            sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'down']);
-                            $rootScope.loading = false;
-                        })
-                    });
-            }else{
-                Vacancy.requestGetCandidatesInStages(sliderElements.params)
-                    .then((resp, params) => {
-                        resp.objects.reverse().map(item =>collection.unshift(item.candidateId.localId));
-                        return {
-                            collection: collection,
-                            params: sliderElements.params
-                        }
-                    })
-                    .then(data => {
-                        $scope.$apply(() =>{
-                            Vacancy.getCandidate = data.collection;
-                            localStorage.setItem('getAllCandidates', JSON.stringify(Vacancy.getCandidate));
-                            sliderElements.params = data.params;
-                            $location.path("candidates/" +  (data["collection"][data.params.page.count - 1]));
-                            length = data.collection.length;
-                            index  = data.params.page.count - 2;
-                            sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'down']);
-                            $rootScope.loading = false;
-                        })
-                    });
-            }
-            return null;
-        }
-
-
-        // currentPage = getLocation();
-        //      sliderElements.getData = getData;
-        function getData() {
-            sliderElements.params ;
-
-            if(currentPage === 'candidates'){ // проверка от куда зашел пользователь
-                sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
-                if(Candidate.getCandidate){
-                    collection = Candidate.getCandidate;
-                    length = collection.length;
-                }else if(localStorage.getItem('getAllCandidates')){
-                    collection = JSON.parse(localStorage.getItem('getAllCandidates'));
-                    length = collection.length;
-                }
-            }else if(currentPage == 'vacancies'){
-                sliderElements.params = Vacancy.candidateLastRequestParams  || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
-                if(localStorage.getItem('candidatesInStagesVac')){
-                    collection = Vacancy.getCandidate || JSON.parse(localStorage.getItem('candidatesInStagesVac'));
-                    length =  collection.length;
-                }
-            }
-        }
-
-        getData();
-
-        return{ // патерн итератор
-                next($scope){
-                    var element = '';
-
-                    if(!this.hasNext()){
-                        return getNewPackCandidatesNext($scope);
-                    }else{
-                        getData();
-                        index = index  + 1;
-                        element = collection[index];
-                        this.index = index;
-                        return element;
-                    }
-                },
-                previous($scope){
-                    var element;
-
-                    if(!this.hasPrevious()){
-                        return getNewPackCandidatesPrevious($scope);
-                    }
-                    (index !== 0)? index = index - 1 : index = 0;
-                    element = collection[index];
-                    this.index = index;
-                    return element;
-                },
-                hasNext(){
-                    (index > 0 && ((index + 1) % sliderElements.params.page.count == 0))? sliderElements.params.page.number += 1 : false;
-                    return index < length - 1;
-                },
-                hasPrevious(){
-                    (index > 0 && (index % sliderElements.params.page.count === 0) || index == 0)? sliderElements.params.page.number -= 1 : false;
-                    return index > 0;
-                },
-                current(){
-                    let localId = $location.path().split('/')[2];
-                        getData();
-                        index = collection.indexOf(localId);
-                        length = collection.length;
-                        console.log(collection, 'collection')
-                        console.log(index, 'index')
-                        this.length = length;
-                        this.index = index;
-                }
-        }
-    })();
-    sliderElements.nextOrPrevElements = function ($scope, event) {
-        let i = event.pageX, j = event.pageY,
-            buttons = document.querySelectorAll('.leftBlockArrow, .rightBlockArrow'),
-            mass = [].slice.apply(event.target.classList);
-
-        const   mainBlock = document.querySelector('.main-block'),
-                coords = getCoords(mainBlock.firstElementChild),
-                blockElementOffsetLeft = coords.left,
-                blockCandidateOffsetRight = coords.right;
-
-        if( event.target.classList[1] === 'fa-chevron-left'  ||
-            event.target.classList[1] === 'fa-chevron-right' ||
-            event.target.classList[0] === 'leftBlockArrow'        ||
-            event.target.classList[0] === 'rightBlockArrow') return;
-
-        if(buttons && buttons.length >= 1 && mass.indexOf('main-block') === -1){
-            buttons.forEach((elem)=>{
-                elem.remove();
-            });
-            return;
-        }
-
-        if( i <= blockElementOffsetLeft){
-            iterator.current();
-            event.target.style.cursor = 'pointer';
-            createArrowLeft(blockElementOffsetLeft, mainBlock);
-        }else if( i >= blockCandidateOffsetRight){
-            iterator.current();
-            event.target.style.cursor = 'pointer';
-            createArrowRight(blockElementOffsetLeft, mainBlock);
-        }else{
-            mainBlock.style.cursor = 'initial';
-        }
-    };
-
-    sliderElements.nextElement = function ($scope, event) {
-        let element;
-
-        console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
-        sliderElements.nextElement["cacheCurrentPosition"] = +localStorage.getItem('numberPage');
-        console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
-
-        if(event.target.dataset.btn === 'right'){
-            element =  iterator.next($scope);
-            sliderElements.nextElement["cacheCurrentPosition"] += 1;
-            localStorage.setItem('numberPage', sliderElements.nextElement["cacheCurrentPosition"]);
-        }else if(event.target.dataset.btn  === "left"){
-            element = iterator.previous($scope);
-            sliderElements.nextElement["cacheCurrentPosition"] -= 1;
-            localStorage.setItem('numberPage',  sliderElements.nextElement["cacheCurrentPosition"]);
-        }
-
-        if(!element) return;
-
-        $location.path("candidates/" + element);
-    };
-
-    // sliderElements.nextElement["cacheCurrentPosition"] = +localStorage.getItem('numberPage');
-
-    sliderElements.setCurrent = () =>{
-        currentPage = getLocation();
-        $rootScope.setCurrent = $rootScope.setCurrent || JSON.parse(localStorage.getItem('setCurrent'));
-
-        if(+$rootScope.setCurrent){
-            sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [true]);
-        }
-        $rootScope.setCurrent = false;
-        localStorage.setItem('setCurrent', false);
-    };
-
-    function getPosition(flag, route){
-        let pageNumber = this.params.page.number + 1, count = this.params.page.count, index, resault;
-
-        if(flag){
-            iterator.current();
-            index = iterator.index;
-            resault = ((pageNumber * count) - count) + index;
-        }else{
-            if(route == 'up'){
-                resault = ((pageNumber * count) - count);
-            }else if(route == 'down'){
-                resault = pageNumber * count;
-                resault--;
-            }
-        }
-        localStorage.setItem('numberPage', resault);
-        return resault;
-    }
-
-    function createArrowLeft(width, mainBlock) {
-        let currentIndex = iterator.index,
-            number = sliderElements.params.page.number + 1;
-        console.log(sliderElements.nextElement.cacheCurrentPosition, 'sliderElements.nextElement.cacheCurrentPosition');
-
-        if((number === 1) && (currentIndex == 0) || !$rootScope.isAddCandidates || sliderElements.nextElement.cacheCurrentPosition < 0){
-            mainBlock.style.cursor = 'initial';
-            return;
-        }
-
-        $('.main-block').append('<div class="leftBlockArrow" ng-show="currentIndex" data-btn="left" style="width:' + width + 'px" data-btn="left"><i data-btn="left" class="fa fa-chevron-left nextElements"></i> </div>');
-    }
-
-    function createArrowRight(width, mainBlock) {
-        let max = $rootScope.objectSize || localStorage.getItem('objectSize'),
-            currentIndex = iterator.index,
-            currentLength = iterator.length - 1,
-            number = sliderElements.params.page.number + 1,
-            count = sliderElements.params.page.count;
-
-        console.log(sliderElements.nextElement.cacheCurrentPosition, 'sliderElements.nextElement.cacheCurrentPosition');
-
-        if((number === Math.ceil(max / count)) && (currentIndex == currentLength) || !$rootScope.isAddCandidates || sliderElements.nextElement.cacheCurrentPosition < 0){
-            mainBlock.style.cursor = 'initial';
-            return;
-        }
-
-        $('.main-block').append('<div class="rightBlockArrow" ng-show="currentIndex" data-btn="right"  style="width:' + width + 'px"; data-btn="right"><i  data-btn="right" class="fa fa-chevron-right nextElements"></i></div>');
-    };
-
-    function getCoords(elem) {
-        var box = elem.getBoundingClientRect();
-        return {
-            right: box.right + pageXOffset,
-            left: box.left + pageXOffset
-        };
-    }
-
-    function getLocation() {
-        currentPage =  localStorage.getItem('currentPage');
-        return currentPage;
-    }
+               function getNewPackCandidatesPrevious($scope, type) {
+                   if(currentPage === 'candidates'){
+                       Candidate.getAllCandidates(sliderElements.params)
+                           .then((resp, params) => {
+                               console.log(resp, 'resp');
+                               resp.objects.reverse().map(item =>{
+                                   collection.unshift(item.localId)
+                               });
+                               return {
+                                   collection: collection,
+                                   params: sliderElements.params
+                               }
+                           })
+                           .then(data => {
+                               $scope.$apply(() =>{
+                                   Candidate.getCandidate = data.collection;
+                                   localStorage.setItem('getAllCandidates', JSON.stringify(Candidate.getCandidate));
+                                   sliderElements.params = data.params;
+                                   $location.path("candidates/" +  (data["collection"][data.params.page.count - 1]));
+                                   length = data.collection.length;
+                                   index  = data.params.page.count - 2;
+                                   sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'down']);
+                                   $rootScope.loading = false;
+                               })
+                           });
+                   }else{
+                       Vacancy.requestGetCandidatesInStages(sliderElements.params)
+                           .then((resp, params) => {
+                               resp.objects.reverse().map(item =>collection.unshift(item.candidateId.localId));
+                               return {
+                                   collection: collection,
+                                   params: sliderElements.params
+                               }
+                           })
+                           .then(data => {
+                               $scope.$apply(() =>{
+                                   Vacancy.getCandidate = data.collection;
+                                   localStorage.setItem('getAllCandidates', JSON.stringify(Vacancy.getCandidate));
+                                   sliderElements.params = data.params;
+                                   $location.path("candidates/" +  (data["collection"][data.params.page.count - 1]));
+                                   length = data.collection.length;
+                                   index  = data.params.page.count - 2;
+                                   sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'down']);
+                                   $rootScope.loading = false;
+                               })
+                           });
+                   }
+                   return null;
+               }
 
 
-    return sliderElements;
+               // currentPage = getLocation();
+               //      sliderElements.getData = getData;
+               function getData() {
+                   sliderElements.params ;
+
+                   if(currentPage === 'candidates'){ // проверка от куда зашел пользователь
+                       sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
+                       if(Candidate.getCandidate){
+                           collection = Candidate.getCandidate;
+                           length = collection.length;
+                       }else if(localStorage.getItem('getAllCandidates')){
+                           collection = JSON.parse(localStorage.getItem('getAllCandidates'));
+                           length = collection.length;
+                       }
+                   }else if(currentPage == 'vacancies'){
+                       sliderElements.params = Vacancy.candidateLastRequestParams  || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
+                       if(localStorage.getItem('candidatesInStagesVac')){
+                           collection = Vacancy.getCandidate || JSON.parse(localStorage.getItem('candidatesInStagesVac'));
+                           length =  collection.length;
+                       }
+                   }
+               }
+
+               getData();
+
+               return{ // патерн итератор
+                   next($scope){
+                       var element = '';
+
+                       if(!this.hasNext()){
+                           return getNewPackCandidatesNext($scope);
+                       }else{
+                           getData();
+                           index = index  + 1;
+                           element = collection[index];
+                           this.index = index;
+                           return element;
+                       }
+                   },
+                   previous($scope){
+                       var element;
+
+                       if(!this.hasPrevious()){
+                           return getNewPackCandidatesPrevious($scope);
+                       }
+                       (index !== 0)? index = index - 1 : index = 0;
+                       element = collection[index];
+                       this.index = index;
+                       return element;
+                   },
+                   hasNext(){
+                       (index > 0 && ((index + 1) % sliderElements.params.page.count == 0))? sliderElements.params.page.number += 1 : false;
+                       return index < length - 1;
+                   },
+                   hasPrevious(){
+                       (index > 0 && (index % sliderElements.params.page.count === 0) || index == 0)? sliderElements.params.page.number -= 1 : false;
+                       return index > 0;
+                   },
+                   current(){
+                       let localId = $location.path().split('/')[2];
+                       getData();
+                       index = collection.indexOf(localId);
+                       length = collection.length;
+                       console.log(collection, 'collection')
+                       console.log(index, 'index')
+                       this.length = length;
+                       this.index = index;
+                   }
+               }
+           })();
+       sliderElements.nextOrPrevElements = function ($scope, event) {
+           let i = event.pageX, j = event.pageY,
+               buttons = document.querySelectorAll('.leftBlockArrow, .rightBlockArrow'),
+               mass = [].slice.apply(event.target.classList);
+
+           const   mainBlock = document.querySelector('.main-block'),
+               coords = getCoords(mainBlock.firstElementChild),
+               blockElementOffsetLeft = coords.left,
+               blockCandidateOffsetRight = coords.right;
+
+           if( event.target.classList[1] === 'fa-chevron-left'  ||
+               event.target.classList[1] === 'fa-chevron-right' ||
+               event.target.classList[0] === 'leftBlockArrow'        ||
+               event.target.classList[0] === 'rightBlockArrow') return;
+
+           if(buttons && buttons.length >= 1 && mass.indexOf('main-block') === -1){
+               buttons.forEach((elem)=>{
+                   elem.remove();
+               });
+               return;
+           }
+
+           if( i <= blockElementOffsetLeft){
+               iterator.current();
+               event.target.style.cursor = 'pointer';
+               createArrowLeft(blockElementOffsetLeft, mainBlock);
+           }else if( i >= blockCandidateOffsetRight){
+               iterator.current();
+               event.target.style.cursor = 'pointer';
+               createArrowRight(blockElementOffsetLeft, mainBlock);
+           }else{
+               mainBlock.style.cursor = 'initial';
+           }
+       };
+
+       sliderElements.nextElement = function ($scope, event) {
+           let element;
+
+           console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
+           sliderElements.nextElement["cacheCurrentPosition"] = +localStorage.getItem('numberPage');
+           console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
+
+           if(event.target.dataset.btn === 'right'){
+               element =  iterator.next($scope);
+               sliderElements.nextElement["cacheCurrentPosition"] += 1;
+               localStorage.setItem('numberPage', sliderElements.nextElement["cacheCurrentPosition"]);
+           }else if(event.target.dataset.btn  === "left"){
+               element = iterator.previous($scope);
+               sliderElements.nextElement["cacheCurrentPosition"] -= 1;
+               localStorage.setItem('numberPage',  sliderElements.nextElement["cacheCurrentPosition"]);
+           }
+
+           if(!element) return;
+
+           $location.path("candidates/" + element);
+       };
+
+       // sliderElements.nextElement["cacheCurrentPosition"] = +localStorage.getItem('numberPage');
+
+       sliderElements.setCurrent = () =>{
+           currentPage = getLocation();
+           $rootScope.setCurrent = $rootScope.setCurrent || JSON.parse(localStorage.getItem('setCurrent'));
+
+           if(+$rootScope.setCurrent){
+               sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [true]);
+           }
+           $rootScope.setCurrent = false;
+           localStorage.setItem('setCurrent', false);
+       };
+
+       function getPosition(flag, route){
+           let pageNumber = this.params.page.number + 1, count = this.params.page.count, index, resault;
+
+           if(flag){
+               iterator.current();
+               index = iterator.index;
+               resault = ((pageNumber * count) - count) + index;
+           }else{
+               if(route == 'up'){
+                   resault = ((pageNumber * count) - count);
+               }else if(route == 'down'){
+                   resault = pageNumber * count;
+                   resault--;
+               }
+           }
+           localStorage.setItem('numberPage', resault);
+           return resault;
+       }
+
+       function createArrowLeft(width, mainBlock) {
+           let currentIndex = iterator.index,
+               number = sliderElements.params.page.number + 1;
+           console.log(sliderElements.nextElement.cacheCurrentPosition, 'sliderElements.nextElement.cacheCurrentPosition');
+
+           if((number === 1) && (currentIndex == 0) || !$rootScope.isAddCandidates || sliderElements.nextElement.cacheCurrentPosition < 0){
+               mainBlock.style.cursor = 'initial';
+               return;
+           }
+
+           $('.main-block').append('<div class="leftBlockArrow" ng-show="currentIndex" data-btn="left" style="width:' + width + 'px" data-btn="left"><i data-btn="left" class="fa fa-chevron-left nextElements"></i> </div>');
+       }
+
+       function createArrowRight(width, mainBlock) {
+           let max = $rootScope.objectSize || localStorage.getItem('objectSize'),
+               currentIndex = iterator.index,
+               currentLength = iterator.length - 1,
+               number = sliderElements.params.page.number + 1,
+               count = sliderElements.params.page.count;
+
+           console.log(sliderElements.nextElement.cacheCurrentPosition, 'sliderElements.nextElement.cacheCurrentPosition');
+
+           if((number === Math.ceil(max / count)) && (currentIndex == currentLength) || !$rootScope.isAddCandidates || sliderElements.nextElement.cacheCurrentPosition < 0){
+               mainBlock.style.cursor = 'initial';
+               return;
+           }
+
+           $('.main-block').append('<div class="rightBlockArrow" ng-show="currentIndex" data-btn="right"  style="width:' + width + 'px"; data-btn="right"><i  data-btn="right" class="fa fa-chevron-right nextElements"></i></div>');
+       };
+
+       function getCoords(elem) {
+           var box = elem.getBoundingClientRect();
+           return {
+               right: box.right + pageXOffset,
+               left: box.left + pageXOffset
+           };
+       }
+
+       function getLocation() {
+           currentPage =  localStorage.getItem('currentPage');
+           return currentPage;
+       }
+
+
+       return sliderElements;
+   }catch (e) {
+       console.log(e, 'ошибка ')
+       localStorage.setItem("isAddCandidates", false);
+        $rootScope.isAddCandidates = false;
+   }
 }]);
  angular.module('services.statistic', [
     'ngResource'
@@ -24970,23 +24976,25 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
     "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup","sliderElements",
     function (CacheCandidates, $localStorage, $scope, frontMode, $translate, googleService, $location, $routeParams, Candidate, Service, $rootScope, Person, serverAddress, FileInit,
               notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup, sliderElements) {
+    try {
         delete $rootScope.client;
         $scope.serverAddress = serverAddress;
         $rootScope.objectSize = null;
-        $rootScope.isAddCandidates =  JSON.parse(localStorage.getItem("isAddCandidates"));
+        $rootScope.isAddCandidates = JSON.parse(localStorage.getItem("isAddCandidates"));
         $localStorage.remove("candidateForTest");
 
-        if($location.$$absUrl.indexOf('&task=') != -1) {F
+        if ($location.$$absUrl.indexOf('&task=') != -1) {
+            F
             $scope.urlTaskId = $location.$$absUrl.split('&task=')[1];
         }
-        if($localStorage.get('calendarShow') != undefined){
+        if ($localStorage.get('calendarShow') != undefined) {
             $rootScope.calendarShow = $localStorage.get('calendarShow');
-            if($rootScope.calendarShow == 'true'){
+            if ($rootScope.calendarShow == 'true') {
                 $rootScope.calendarShow = true;
-            }else if($scope.calendarShow == 'false'){
+            } else if ($scope.calendarShow == 'false') {
                 $rootScope.calendarShow = false;
             }
-        }else{
+        } else {
             $rootScope.calendarShow = true;
         }
         $scope.historyLimit = 20;
@@ -25001,16 +25009,16 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             recruiterEmail: $rootScope.me.emails.length > 0 ? $rootScope.me.emails[0].email : $rootScope.me.login
         };
         angular.forEach($rootScope.me.contacts, function (val) {
-            if(val.contactType == 'phoneWork'){
+            if (val.contactType == 'phoneWork') {
                 $rootScope.staticEmailTemplate.phoneWork = val.value;
             }
-            if(val.contactType == 'skype'){
+            if (val.contactType == 'skype') {
                 $rootScope.staticEmailTemplate.skype = val.value;
             }
-            if(val.contactType == 'linkedin'){
+            if (val.contactType == 'linkedin') {
                 $rootScope.staticEmailTemplate.linkedin = val.value;
             }
-            if(val.contactType == 'facebook'){
+            if (val.contactType == 'facebook') {
                 $rootScope.staticEmailTemplate.facebook = val.value;
             }
         });
@@ -25026,9 +25034,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.currentTab = 'profile';
         $scope.showHistoryForPrint = false;
         $scope.showEditFileName = false;
-        $rootScope.responsiblePersonsEdit =[];
+        $rootScope.responsiblePersonsEdit = [];
         $scope.showMenuEdDelFile = false;
-        $rootScope.showEmployedFields  = false;
+        $rootScope.showEmployedFields = false;
         $rootScope.saveFromAdviceClicked = false;
         $scope.todayDate = new Date().getTime();
         $scope.onlyComments = false;
@@ -25042,18 +25050,18 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.deleteFromSystem = false;
         $rootScope.stageUrl = JSON.parse(localStorage.getItem('stageUrl'));
 
-        function isDataForCandidatesEmpty(dataCandidates){
+        function isDataForCandidatesEmpty(dataCandidates) {
             var data;
 
-            if(dataCandidates){
+            if (dataCandidates) {
                 data = dataCandidates;
-            }else if(localStorage.getItem('getAllCandidates')){
+            } else if (localStorage.getItem('getAllCandidates')) {
                 data = JSON.parse(localStorage.getItem('getAllCandidates'));
-            }else if(localStorage.getItem('candidatesInStagesVac')){
+            } else if (localStorage.getItem('candidatesInStagesVac')) {
                 data = JSON.parse(localStorage.getItem('candidatesInStagesVac'));
             }
 
-            if(!data){
+            if (!data) {
                 $rootScope.isAddCandidates = false;
                 localStorage.setItem("isAddCandidates", false);
                 data = [];
@@ -25064,7 +25072,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
         $('.showCommentSwitcher').prop("checked", !$scope.onlyComments);
 
-        $rootScope.closeModal = function(){
+        $rootScope.closeModal = function () {
             $scope.modalInstance.close();
         };
 
@@ -25073,22 +25081,22 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $scope.modalInstance.close();
         };
 
-        if($rootScope.me.recrutRole != 'client'){
-            setTimeout(function(){
-                if ($rootScope.questStatus && $rootScope.questStatus.addFirstCandidatePopup == 'Y'){
+        if ($rootScope.me.recrutRole != 'client') {
+            setTimeout(function () {
+                if ($rootScope.questStatus && $rootScope.questStatus.addFirstCandidatePopup == 'Y') {
                     $scope.modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: '../partials/modal/HelloQuest/helloQuestCandidateEnd.html',
                         size: 'lg',
                         backdrop: 'static',
                         keyboard: false,
-                        resolve: function(){
+                        resolve: function () {
 
                         }
                     });
                 }
-            },0);
-            $rootScope.continueQuest = function(){
+            }, 0);
+            $rootScope.continueQuest = function () {
                 Person.changeUserParam({
                     name: 'onboardingQuestPopup',
                     value: 'Y'
@@ -25097,14 +25105,14 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         Person.changeUserParam({
                             name: 'addFirstCandidatePopup',
                             value: 'N'
-                        }, function (resp){
+                        }, function (resp) {
                             $rootScope.updateQuestStatus();
-                            $timeout(function(){
+                            $timeout(function () {
                                 $rootScope.closeModal();
                                 $location.path("/organizer");
-                            },500)
+                            }, 500)
                         });
-                    }else{
+                    } else {
                         notificationService.error(resp.message);
                     }
                 });
@@ -25152,7 +25160,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             name: '',
             url: ''
         };
-        if(google){
+        if (google) {
             $scope.map = {
                 center: {
                     latitude: 48.379433,
@@ -25199,7 +25207,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         //if (frontMode === 'war') {
         //    googleService.checkAuthTimeout();
         //}
-        $scope.changeTab = function(tabs){
+        $scope.changeTab = function (tabs) {
             $scope.currentTab = tabs;
         };
 
@@ -25224,7 +25232,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     count: 0,
                     forAdd: true
                 };
-                if($rootScope.me.recrutRole != 'client' && $rootScope.me.recrutRole != 'salesmanager'){
+                if ($rootScope.me.recrutRole != 'client' && $rootScope.me.recrutRole != 'salesmanager') {
                     $scope.modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: '../partials/modal/candidate-add-in-vacancy.html',
@@ -25235,8 +25243,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             }
                         }
                     });
-                    $scope.modalInstance.opened.then(function() {
-                        setTimeout(function(){
+                    $scope.modalInstance.opened.then(function () {
+                        setTimeout(function () {
                             $(".addCandidateInvacancyPicker").datetimepicker({
                                 format: "dd/mm/yyyy hh:ii",
                                 startView: 2,
@@ -25249,20 +25257,20 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             }).on('hide', function () {
                                 if ($('.addCandidateInvacancyPicker').val() == "") {
                                     $rootScope.addCandidateInVacancy.date = null;
-                                }else{
+                                } else {
                                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[interview date and time\]\]/g, $filter('dateFormat2')($('.addCandidateInvacancyPicker').datetimepicker('getDate').getTime(), true));
                                     $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[interview date and time\]\]/g, $filter('dateFormat2')($('.addCandidateInvacancyPicker').datetimepicker('getDate').getTime(), true));
                                     tinyMCE.get('addCandidateInVacancyMCE').setContent($rootScope.emailTemplateInModal.text);
                                 }
                                 $('.addCandidateInvacancyPicker').blur();
                             });
-                        },0)
+                        }, 0)
                     });
-                    $scope.modalInstance.closed.then(function() {
+                    $scope.modalInstance.closed.then(function () {
                         tinyMCE.remove();
                         delete $rootScope.vacancyForAddCandidate;
                     });
-                }else{
+                } else {
                     notificationService.error($filter('translate')('Only recruiters, admins and freelancers can adding candidates in vacancy'));
                 }
                 $rootScope.candnotify = {};
@@ -25283,11 +25291,11 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             } else {
                 notificationService.error($filter('translate')('Remote candidates can not be added to the job'));
             }
-            createEmailTemplateFunc($scope,$rootScope,'addCandidateInVacancyMCE', Mail, $location);
+            createEmailTemplateFunc($scope, $rootScope, 'addCandidateInVacancyMCE', Mail, $location);
 
         };
         $rootScope.addVacancyInCandidate = function (sendTemplate, flag) {
-            if(!$rootScope.candnotify.sendMail && flag){
+            if (!$rootScope.candnotify.sendMail && flag) {
                 notificationService.error($filter('translate')("enter_email_candidate"));
                 return;
             }
@@ -25304,11 +25312,11 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 var vacancyId = $("#candidateAddToVacancy").select2('data').id;
                 $rootScope.errorMessageForAddCandidateInVacancy.show = false;
                 $rootScope.addCandidateInVacancy.date = $('.addCandidateInvacancyPicker').datetimepicker('getDate') != null && ($rootScope.addCandidateInVacancy.status.withDate || $rootScope.addCandidateInVacancy.status.type == 'interview') ? $('.addCandidateInvacancyPicker').datetimepicker('getDate') : null;
-                if($rootScope.addCandidateInVacancy.status){
+                if ($rootScope.addCandidateInVacancy.status) {
                     vacancyAddInterview(Vacancy, vacancyId, null,
                         $scope.candidate.candidateId,
                         $rootScope.addCandidateInVacancy.comment,
-                        ($rootScope.addCandidateInVacancy.status.customInterviewStateId)?$rootScope.addCandidateInVacancy.status.customInterviewStateId:$rootScope.addCandidateInVacancy.status.value,
+                        ($rootScope.addCandidateInVacancy.status.customInterviewStateId) ? $rootScope.addCandidateInVacancy.status.customInterviewStateId : $rootScope.addCandidateInVacancy.status.value,
                         $rootScope.addCandidateInVacancy.date, function (resp) {
                             resp.object.vacancyId.interviewStatusNotTouchable = resp.object.vacancyId.interviewStatus;
                             $scope.getLastEvent();
@@ -25326,20 +25334,20 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                                     interview.vacancyId.interviewStatusNotTouchable = interview.vacancyId.interviewStatus
                                 }
                             });
-                            angular.forEach($scope.candidate.interviews, function(value){
+                            angular.forEach($scope.candidate.interviews, function (value) {
                                 var array = value.vacancyId.interviewStatus.split(",");
-                                angular.forEach($scope.customStages, function(resp){
-                                    if (value.state == resp.customInterviewStateId){
+                                angular.forEach($scope.customStages, function (resp) {
+                                    if (value.state == resp.customInterviewStateId) {
                                         value.state = resp.name
                                     }
-                                    angular.forEach(array,function(res){
-                                        if(resp.customInterviewStateId == res){
+                                    angular.forEach(array, function (res) {
+                                        if (resp.customInterviewStateId == res) {
                                             array[array.indexOf(resp.customInterviewStateId)] = resp.name;
                                         }
                                     });
                                 });
                                 value.vacancyId.interviewStatus = array.toString();
-                                if(value.vacancyId.status != 'completed' && value.vacancyId.status != 'deleted' && value.vacancyId.status != 'canceled'){
+                                if (value.vacancyId.status != 'completed' && value.vacancyId.status != 'deleted' && value.vacancyId.status != 'canceled') {
                                     $scope.participationInVacancy = true;
                                 }
                             });
@@ -25353,7 +25361,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $rootScope.errorMessageForAddCandidateInVacancy.show = true;
                             $rootScope.errorMessageForAddCandidateInVacancy.text = resp.message;
                         }, frontMode, notificationService, googleService, $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null, $filter, $translate.use(), $rootScope);
-                }else{
+                } else {
                     vacancyAddInterview(Vacancy, vacancyId, null,
                         $scope.candidate.candidateId,
                         $rootScope.addCandidateInVacancy.comment,
@@ -25375,20 +25383,20 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                                     interview.vacancyId.interviewStatusNotTouchable = interview.vacancyId.interviewStatus;
                                 }
                             });
-                            angular.forEach($scope.candidate.interviews, function(value){
+                            angular.forEach($scope.candidate.interviews, function (value) {
                                 var array = value.vacancyId.interviewStatus.split(",");
-                                angular.forEach($scope.customStages, function(resp){
-                                    if (value.state == resp.customInterviewStateId){
+                                angular.forEach($scope.customStages, function (resp) {
+                                    if (value.state == resp.customInterviewStateId) {
                                         value.state = resp.name
                                     }
-                                    angular.forEach(array,function(res){
-                                        if(resp.customInterviewStateId == res){
+                                    angular.forEach(array, function (res) {
+                                        if (resp.customInterviewStateId == res) {
                                             array[array.indexOf(resp.customInterviewStateId)] = resp.name;
                                         }
                                     });
                                 });
                                 value.vacancyId.interviewStatus = array.toString();
-                                if(value.vacancyId.status != 'completed' && value.vacancyId.status != 'deleted' && value.vacancyId.status != 'canceled'){
+                                if (value.vacancyId.status != 'completed' && value.vacancyId.status != 'deleted' && value.vacancyId.status != 'canceled') {
                                     $scope.participationInVacancy = true;
                                 }
                             });
@@ -25403,7 +25411,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $rootScope.errorMessageForAddCandidateInVacancy.text = resp.message;
                         }, frontMode, notificationService, googleService, $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null, $filter, $translate.use(), $rootScope);
                 }
-                if($rootScope.candnotify.show && sendTemplate){
+                if ($rootScope.candnotify.show && sendTemplate) {
                     var candnotify = $rootScope.candnotify;
                     var changeObj = $rootScope.addCandidateInVacancy;
                     Mail.sendMailByTemplateVerified({
@@ -25422,10 +25430,10 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             fileName: $rootScope.fileForSave.length > 0 ? $rootScope.fileForSave[0].fileName : null
                         }
                     }, function (resp) {
-                        if(resp.status == 'ok'){
+                        if (resp.status == 'ok') {
                             notificationService.success($filter('translate')('Letter sent'));
                             $rootScope.closeModal();
-                        }else{
+                        } else {
                             notificationService.error($filter('translate')('Error connecting integrate with email. Connect it again'));
                         }
                     });
@@ -25470,11 +25478,11 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 angular.forEach(vacancyStatus, function (vStatus) {
                     if (vStatus.used) {
                         var statusNotDef = $filter('filter')(vStatus.status, {defaultS: false});
-                        angular.forEach(statusNotDef, function(statusND) {
-                            angular.forEach(array, function(statusA) {
+                        angular.forEach(statusNotDef, function (statusND) {
+                            angular.forEach(array, function (statusA) {
                                 if (statusND.value == statusA) {
                                     statusND.added = true;
-                                } else if(statusND.value != statusA && (statusND.value == 'shortlist' || statusND.value == 'interview')){
+                                } else if (statusND.value != statusA && (statusND.value == 'shortlist' || statusND.value == 'interview')) {
                                     statusND.added = false;
                                 }
                             })
@@ -25482,24 +25490,24 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     }
                 });
                 var i = 0;
-                angular.forEach(array, function(resp) {
-                    angular.forEach(vacancyStatus, function(vStatus) {
+                angular.forEach(array, function (resp) {
+                    angular.forEach(vacancyStatus, function (vStatus) {
                         if (vStatus.used) {
-                            if(i == 0){
-                                angular.forEach($scope.customStages, function(res) {
+                            if (i == 0) {
+                                angular.forEach($scope.customStages, function (res) {
                                     res.value = res.name;
                                     res.movable = true;
                                     res.added = false;
                                     res.count = 0;
                                     vStatus.status.push(res);
-                                    i = i+1;
+                                    i = i + 1;
                                 });
                             }
-                            angular.forEach(vStatus.status, function(vStatusIn) {
-                                if(resp == vStatusIn.value){
+                            angular.forEach(vStatus.status, function (vStatusIn) {
+                                if (resp == vStatusIn.value) {
                                     vStatusIn.added = true;
                                     sortedStages.push(vStatusIn);
-                                } else if(resp == vStatusIn.customInterviewStateId){
+                                } else if (resp == vStatusIn.customInterviewStateId) {
                                     vStatusIn.added = true;
                                     sortedStages.push(vStatusIn);
                                 }
@@ -25546,13 +25554,13 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             //}
         };
 
-        vacancyStages.get(function(resp){
+        vacancyStages.get(function (resp) {
             $scope.customStages = resp.object.interviewStates;
             $rootScope.customStages = resp.object.interviewStates;
             $scope.updateCandidate();
         });
 
-        $scope.updateCandidate = function(){
+        $scope.updateCandidate = function () {
             $scope.showAddedLinks = false;
             $scope.showAddedFiles = false;
             $rootScope.loading = true;
@@ -25562,8 +25570,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $location.path('/candidates');
                     return;
                 }
-                if($rootScope.me.recrutRole == 'client' || $rootScope.me.recrutRole == 'freelancer' || $rootScope.me.recrutRole == 'researcher'){
-                    if(resp.object.access == false){
+                if ($rootScope.me.recrutRole == 'client' || $rootScope.me.recrutRole == 'freelancer' || $rootScope.me.recrutRole == 'researcher') {
+                    if (resp.object.access == false) {
                         $scope.limitedAccessCandidate();
                     }
                 }
@@ -25603,7 +25611,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 //$location.hash('');
                 var name = "";
                 name = resp.object.fullName != undefined ? name + resp.object.fullName.replace(/\W+/g, '_') : "";
-                if(resp.object.position.length > 1){
+                if (resp.object.position.length > 1) {
                     name = resp.object.position != undefined ? name + "_" + resp.object.position.replace(/\W+/g, '_') : "";
                 }
                 if (name.length > 0) {
@@ -25636,41 +25644,41 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
                 $scope.imgWidthFunc();
                 $rootScope.newTask.candidateId = $scope.candidate.candidateId;
-                angular.forEach($scope.candidate.interviews, function(value){
+                angular.forEach($scope.candidate.interviews, function (value) {
                     value.vacancyId.interviewStatusNotTouchable = value.vacancyId.interviewStatus;
                     var array = value.vacancyId.interviewStatus.split(",");
-                    angular.forEach($scope.customStages, function(resp){
-                        if (value.state == resp.customInterviewStateId){
+                    angular.forEach($scope.customStages, function (resp) {
+                        if (value.state == resp.customInterviewStateId) {
                             value.state = resp.name;
                             value.customInterviewStateId = resp.customInterviewStateId
                         }
-                        angular.forEach(array,function(res){
-                            if(resp.customInterviewStateId == res){
+                        angular.forEach(array, function (res) {
+                            if (resp.customInterviewStateId == res) {
                                 array[array.indexOf(resp.customInterviewStateId)] = resp.name;
                             }
                         });
                     });
                     value.vacancyId.interviewStatus = array.toString();
-                    if(value.vacancyId.status != 'completed' && value.vacancyId.status != 'deleted' && value.vacancyId.status != 'canceled'){
+                    if (value.vacancyId.status != 'completed' && value.vacancyId.status != 'deleted' && value.vacancyId.status != 'canceled') {
                         $scope.participationInVacancy = true;
-                    }else {
+                    } else {
                         $rootScope.inactiveVacancies = true;
                     }
                 });
                 $rootScope.candidateForUpdateResume = resp.object;
-                if($scope.candidate.files){
-                    if($scope.candidate.files.length != undefined && $scope.candidate.files.length != 0){
+                if ($scope.candidate.files) {
+                    if ($scope.candidate.files.length != undefined && $scope.candidate.files.length != 0) {
                         angular.forEach($scope.candidate.files, function (val) {
-                            if(val.url){
+                            if (val.url) {
                                 $scope.showAddedLinks = true;
                             }
-                            if(!val.url){
+                            if (!val.url) {
                                 $scope.showAddedFiles = true;
                             }
                             initDocuments(val);
                         });
                     }
-                } else{
+                } else {
                     $scope.showAddedLinks = false;
                     $scope.showAddedFiles = false;
                 }
@@ -25686,7 +25694,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 };
                 $scope.countEmail = 0;
                 angular.forEach($scope.candidate.contacts, function (contacts) {
-                    switch (contacts.type){
+                    switch (contacts.type) {
                         case 'homepage':
                         case 'linkedin':
                         case 'facebook':
@@ -25697,7 +25705,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             multipleContacts[contacts.type] = contacts.value.split(/[\s,";"]+/);
                             break;
                     }
-                    if(contacts.type == 'email'){
+                    if (contacts.type == 'email') {
                         $scope.countEmail = 1;
                     }
                 });
@@ -25712,7 +25720,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     telegram: []
                 };
 
-                for(key in multipleContacts) {
+                for (key in multipleContacts) {
                     multipleContacts[key].forEach((currentVal) => {
                         $scope.multipleContacts[key].push(currentVal.trim());
                     });
@@ -25720,7 +25728,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 console.log($scope.multipleContacts, '$scope.multipleContacts')
                 //getcandidateproperties start
                 Candidate.getCandidateProperties({candidateId: $scope.candidate.candidateId}, function (res) {
-                    if(res.status == 'ok' && res.object) {
+                    if (res.status == 'ok' && res.object) {
                         $scope.candidateProperties = res.object;
                         //setGroups start
                         if ($scope.candidate.groups !== undefined) {
@@ -25740,25 +25748,25 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         }
                         //setGroups end
                         //testAppointments start
-                        if($rootScope.me.recrutRole == 'admin' || $rootScope.me.recrutRole == 'recruter') {
-                            if($scope.candidateProperties.testAppointmentContents !== undefined) {
+                        if ($rootScope.me.recrutRole == 'admin' || $rootScope.me.recrutRole == 'recruter') {
+                            if ($scope.candidateProperties.testAppointmentContents !== undefined) {
                                 $scope.totalTestsCount = $scope.candidateProperties.testTestTotaElementsl;
                                 $scope.tests = [];
-                                for(var iter = 0; iter < 3 && iter < $scope.candidateProperties.testAppointmentContents.length; iter++ ) {
+                                for (var iter = 0; iter < 3 && iter < $scope.candidateProperties.testAppointmentContents.length; iter++) {
                                     $scope.tests[iter] = $scope.candidateProperties.testAppointmentContents[iter];
                                 }
-                            }else if (angular.equals(resp.status, "error")){
+                            } else if (angular.equals(resp.status, "error")) {
                                 notificationService.error(resp.message);
                             }
                         }
                         //testAppointments end
                         //updateCand links start
-                        $scope.updateCandidateLinksNew = function(){
-                            if ($scope.candidateProperties.candidateLinks !== undefined){
+                        $scope.updateCandidateLinksNew = function () {
+                            if ($scope.candidateProperties.candidateLinks !== undefined) {
                                 $scope.linkedCandidate = $scope.candidateProperties.candidateLinks;
-                                angular.forEach($scope.linkedCandidate,function(res){
+                                angular.forEach($scope.linkedCandidate, function (res) {
                                     $scope.linkedOneCandidate = res;
-                                    if(res.resourseType == 'linkedin' ||
+                                    if (res.resourseType == 'linkedin' ||
                                         res.resourseType == 'superJob' ||
                                         res.resourseType == 'workua' ||
                                         res.resourseType == 'trelloCardId' ||
@@ -25769,9 +25777,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                                         res.resourseType == 'firebird_id' ||
                                         res.resourseType == 'linkedin_d' ||
                                         res.resourseType == 'cvlv' ||
-                                        res.resourseType == 'estaffId'){
+                                        res.resourseType == 'estaffId') {
                                         $scope.linked = true;
-                                    }else if(res.resourseType == 'linkedinNew'){
+                                    } else if (res.resourseType == 'linkedinNew') {
                                         res.resourseType = 'linkedinNew' ? 'linkedin' : 'linkedin';
                                         $scope.linked = true;
                                     }
@@ -25783,28 +25791,28 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
                         //updateTasks start
                         $scope.candidateTasks = $scope.candidateProperties.taskContents;
-                        if($scope.urlTaskId){
+                        if ($scope.urlTaskId) {
                             $rootScope.responsiblePersonsEdit = [];
-                            angular.forEach($scope.candidateTasks, function(resp){
-                                if(resp.taskId == $scope.urlTaskId){
+                            angular.forEach($scope.candidateTasks, function (resp) {
+                                if (resp.taskId == $scope.urlTaskId) {
                                     $rootScope.editableTask = resp;
                                     $scope.showModalEditTaskToCandidate($rootScope.editableTask);
                                     $location.$$absUrl = $location.$$absUrl.split("&")[0];
                                 }
                             });
-                            if($rootScope.editableTask && $location.$$absUrl.indexOf('&task=') == -1){
+                            if ($rootScope.editableTask && $location.$$absUrl.indexOf('&task=') == -1) {
                                 $location.$$absUrl = $location.$$absUrl + '&task=' + $scope.urlTaskId;
-                                angular.forEach($rootScope.editableTask.responsiblesPerson,function(resp){
-                                    angular.forEach($rootScope.persons,function(res){
-                                        if(resp.responsible.userId == res.userId){
+                                angular.forEach($rootScope.editableTask.responsiblesPerson, function (resp) {
+                                    angular.forEach($rootScope.persons, function (res) {
+                                        if (resp.responsible.userId == res.userId) {
                                             $rootScope.responsiblePersonsEdit.push(res);
                                             res.notShown = true;
                                             //$rootScope.persons.splice($rootScope.persons.indexOf(res), 1);
                                         }
                                     });
                                 });
-                                $('.editTaskInCandidate').modal('setting',{
-                                    onHide: function(){
+                                $('.editTaskInCandidate').modal('setting', {
+                                    onHide: function () {
                                         $scope.urlTaskId = null;
                                         $location.$$absUrl = $location.$$absUrl.split("&")[0];
                                         $scope.$apply();
@@ -25848,21 +25856,22 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 FileInit.initFileOptionForEditFromResume($scope, "candidate");
                 $scope.fileForSave = [];
                 $scope.linksForSave = [];
-                $rootScope.fileForSave = [];    /*For modal window*/
+                $rootScope.fileForSave = [];
+                /*For modal window*/
 
                 FileInit.initVacancyTemplateInCandidateFileOption($scope, $rootScope, "", "", false, $filter);
-                $scope.callbackFileTemplateInCandidate = function(resp, names) {
+                $scope.callbackFileTemplateInCandidate = function (resp, names) {
                     $scope.fileForSave.push({"fileId": resp, "fileName": names});
                     $rootScope.fileForSave.push({"fileId": resp, "fileName": names});
                 };
-                $scope.removeFile = function(id) {
+                $scope.removeFile = function (id) {
                     Candidate.removeFile({"candidateId": $scope.candidate.candidateId, "fileId": id}, function (resp) {
                         if (resp.status == "ok") {
                             $scope.getLastEvent();
                         }
                     });
                     $scope.updateCandidate();
-                    angular.forEach($scope.fileForSave, function(val, ind) {
+                    angular.forEach($scope.fileForSave, function (val, ind) {
                         if (val.attId === id) {
                             $scope.fileForSave.splice(ind, 1);
                         }
@@ -25872,21 +25881,21 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         Candidate.progressUpdate($scope, false);
                     }
                 };
-                $rootScope.removeFile = function(id) {
-                    angular.forEach($rootScope.fileForSave, function(val, ind) {
+                $rootScope.removeFile = function (id) {
+                    angular.forEach($rootScope.fileForSave, function (val, ind) {
                         if (val.attId === id) {
                             $rootScope.fileForSave.splice(ind, 1);
                         }
                     });
                 };
-                $scope.updateCandidateLinks = function(){
+                $scope.updateCandidateLinks = function () {
                     Candidate.getCandidateLinks({
                         "id": $scope.candidate.candidateId
-                    },function(resp){
+                    }, function (resp) {
                         $scope.linkedCandidate = resp.object;
-                        angular.forEach($scope.linkedCandidate,function(res){
+                        angular.forEach($scope.linkedCandidate, function (res) {
                             $scope.linkedOneCandidate = res;
-                            if(res.resourseType == 'linkedin' ||
+                            if (res.resourseType == 'linkedin' ||
                                 res.resourseType == 'superJob' ||
                                 res.resourseType == 'workua' ||
                                 res.resourseType == 'trelloCardId' ||
@@ -25897,41 +25906,41 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                                 res.resourseType == 'firebird_id' ||
                                 res.resourseType == 'linkedin_d' ||
                                 res.resourseType == 'cvlv' ||
-                                res.resourseType == 'estaffId'){
+                                res.resourseType == 'estaffId') {
                                 $scope.linked = true;
-                            }else if(res.resourseType == 'linkedinNew'){
+                            } else if (res.resourseType == 'linkedinNew') {
                                 res.resourseType = 'linkedinNew' ? 'linkedin' : 'linkedin';
                                 $scope.linked = true;
                             }
                         });
                     });
                 };
-                $scope.updateTasks = function(){
+                $scope.updateTasks = function () {
                     Task.get({
                         //'creator': $rootScope.me.userId,
                         'candidateId': $scope.candidate.candidateId
-                    },function(resp){
+                    }, function (resp) {
                         $scope.candidateTasks = resp.objects;
-                        if($scope.urlTaskId){
+                        if ($scope.urlTaskId) {
                             $rootScope.responsiblePersonsEdit = [];
-                            angular.forEach($scope.candidateTasks, function(resp){
-                                if(resp.taskId == $scope.urlTaskId){
+                            angular.forEach($scope.candidateTasks, function (resp) {
+                                if (resp.taskId == $scope.urlTaskId) {
                                     $rootScope.editableTask = resp;
                                 }
                             });
-                            if($rootScope.editableTask && $location.$$absUrl.indexOf('&task=') == -1){
+                            if ($rootScope.editableTask && $location.$$absUrl.indexOf('&task=') == -1) {
                                 $location.$$absUrl = $location.$$absUrl + '&task=' + $scope.urlTaskId;
-                                angular.forEach($rootScope.editableTask.responsiblesPerson,function(resp){
-                                    angular.forEach($rootScope.persons,function(res){
-                                        if(resp.responsible.userId == res.userId){
+                                angular.forEach($rootScope.editableTask.responsiblesPerson, function (resp) {
+                                    angular.forEach($rootScope.persons, function (res) {
+                                        if (resp.responsible.userId == res.userId) {
                                             $rootScope.responsiblePersonsEdit.push(res);
                                             res.notShown = true;
                                             //$rootScope.persons.splice($rootScope.persons.indexOf(res), 1);
                                         }
                                     });
                                 });
-                                $('.editTaskInCandidate').modal('setting',{
-                                    onHide: function(){
+                                $('.editTaskInCandidate').modal('setting', {
+                                    onHide: function () {
                                         $scope.urlTaskId = null;
                                         $location.$$absUrl = $location.$$absUrl.split("&")[0];
                                         $scope.$apply();
@@ -25952,38 +25961,39 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $rootScope.tagForEdit.name = $(tagObject).parent().children().first().html();
             $scope.oldTagName = $rootScope.tagForEdit.name;
             angular.forEach($scope.candidate.groups, function (group) {
-                if(group.name == $rootScope.tagForEdit.name) {
+                if (group.name == $rootScope.tagForEdit.name) {
                     $rootScope.tagForEdit.id = group.candidateGroupId;
                     $scope.modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: '../partials/modal/tag-name-edit.html',
                         size: '',
-                        resolve: {
-
-                        }
+                        resolve: {}
                     });
                 }
             });
         };
         $rootScope.saveEditTagName = function () {
             var newGroupList = $scope.getSelect2Group().split(",");
-            if(newGroupList.indexOf($rootScope.tagForEdit.name) === -1) {
-                CandidateGroup.editGroup({candidateGroupId: $rootScope.tagForEdit.id, name: $rootScope.tagForEdit.name},function (resp) {
-                    if(resp.status == 'ok') {
+            if (newGroupList.indexOf($rootScope.tagForEdit.name) === -1) {
+                CandidateGroup.editGroup({
+                    candidateGroupId: $rootScope.tagForEdit.id,
+                    name: $rootScope.tagForEdit.name
+                }, function (resp) {
+                    if (resp.status == 'ok') {
                         notificationService.success($filter('translate')('Tag_name_saved'));
                         var beforeEdit = $scope.getSelect2Group().split(",");
                         angular.forEach(beforeEdit, function (tagName, index) {
-                            if( tagName == $scope.oldTagName) {
+                            if (tagName == $scope.oldTagName) {
                                 beforeEdit[index] = $rootScope.tagForEdit.name;
                                 $scope.setSelect2Group(beforeEdit);
                                 angular.forEach($scope.candidate.groups, function (group) {
-                                    if(group.name == $scope.oldTagName) {
+                                    if (group.name == $scope.oldTagName) {
                                         group.name = $rootScope.tagForEdit.name;
                                         group.candidateGroupId = resp.object.candidateGroupId;
                                     }
                                 });
                                 $('a.select2-search-choice-edit').attr("title", $filter('translate')('Edit tag for all candidates'));
-                                $('a.select2-search-choice-edit').off().on('click',function (e) {
+                                $('a.select2-search-choice-edit').off().on('click', function (e) {
                                     $scope.editTagName(e.currentTarget);
                                 });
                             }
@@ -25994,11 +26004,11 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         //     }
                         //
                         // })
-                    }else {
+                    } else {
                         notificationService.error(resp.message);
                     }
                 });
-            }else {
+            } else {
                 notificationService.error($filter('translate')('This tag has already assigned'));
             }
 
@@ -26016,22 +26026,27 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             });
             //$rootScope.persons = $scope.persons;
         });
-        $scope.imgWidthFunc = function(id){
+        $scope.imgWidthFunc = function (id) {
             var img = new Image();
-            img.onload = function() {
+            img.onload = function () {
                 var width = this.width;
                 var height = this.height;
                 var minus = width - height;
-                if(width >= height && minus > 40 && minus <=100){
+                if (width >= height && minus > 40 && minus <= 100) {
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if((width >= 300 && width <= 349) || width == height){
+                } else if ((width >= 300 && width <= 349) || width == height) {
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
-                }else if(width >= 350){
+                } else if (width >= 350) {
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 201){
+                } else if (width >= 201) {
                     $('#page-avatar').css({'width': '100%', 'height': 'auto'});
-                }else{
-                    $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
+                } else {
+                    $('#page-avatar').css({
+                        'width': 'inherit',
+                        'height': 'inherit',
+                        'display': 'block',
+                        'margin': '0 auto'
+                    });
                 }
             };
             img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
@@ -26074,11 +26089,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 animation: true,
                 templateUrl: '../partials/modal/add-comment-candidate.html',
                 size: '',
-                resolve: {
-
-                }
+                resolve: {}
             });
-            $(document).unbind("keydown").keydown(function(e) {
+            $(document).unbind("keydown").keydown(function (e) {
                 if (e.ctrlKey == true && e.which == 13) {
                     $rootScope.addCommentInCandidate();
                 }
@@ -26120,7 +26133,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 animation: true,
                 templateUrl: '../partials/modal/candidate-adding-responsible.html',
                 size: '',
-                resolve: function(){
+                resolve: function () {
 
                 }
             });
@@ -26161,7 +26174,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 scope: $scope,
                 size: '',
                 scope: $scope,
-                resolve: function(){
+                resolve: function () {
 
                 }
             });
@@ -26175,7 +26188,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.saveStatusOfCandidate = function () {
             if ($rootScope.changeStateInCandidate.status != "" && !$rootScope.clickedSaveStatusOfCandidate) {
                 $rootScope.clickedSaveStatusOfCandidate = true;
-                $rootScope.changeStateInCandidate.status === 'our employee'? $rootScope.changeStateInCandidate.status = 'work' : null;
+                $rootScope.changeStateInCandidate.status === 'our employee' ? $rootScope.changeStateInCandidate.status = 'work' : null;
                 Candidate.changeState({
                     candidateId: $scope.candidate.candidateId,
                     comment: $rootScope.changeStateInCandidate.comment,
@@ -26185,9 +26198,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         $scope.candidate.status = resp.object.status;
                         $scope.changeStatusModel = $scope.candidate.status;
                         notificationService.success($filter('translate')('set_status_1') + $scope.candidate.fullName + $filter('translate')('set_status_2'));
-                        if($scope.onlyComments){
+                        if ($scope.onlyComments) {
                             $scope.showCommentsFirstTime();
-                        }else{
+                        } else {
                             $scope.showDetails();
                         }
                     }
@@ -26204,9 +26217,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             }
         };
 
-        $scope.toMergeModal = function (id){
+        $scope.toMergeModal = function (id) {
             $rootScope.candidateForMerge = undefined;
-            if($rootScope.me.recrutRole != 'client' && $rootScope.me.recrutRole != 'salesmanager'){
+            if ($rootScope.me.recrutRole != 'client' && $rootScope.me.recrutRole != 'salesmanager') {
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '../partials/modal/candidate-merge-modal.html',
@@ -26216,31 +26229,31 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         }
                     }
                 });
-            }else{
+            } else {
                 notificationService.error($filter('translate')('Only recruiters, admins and freelancers can adding candidates in vacancy'));
             }
         };
         $rootScope.mergedCandidate = $routeParams.id;
         $rootScope.toMerge = function (id) {
             $rootScope.closeModal();
-            if($rootScope.me.recrutRole != 'client'){
-                if($scope.candidate.status != 'archived'){
+            if ($rootScope.me.recrutRole != 'client') {
+                if ($scope.candidate.status != 'archived') {
                     Service.toMergeCandidate(id);
-                }else{
+                } else {
                     notificationService.error($filter('translate')('Remote candidates can not be edited.'));
                 }
-            }else{
+            } else {
                 notificationService.error($filter('translate')('Only recruiters, admins and freelancers can editing candidates'));
             }
         };
         $scope.toEdit = function (id) {
-            if($rootScope.me.recrutRole != 'client'){
-                if($scope.candidate.status != 'archived'){
+            if ($rootScope.me.recrutRole != 'client') {
+                if ($scope.candidate.status != 'archived') {
                     Service.toEditCandidate(id);
-                }else{
+                } else {
                     notificationService.error($filter('translate')('Remote candidates can not be edited.'));
                 }
-            }else{
+            } else {
                 notificationService.error($filter('translate')('Only recruiters, admins and freelancers can editing candidates'));
             }
         };
@@ -26267,10 +26280,10 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
         $scope.showChangeStatus = function (vacancyId) {
             var popWithstages = 'changeStatePop' + vacancyId,
-                labelsPosition = ($('#' + popWithstages).children().length * 25)/2;
+                labelsPosition = ($('#' + popWithstages).children().length * 25) / 2;
 
             $('#' + popWithstages).css({
-                "top" : "-" + labelsPosition + "px"
+                "top": "-" + labelsPosition + "px"
             });
 
 
@@ -26288,10 +26301,10 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 angular.forEach(vacancyStatus, function (v) {
                     if (v.status) {
                         angular.forEach(v.status, function (s) {
-                            angular.forEach($scope.customStages, function(resp){
-                                if(resp.name == status){
-                                    angular.forEach(array, function(res){
-                                        if(res == resp.customInterviewStateId){
+                            angular.forEach($scope.customStages, function (resp) {
+                                if (resp.name == status) {
+                                    angular.forEach(array, function (res) {
+                                        if (res == resp.customInterviewStateId) {
                                             s = resp;
                                         }
                                     });
@@ -26337,27 +26350,27 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     }
                 }
             });
-            $scope.modalInstance.closed.then(function() {
+            $scope.modalInstance.closed.then(function () {
                 $rootScope.candnotify.show = false;
                 tinyMCE.remove()
             });
-            $scope.modalInstance.opened.then(function(){
+            $scope.modalInstance.opened.then(function () {
 
-                createEmailTemplateFunc($scope,$rootScope,'changeStatusCandidateInVacancyMCE', Mail, $location);
+                createEmailTemplateFunc($scope, $rootScope, 'changeStatusCandidateInVacancyMCE', Mail, $location);
                 $rootScope.changeTemplateInChangeStatusCandidate($rootScope.changeStatusOfInterviewInVacancy.status);
 
-                new Promise((resolve, reject) =>{
-                   let interval = setInterval(() => {
-                       let changeStatusOfInterviewInVacancyPick = $(".changeStatusOfInterviewInVacancyPick"),
-                           changeStatusOfInterviewEmployed = $('.changeStatusOfInterviewEmployed');
+                new Promise((resolve, reject) => {
+                    let interval = setInterval(() => {
+                        let changeStatusOfInterviewInVacancyPick = $(".changeStatusOfInterviewInVacancyPick"),
+                            changeStatusOfInterviewEmployed = $('.changeStatusOfInterviewEmployed');
 
-                       if(changeStatusOfInterviewInVacancyPick.length && changeStatusOfInterviewEmployed.length){
-                           clearInterval(interval);
-                           resolve({changeStatusOfInterviewInVacancyPick, changeStatusOfInterviewEmployed});
-                       }
-                   },0);
+                        if (changeStatusOfInterviewInVacancyPick.length && changeStatusOfInterviewEmployed.length) {
+                            clearInterval(interval);
+                            resolve({changeStatusOfInterviewInVacancyPick, changeStatusOfInterviewEmployed});
+                        }
+                    }, 0);
                 })
-                    .then((elements) =>{
+                    .then((elements) => {
                         elements['changeStatusOfInterviewInVacancyPick'].datetimepicker({
                             format: "dd/mm/yyyy hh:ii",
                             startView: 2,
@@ -26370,7 +26383,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         }).on('hide', function () {
                             if ($('.changeStatusOfInterviewInVacancyPick').val() == "") {
                                 $rootScope.changeStatusOfInterviewInVacancy.date = null;
-                            }else{
+                            } else {
                                 $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[interview date and time\]\]/g, $filter('dateFormat2')($('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate').getTime(), true));
                                 $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[interview date and time\]\]/g, $filter('dateFormat2')($('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate').getTime(), true));
                                 tinyMCE.get('changeStatusCandidateInVacancyMCE').setContent($rootScope.emailTemplateInModal.text);
@@ -26406,7 +26419,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 }
             });
             $rootScope.candnotify.emails = email.replace(/ /gi, "").split(",");
-            $rootScope.candnotify.sendMail = (email && email.length)? email.split(/[',',' ']/gi)[0] : '';
+            $rootScope.candnotify.sendMail = (email && email.length) ? email.split(/[',',' ']/gi)[0] : '';
 
             $rootScope.candnotify.show = false;
             $rootScope.candnotify.fullName = $scope.candidate.fullName;
@@ -26460,7 +26473,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.initDirective = {};
 
         $rootScope.saveStatusInterviewInVacancy = function (customDate, flag, sendEmail) {
-            if(!$rootScope.candnotify.sendMail && flag){
+            if (!$rootScope.candnotify.sendMail && flag) {
                 notificationService.error($filter('translate')("enter_email_candidate"));
                 return;
             }
@@ -26484,7 +26497,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     Vacancy.editInterview({
                         "personId": $scope.personId,
                         "vacancyId": $rootScope.changeStatusOfInterviewInVacancy.vacancyId,
-                        "candidateId":  $scope.candidate.candidateId,
+                        "candidateId": $scope.candidate.candidateId,
                         "interviewId": changeObj.candidate.interviewId,
                         "interviewState": changeObj.status.customInterviewStateId ? changeObj.status.customInterviewStateId : changeObj.status.value,
                         "comment": changeObj.comment,
@@ -26493,13 +26506,13 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         "dateEmployee": changeObj.date != null ? changeObj.date.getTime() : null
                     }, function (resp) {
                         if (resp.status == "ok") {
-                            if(changeObj.status.customInterviewStateId){
+                            if (changeObj.status.customInterviewStateId) {
                                 var id = resp.object.interviewId + changeObj.status.customInterviewStateId;
-                            }else{
+                            } else {
                                 var id = resp.object.interviewId + changeObj.status.value;
                             }
-                            if(changeObj.date){
-                                if($rootScope.calendarShow){
+                            if (changeObj.date) {
+                                if ($rootScope.calendarShow) {
                                     googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
                                         $rootScope.changeStatusOfInterviewInVacancy.position,
                                         $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
@@ -26538,7 +26551,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $('.changeStatusOfInterviewInVacancyPick').val("");
                             $scope.updateCandidate();
                             $scope.getLastEvent();
-                            let changeStagesText ='The candidate has been transferred to the stage';
+                            let changeStagesText = 'The candidate has been transferred to the stage';
 
                             notificationService.success(`${$filter('translate')(changeStagesText)} ${$filter('translate')(changeObj.status.value)}`);
                         } else if (resp.status == "error") {
@@ -26551,7 +26564,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         //notificationService.error($filter('translate')('service temporarily unvailable'));
                         $rootScope.addCandidateInInterviewbuttonClicked = false;
                     });
-                }else{
+                } else {
                     Vacancy.editInterview({
                         "personId": $scope.personId,
                         "vacancyId": $rootScope.changeStatusOfInterviewInVacancy.vacancyId,
@@ -26563,14 +26576,14 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     }, function (resp) {
                         if (resp.status == "ok") {
                             var changeObj = $rootScope.changeStatusOfInterviewInVacancy;
-                            if(changeObj.status.customInterviewStateId){
+                            if (changeObj.status.customInterviewStateId) {
                                 var id = resp.object.interviewId + changeObj.status.customInterviewStateId;
-                            }else{
+                            } else {
                                 var id = resp.object.interviewId + changeObj.status.value;
                             }
 
-                            if(changeObj.date){
-                                if($rootScope.calendarShow){
+                            if (changeObj.date) {
+                                if ($rootScope.calendarShow) {
                                     googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
                                         $rootScope.changeStatusOfInterviewInVacancy.position,
                                         $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
@@ -26589,7 +26602,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                                 var changeObj = $rootScope.changeStatusOfInterviewInVacancy;
                                 Mail.sendMailByTemplateVerified({
                                     toEmails: candnotify.sendMail,
-                                    vacancyId: $rootScope.changedStatusVacancy ? $rootScope.changedStatusVacancy.vacancyId:$rootScope.VacancyAddedInCandidate.vacancyId,
+                                    vacancyId: $rootScope.changedStatusVacancy ? $rootScope.changedStatusVacancy.vacancyId : $rootScope.VacancyAddedInCandidate.vacancyId,
                                     candidateId: $scope.candidate.candidateId,
                                     fullName: $scope.candidate.fullName,
                                     email: $rootScope.emailTemplateInModal.email,
@@ -26603,10 +26616,10 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                                         fileName: $rootScope.fileForSave.length > 0 ? $rootScope.fileForSave[0].fileName : null
                                     }
                                 }, function (resp) {
-                                    if(resp.status == 'ok'){
+                                    if (resp.status == 'ok') {
                                         notificationService.success($filter('translate')('Letter sent'));
                                         $rootScope.closeModal();
-                                    }else{
+                                    } else {
                                         notificationService.error($filter('translate')('Error connecting integrate with email. Connect it again'));
                                     }
                                 });
@@ -26623,7 +26636,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $('.changeStatusOfInterviewInVacancyPick').val("");
                             $scope.updateCandidate();
                             $scope.getLastEvent();
-                            let changeStagesText ='The candidate has been transferred to the stage';
+                            let changeStagesText = 'The candidate has been transferred to the stage';
                             notificationService.success(`${$filter('translate')(changeStagesText)} ${$filter('translate')(changeObj.status.value)}`);
 
                         } else if (resp.status == "error") {
@@ -26659,12 +26672,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $scope.showFastChangeStatus = change;
             $localStorage.set("showFastChangeStatus", change);
         };
-        $scope.changeCommentFlag = function(history){
+        $scope.changeCommentFlag = function (history) {
             history.editCommentFlag = !history.editCommentFlag;
             $scope.editComment = history.descr;
         };
-        $scope.changeComment = function(action, comment){
-            Action.editAction({"comment": comment, "actionId": action.actionId}, function(resp){
+        $scope.changeComment = function (action, comment) {
+            Action.editAction({"comment": comment, "actionId": action.actionId}, function (resp) {
                 if (resp.status && angular.equals(resp.status, "error")) {
                     notificationService.error(resp.message);
                 }
@@ -26678,7 +26691,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             });
         };
 
-        $scope.showDeleteComment = function(resp) {
+        $scope.showDeleteComment = function (resp) {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/delete-comment-candidate.html',
@@ -26692,15 +26705,15 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $rootScope.commentRemoveId = resp.actionId;
         };
 
-        $rootScope.deleteComment = function() {
+        $rootScope.deleteComment = function () {
             Action.removeMessageAction({
                 actionId: $rootScope.commentRemoveId
-            },function(resp){
+            }, function (resp) {
                 if (resp.status === "ok") {
                     //Service.history();
                     $scope.showComments();
                     notificationService.success($filter('translate')('Comment removed'));
-                    if(!$scope.onlyComments){
+                    if (!$scope.onlyComments) {
                         $scope.getLastEvent();
                     }
                 } else {
@@ -26709,24 +26722,24 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $rootScope.closeModal();
             })
         };
-        $scope.showAddLinkFunc = function(){
+        $scope.showAddLinkFunc = function () {
             $scope.showAddLink = true;
         };
-        $scope.closeAddLinkFunc = function(){
+        $scope.closeAddLinkFunc = function () {
             $scope.showAddLink = false;
             $scope.addLinkToCandidate.name = null;
             $scope.addLinkToCandidate.url = null;
             $scope.addLinkErrorShow = false;
         };
-        $scope.addLinkInCandidate = function(){
-            if($scope.addLinkToCandidate.name && $scope.addLinkToCandidate.url){
-                if($rootScope.me.recrutRole != 'client'){
+        $scope.addLinkInCandidate = function () {
+            if ($scope.addLinkToCandidate.name && $scope.addLinkToCandidate.url) {
+                if ($rootScope.me.recrutRole != 'client') {
                     Candidate.addLink({
                         "candidateId": $scope.candidate.candidateId,
-                        "name" : $scope.addLinkToCandidate.name,
-                        "url" : $scope.addLinkToCandidate.url
-                    }, function (resp){
-                        if(resp.status === 'ok'){
+                        "name": $scope.addLinkToCandidate.name,
+                        "url": $scope.addLinkToCandidate.url
+                    }, function (resp) {
+                        if (resp.status === 'ok') {
                             $scope.addLinkToCandidate.name = null;
                             $scope.addLinkToCandidate.url = null;
                             $scope.addLinkErrorShow = false;
@@ -26734,46 +26747,46 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             //$scope.candidate.files.push(resp.object);
                             $scope.updateCandidate();
                             notificationService.success($filter('translate')('history_info.added_link'));
-                        } else{
+                        } else {
                             notificationService.error(resp.message);
                         }
                     });
-                }else{
+                } else {
                     notificationService.error($filter('translate')('This feature is available only to administrators and recruiters'));
                 }
-            } else{
+            } else {
                 $scope.addLinkErrorShow = true;
-                if(!$scope.addLinkToCandidate.name)
+                if (!$scope.addLinkToCandidate.name)
                     notificationService.error($filter('translate')('Enter a URL name'));
             }
         };
-        $scope.showCommentsFirstTime = function(){
+        $scope.showCommentsFirstTime = function () {
             //$scope.onlyComments = !$scope.onlyComments;
             Service.history({
                 "page": {"number": 0, "count": 5},
                 "candidateId": $scope.candidate !== undefined ? $scope.candidate.candidateId : null,
-                "onlyWithComment":false
-            }, function(res) {
+                "onlyWithComment": false
+            }, function (res) {
                 $scope.historyLimit = res.size;
                 $scope.historyTotal = res.total;
                 $scope.history = res.objects;
                 $scope.onlyComments = false;
             });
         };
-        $scope.showComments = function(){
+        $scope.showComments = function () {
             //$scope.onlyComments = !$scope.onlyComments;
             $scope.historyLimit = 5;
             Service.history({
                 "vacancyId": $scope.vacancy != undefined ? $scope.vacancy.vacancyId : null,
                 "page": {"number": 0, "count": 5},
                 "candidateId": $scope.candidate !== undefined ? $scope.candidate.candidateId : null,
-                "onlyWithComment":true
-            }, function(res) {
+                "onlyWithComment": true
+            }, function (res) {
                 $scope.showHistoryForPrint = true;
                 $scope.historyLimit = res.size;
                 $scope.historyTotal = res.total;
                 $scope.history = res.objects;
-                angular.forEach($scope.history, function(resp){
+                angular.forEach($scope.history, function (resp) {
                     $scope.countComments++
                 });
                 $scope.onlyComments = true;
@@ -26781,21 +26794,21 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 //$("html, body").animate({ scrollTop: $(document).height() }, "slow");
             });
         };
-        $scope.showDetails = function(){
+        $scope.showDetails = function () {
             //$scope.onlyComments = !$scope.onlyComments;
             $scope.historyLimit = 5;
             Service.history({
                 "page": {"number": 0, "count": 5},
                 "candidateId": $scope.candidate !== undefined ? $scope.candidate.candidateId : null,
-                "onlyWithComment":false
-            }, function(res) {
+                "onlyWithComment": false
+            }, function (res) {
                 var keepGoing = true;
-                angular.forEach($scope.history, function(val) {
-                    if(keepGoing) {
-                        if(val.type == 'vacancy_message' ||
+                angular.forEach($scope.history, function (val) {
+                    if (keepGoing) {
+                        if (val.type == 'vacancy_message' ||
                             val.type == 'candidate_message' ||
                             val.type == 'interview_message' ||
-                            val.type == 'client_message'){
+                            val.type == 'client_message') {
                             $scope.showHistoryForPrint = true;
                             keepGoing = false;
                         }
@@ -26810,22 +26823,22 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             });
         };
         $scope.showCommentsSwitch = function () {
-            if($scope.onlyComments) {
+            if ($scope.onlyComments) {
                 $scope.showDetails();
-            }  else {
+            } else {
                 $scope.showComments();
             }
         };
-        $scope.removeLinkedinConnect = function(resourseType){
+        $scope.removeLinkedinConnect = function (resourseType) {
             $scope.resourseType = resourseType;
-            angular.forEach($scope.linkedCandidate,function(resp){
-                if(resp.resourseType == resourseType){
+            angular.forEach($scope.linkedCandidate, function (resp) {
+                if (resp.resourseType == resourseType) {
                     Candidate.removeCandidateLink({
                         "id": resp.linkId
-                    },function(res){
-                        if(res.status == 'error'){
+                    }, function (res) {
+                        if (res.status == 'error') {
                             notificationService.error(res.message);
-                        }else{
+                        } else {
                             $scope.updateCandidateLinks();
                             $scope.linked = false;
                         }
@@ -26833,24 +26846,24 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 }
             });
         };
-        $scope.showEditFileNameFunc = function(file){
+        $scope.showEditFileNameFunc = function (file) {
             file.showEditFileName = !file.showEditFileName;
             file.showMenuEdDelFile = !file.showMenuEdDelFile;
             $scope.showMenuEdDelFile = false;
         };
-        $scope.editFileName = function(data){
+        $scope.editFileName = function (data) {
             File.changeFileName({
-                "fileId":data.fileId,
-                "name":data.fileName
-            },function(resp){
-                if(resp.status == 'ok'){
+                "fileId": data.fileId,
+                "name": data.fileName
+            }, function (resp) {
+                if (resp.status == 'ok') {
                     data.showEditFileName = false;
-                }else{
+                } else {
                     notificationService.error(resp.message);
                 }
             });
         };
-        $scope.MenuEdDelFile = function(file){
+        $scope.MenuEdDelFile = function (file) {
             file.showMenuEdDelFile = true;
             $('body').mouseup(function (e) {
                 var element = $(".editFileMenu");
@@ -26865,7 +26878,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.toggleDescriptionFunc = function (param) {
             var elem = $('div.content-description');
             var titleElem = $('.candidate-profile-rezume .centerBar .description h4');
-            if($scope.toggleDescription || param == 'expand') {
+            if ($scope.toggleDescription || param == 'expand') {
                 elem.css({'max-height': 'none'});
                 elem.toggleClass('showAfter');
                 $scope.toggleDescription = false;
@@ -26887,12 +26900,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $scope.$apply();
             }
         });
-        $scope.roundMinutes = function(date) {
+        $scope.roundMinutes = function (date) {
             date.setHours(date.getHours());
             date.setMinutes(0);
             return date;
         };
-        setTimeout(function(){
+        setTimeout(function () {
             $(".withoutTimeTask").datetimepicker({
                 format: "dd/mm/yyyy HH:00",
                 startView: 2,
@@ -26907,8 +26920,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $scope.roundMinutes($rootScope.editableTask.targetDate);
                 Task.changeTargetDate({
                     "taskId": $rootScope.editableTask.taskId,
-                    "date":$rootScope.editableTask.targetDate
-                }, function(resp){
+                    "date": $rootScope.editableTask.targetDate
+                }, function (resp) {
                     $scope.updateTasks();
                     $scope.getLastEvent();
                 })
@@ -26925,7 +26938,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             //};
             $scope.showModalAddTaskToCandidate = function (size) {
                 $rootScope.responsiblePersons = [];
-                angular.forEach($rootScope.persons,function(res){
+                angular.forEach($rootScope.persons, function (res) {
                     res.notShown = false;
                 });
                 $scope.modalInstance = $uibModal.open({
@@ -26938,8 +26951,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         }
                     }
                 });
-                $scope.modalInstance.opened.then(function() {
-                    setTimeout(function(){
+                $scope.modalInstance.opened.then(function () {
+                    setTimeout(function () {
                         $(".changeDateNewTask").datetimepicker({
                             format: "dd/mm/yyyy hh:ii",
                             startView: 2,
@@ -26951,13 +26964,15 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             startDate: new Date()
                         }).on('changeDate', function (data) {
                             $rootScope.newTask.targetDate = $('.changeDateNewTask').datetimepicker('getDate');
+
                             function roundMinutes(date) {
 
-                                date.setHours(date.getHours() + Math.round(date.getMinutes()/60));
+                                date.setHours(date.getHours() + Math.round(date.getMinutes() / 60));
                                 date.setMinutes(0);
 
                                 return date;
                             }
+
                             // $scope.roundMinutes($rootScope.newTask.targetDate)
                         }).on('hide', function () {
                             if ($('.changeDateNewTask').val() == "") {
@@ -26965,13 +26980,13 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             }
                             $('.changeDateNewTask').blur();
                         });
-                    },1)
+                    }, 1)
                 });
             };
-            $scope.showModalConfirmationResumeUpdate = function(){
+            $scope.showModalConfirmationResumeUpdate = function () {
                 $('.confirmationResumeUpdate.modal').modal('show');
             };
-            $scope.showModalConfirmationResumeEdit = function(file){
+            $scope.showModalConfirmationResumeEdit = function (file) {
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '../partials/modal/candidate-replace-with-resume.html',
@@ -26979,44 +26994,44 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 });
                 $rootScope.editResumeFile = file;
             };
-            $rootScope.changeCandidateFromExistingResume = function(){
+            $rootScope.changeCandidateFromExistingResume = function () {
                 Candidate.updateFromFile({
                     candidateId: $rootScope.candidateForUpdateResume.candidateId,
                     fileId: $rootScope.editResumeFile.fileId
-                },function(resp){
-                    if(resp.status == 'ok'){
+                }, function (resp) {
+                    if (resp.status == 'ok') {
                         $scope.updateCandidate();
                         $rootScope.closeModal();
-                    }else{
+                    } else {
                         notificationService.error(resp.message);
                     }
                 })
             };
-            $scope.showModalResume = function(file){
-                showModalResume(file,$scope,$rootScope,$location,$sce,$uibModal);
+            $scope.showModalResume = function (file) {
+                showModalResume(file, $scope, $rootScope, $location, $sce, $uibModal);
             };
-            $rootScope.closeModalResume = function(){
+            $rootScope.closeModalResume = function () {
                 $rootScope.closeModal();
             };
-            $scope.downloadDoc = function(){
+            $scope.downloadDoc = function () {
                 $scope.loading = true;
-                Candidate.getCV({"localId": $scope.candidate.localId},function(resp){
-                    if(resp.status == 'ok'){
+                Candidate.getCV({"localId": $scope.candidate.localId}, function (resp) {
+                    if (resp.status == 'ok') {
                         $scope.loading = false;
                         pdfId = resp.object;
                         $('#downloadDoc')[0].href = '/hr/' + 'getapp?id=' + pdfId;
                         $('#downloadDoc')[0].click();
-                    }else{
+                    } else {
                         notificationService.error(resp.message);
                     }
                 });
             };
-            $rootScope.changeSearchType = function(param){
+            $rootScope.changeSearchType = function (param) {
                 $window.location.replace('/!#/candidates');
                 $rootScope.changeSearchTypeNotFromCandidates = param;
             };
 
-            $rootScope.changeTabOnTask = function(val){
+            $rootScope.changeTabOnTask = function (val) {
                 if (val == "Task") {
                     $rootScope.editableTask.type = 'Task';
                 } else if (val == "Call") {
@@ -27027,7 +27042,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $rootScope.editNameTask(true);
                 $scope.updateTasks();
             };
-            $rootScope.changeTabOnTaskForNewTask = function(val){
+            $rootScope.changeTabOnTaskForNewTask = function (val) {
                 if (val == "Task") {
                     $rootScope.newTask.type = 'Task';
                 } else if (val == "Call") {
@@ -27046,7 +27061,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             //    });
             //};
         });
-        $scope.getFirstLetters = function(str){
+        $scope.getFirstLetters = function (str) {
             return firstLetters(str)
         };
         $scope.addOurEmployee = function (size) {
@@ -27061,6 +27076,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 }
             });
         };
+
         function cascadeStages() {
             setTimeout(function () {
                 angular.forEach($scope.candidate.interviews, function (interview, index) {
@@ -27068,12 +27084,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $('#' + popWithstages).children().each(function (index) {
                         var stageName = $(this).attr('id');
                         var isStandartStageRefuse = (stageName == 'notafit' || stageName == 'declinedoffer' || stageName == 'is_not_looking_for_job' || stageName == 'no_response' || stageName == 'no_contacts' || stageName == 'accepted_counter_offer' || stageName == 'found_another_job');
-                        if(isStandartStageRefuse) {
+                        if (isStandartStageRefuse) {
                             $(this).addClass('refusal')
                         } else {
-                            if(stageName !== undefined) {
-                                for(var i = $scope.customStages.length; i--; i > 0) {
-                                    if($scope.customStages[i].type == 'refuse' && $scope.customStages[i].name == stageName) {
+                            if (stageName !== undefined) {
+                                for (var i = $scope.customStages.length; i--; i > 0) {
+                                    if ($scope.customStages[i].type == 'refuse' && $scope.customStages[i].name == stageName) {
                                         $(this).addClass('refusal');
                                         break;
                                     }
@@ -27084,50 +27100,47 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
 
                 });
-            },0);
+            }, 0);
 
         }
+
         $scope.showRefusal = function (id) {
             var popWithstages = 'changeStatePop' + id;
 
 
             $('#' + popWithstages).find('.refusal').each(function () {
                 $('#' + popWithstages).append(this);
-                $(this).animate({height: '25px' }, 100);
+                $(this).animate({height: '25px'}, 100);
             });
         };
 
         $scope.hideRefusal = function (id) {
             var popWithstages = 'changeStatePop' + id;
             $('#' + popWithstages).find('.refusal').each(function () {
-                $(this).animate({height: '0px' }, 100);
+                $(this).animate({height: '0px'}, 100);
             });
         };
 
         ///////////////////////////////////////////////////////////////Email chat with candidate
 
-        $scope.openChat = function(){
+        $scope.openChat = function () {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/candidate-email-chat.html',
                 size: '',
-                resolve: {
-
-                }
+                resolve: {}
             });
         };
-        $scope.gotoBottom = function() {
+        $scope.gotoBottom = function () {
             document.getElementById('history').scrollIntoView()
         };
-        $scope.limitedAccessCandidate = function(){
+        $scope.limitedAccessCandidate = function () {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/limited-access-candidate.html',
                 size: '',
                 backdrop: 'static',
-                resolve: {
-
-                }
+                resolve: {}
             });
         };
 
@@ -27136,38 +27149,34 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.emailTemplateInModal = {
             text: "Hi [[candidate name]]!<br/><br/>--<br/>Best, <br/>[[recruiter's name]]"
         };
-        $scope.showCandidateSentEmail = function(){
-            if($rootScope.me.emails.length === 0 && !$scope.noAllowedMails){
+        $scope.showCandidateSentEmail = function () {
+            if ($rootScope.me.emails.length === 0 && !$scope.noAllowedMails) {
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '../partials/modal/no-synch-email.html',
                     size: '',
                     scope: $scope,
-                    resolve: {
-
-                    }
+                    resolve: {}
                 });
-            }else{
+            } else {
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '../partials/modal/candidate-send-email.html',
                     size: '',
                     scope: $scope,
-                    resolve: {
-
-                    }
+                    resolve: {}
                 });
-                $scope.modalInstance.closed.then(function() {
+                $scope.modalInstance.closed.then(function () {
                     tinyMCE.remove();
                 });
-                $scope.modalInstance.opened.then(function(){
-                    setTimeout(function(){
+                $scope.modalInstance.opened.then(function () {
+                    setTimeout(function () {
                         tinymce.init({
                             selector: '#modalMCE',
                             mode: 'exact',
                             theme: "modern",
                             height: 145,
-                            language: $scope.lang!=undefined ||$scope.lang!=null?$scope.lang:"ru",
+                            language: $scope.lang != undefined || $scope.lang != null ? $scope.lang : "ru",
                             browser_spellcheck: true,
                             menubar: false,
                             statusbar: false,
@@ -27186,7 +27195,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                                 ed.on('SetContent', function (e) {
 
                                 });
-                                ed.on('change', function(e) {
+                                ed.on('change', function (e) {
                                     console.log('changed');
                                     $rootScope.emailTemplateInModal.text = tinyMCE.get('modalMCE').getContent();
                                 });
@@ -27194,35 +27203,35 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         });
                         $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $scope.candidate.fullName);
                         $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
-                        setTimeout(function(){
+                        setTimeout(function () {
                             tinyMCE.get('modalMCE').setContent($rootScope.emailTemplateInModal.text);
-                        },100);
-                    },0);
+                        }, 100);
+                    }, 0);
                 });
-                angular.forEach($scope.candidate.contacts,function(resp){
-                    if(resp.type == 'email'){
+                angular.forEach($scope.candidate.contacts, function (resp) {
+                    if (resp.type == 'email') {
                         $rootScope.emailToSend = resp.value;
                     }
                 });
             }
         };
         FileInit.initVacancyTemplateFileOption($scope, "", "", false, $filter);
-        $scope.callbackFileForTemplate = function(resp, names) {
+        $scope.callbackFileForTemplate = function (resp, names) {
             $scope.fileForSave.push({"fileId": resp, "fileName": names});
             $rootScope.fileForSave.push({"fileId": resp, "fileName": names});
         };
-        $rootScope.addEmailFromWhatSend = function(email){
-            if($rootScope.emailThatAlreadyUsed){
+        $rootScope.addEmailFromWhatSend = function (email) {
+            if ($rootScope.emailThatAlreadyUsed) {
                 $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace($rootScope.emailThatAlreadyUsed.email, email.email);
             }
             $rootScope.emailTemplateInModal.email = [];
             $rootScope.emailThatAlreadyUsed = email;
             localStorage.emailThatAlreadyUsed = email.email;
             $rootScope.emailTemplateInModal.email = $rootScope.emailTemplateInModal.email + email.email;
-            $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.emailTemplateInModal.email?$rootScope.emailTemplateInModal.email:"");
+            $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.emailTemplateInModal.email ? $rootScope.emailTemplateInModal.email : "");
             tinyMCE.get('modalMCE').setContent($rootScope.emailTemplateInModal.text);
         };
-        $rootScope.sentEmail = function(){
+        $rootScope.sentEmail = function () {
             Mail.sendMailByTemplateVerified({
                     toEmails: $rootScope.emailToSend,
                     candidateId: $scope.candidate.candidateId,
@@ -27241,7 +27250,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 function (resp) {
                     if (resp.status != 'ok') {
                         notificationService.error($filter('translate')('Error connecting integrate with email. Connect it again'));
-                    }else{
+                    } else {
                         notificationService.success($filter('translate')('Letter sent'));
                         $rootScope.closeModal();
                         $rootScope.emailToSend = null;
@@ -27258,34 +27267,35 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 .then(resp => {
                     let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
 
-                    if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+                    if (!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
 
                 }, error => notificationService.error(error));
         })();
 
-        $scope.deleteCandidateFromSystemModal = function() {
+        $scope.deleteCandidateFromSystemModal = function () {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/candidate-remove-from-system.html',
                 size: '',
                 scope: $scope,
-                resolve: function(){}
+                resolve: function () {
+                }
             });
         };
-        $scope.deleteCandidateFromSystem = function() {
+        $scope.deleteCandidateFromSystem = function () {
             Candidate.deleteCandidateFromSystem({
                 candidateId: $scope.candidate.candidateId,
                 comment: $rootScope.changeStateInCandidate.comment
             }).then((resp) => {
-                    $scope.closeModal();
-                    $rootScope.changeStateInCandidate.comment = '';
-                    $location.path('/candidates');
-                    notificationService.success($filter('translate')('Candidate name has been removed from the database', { name:  $rootScope.changeStateInCandidate.candidate.fullName}));
-                }, error => {
-                    $scope.closeModal();
-                    $rootScope.changeStateInCandidate.comment = '';
-                    notificationService.error(error.message);
-                });
+                $scope.closeModal();
+                $rootScope.changeStateInCandidate.comment = '';
+                $location.path('/candidates');
+                notificationService.success($filter('translate')('Candidate name has been removed from the database', {name: $rootScope.changeStateInCandidate.candidate.fullName}));
+            }, error => {
+                $scope.closeModal();
+                $rootScope.changeStateInCandidate.comment = '';
+                notificationService.error(error.message);
+            });
         };
 
         sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
@@ -27293,9 +27303,13 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.nextOrPrevElements = sliderElements.nextOrPrevElements.bind(null, $scope);
         $scope.nextElement = sliderElements.nextElement.bind(null, $scope);
         $scope.candidateLength = $rootScope.objectSize || localStorage.getItem('objectSize');
-        $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 ||  (+localStorage.getItem('numberPage')) +  1;
+        $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 || (+localStorage.getItem('numberPage')) + 1;
+    }catch (e) {
+        console.log(e)
+        localStorage.setItem("isAddCandidates", false);
+        $rootScope.isAddCandidates = false;
+    }
         ///////////////////////////////////////////////////////////////End of Sent Email candidate
-
     }]);
 
 
