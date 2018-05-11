@@ -1820,11 +1820,13 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.showDetails = function(){
             //$scope.onlyComments = !$scope.onlyComments;
             $scope.historyLimit = 5;
+            $scope.loaders.history = true;
             Service.history({
                 "page": {"number": 0, "count": 5},
                 "candidateId": $scope.candidate !== undefined ? $scope.candidate.candidateId : null,
                 "onlyWithComment":false
             }, function(res) {
+                $scope.loaders.history = false;
                 var keepGoing = true;
                 angular.forEach($scope.history, function(val) {
                     if(keepGoing) {

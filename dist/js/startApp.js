@@ -6756,9 +6756,12 @@ angular.module('services.candidate', [
                         $scope.fileName = data.item.filename;
                         $scope.ngShowNewImage = true;
                     });
-                    $rootScope.loading = true;
+                    //$rootScope.loading = true;
+                    //console.log($scope.loaders);
+                    $scope.loaders.attachFile = true;
                     file.$upload(uri, $scope.file, setings, $scope).then(function(data) {
-                        $rootScope.loading = false;
+                        //$rootScope.loading = false;
+                        $scope.loaders.attachFile = false;
                         console.log(data);
                         if (data.data.status == 'ok') {
                             if ($scope.callbackFileForTemplate != undefined) {
@@ -6791,7 +6794,7 @@ angular.module('services.candidate', [
                             });
                         }
                     }).catch(function(data) {
-                        $scope.loading = false;
+                        $scope.loaders.attachFile = false;
                         if (data.response[0].code == 'type') {
                             new PNotify({
                                 styling: 'jqueryui',

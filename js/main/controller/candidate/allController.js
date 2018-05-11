@@ -23,7 +23,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     localStorage.removeItem('stageUrl');
     localStorage.removeItem('candidatesInStagesVac');
     localStorage.removeItem('getAllCandidates');
-    $scope.loaders = ["candidates", "uploadsCV"];
+    $scope.loaders = {"candidates": false, "uploadsCV": false};
     Candidate.getCandidate = [];
     let languagetLevelDataForTranslates = [];
     vacancyStages.get(function (resp) {

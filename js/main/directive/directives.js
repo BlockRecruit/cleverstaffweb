@@ -3229,8 +3229,9 @@ directive('appVersion', ['version', function(version) {
                     console.log(scope);
                     console.log(element);
                     console.log(attrs);
+                    console.log($q, '$q');
 
-                    scope.loading = true;
+                    //scope.loading = true;
                     //var directiveId = 'loaderContainer';
 
                     var targetElement;
@@ -3239,19 +3240,18 @@ directive('appVersion', ['version', function(version) {
                     var loader;
                     var throttledPosition;
 
-                    function init(elem, files) {
-                        console.log(files);
-                        targetElement = elem;
-                        console.log(targetElement, 'targetElement1');
-                        console.log(targetElement[0].attributes, 'targetElement2');
-                        console.log(targetElement[0].attributes[1].loader-name, 'targetElement3');
-                        console.log(targetElement[0].attributes['loader-name'], 'targetElement4');
-                        console.log(targetElement[0].attributes['loader-name'].value, 'targetElement5');
+                    function init() {
+                        targetElement = element;
+                        //console.log(targetElement, 'targetElement1');
+                        //console.log(targetElement[0].attributes, 'targetElement2');
+                        //console.log(targetElement[0].attributes[1].loader-name, 'targetElement3');
+                        //console.log(targetElement[0].attributes['loader-name'], 'targetElement4');
+                        //console.log(targetElement[0].attributes['loader-name'].value, 'targetElement5');
 
                         //paneElement = angular.element('<div>');
                         paneElement = angular.element.find('.loader-container');
                         //paneElement = angular.element('.loader-container');
-                        console.log($(paneElement), 'paneElement');
+                        //console.log($(paneElement), 'paneElement');
                         //if (attrs['id']) {
                         //    $(paneElement).attr('data-target-id', attrs['id']);
                         //}
@@ -3283,6 +3283,9 @@ directive('appVersion', ['version', function(version) {
                             'top': 255
                         });
                         $(loader).appendTo(spinnerImage);
+                        $(paneElement).addClass(scope.loaderName);
+                        console.log($(paneElement));
+                        console.log(scope.loaderName);
 
                         //angular.element('body').append(paneElement);
 
@@ -3296,10 +3299,12 @@ directive('appVersion', ['version', function(version) {
                         throttledPosition = _.throttle(position, 50);
                         angular.element($window).scroll(throttledPosition);
                         angular.element($window).resize(throttledPosition);
+                        //console.log(scope.loaders, 'scope.loaders');
+                        //console.log(scope.loaderName, 'scope.loaderName');
 
-                        if((attrs.loaderName == 'candidates' || attrs.loaderName == 'vacancies' || attrs.loaderName == 'clients') && attrs.loaderName != 'history'){
+                        if((scope.loaderName == 'candidates' || scope.loaderName == 'vacancies' || scope.loaderName == 'clients') && scope.loaderName != 'history'){
                             console.log('c v c');
-                        }else if(attrs.loaderName == 'history'){
+                        }else if(scope.loaderName == 'history'){
                             console.log('history');
                             $(paneElement).removeAttr( 'style' );
                             $(spinnerImage).removeAttr( 'style' );
@@ -3307,7 +3312,7 @@ directive('appVersion', ['version', function(version) {
                             $(spinnerImage).remove();
                             $(loader).appendTo(paneElement);
                             console.log($(paneElement));
-                        }else if(attrs.loaderName == 'attachFile'){
+                        }else if(scope.loaderName == 'attachFile'){
                             console.log('attachFile');
                             $(paneElement).removeAttr( 'style' );
                             $(spinnerImage).removeAttr( 'style' );
@@ -3331,7 +3336,7 @@ directive('appVersion', ['version', function(version) {
                         if (isVisible) {
                             hide();
                         } else {
-                            if(attrs.loaderName == 'history'){
+                            if(scope.loaderName == 'history'){
                                 $(paneElement).removeAttr( 'style' );
                                 $(spinnerImage).removeAttr( 'style' );
                                 $(loader).removeAttr( 'style' );
@@ -3349,7 +3354,7 @@ directive('appVersion', ['version', function(version) {
                     function position() {
                         //console.log(targetElement);
                         //console.log($(window).scrollTop());
-                        if((attrs.loaderName == 'candidates' || attrs.loaderName == 'vacancies' || attrs.loaderName == 'clients') && attrs.loaderName != 'history'){
+                        if((scope.loaderName == 'candidates' || scope.loaderName == 'vacancies' || scope.loaderName == 'clients') && scope.loaderName != 'history'){
                         //if(($rootScope.activePage == 'Candidates' || $rootScope.activePage == 'Vacancies' || $rootScope.activePage == 'Clients') && attrs.loaderName != 'history'){
                             $(paneElement).css({
                                 'left': targetElement.offset().left,
@@ -3409,8 +3414,8 @@ directive('appVersion', ['version', function(version) {
                         //position();
                     }
 
-
-                    scope.$watch(attrs.loaderName, function (newVal, oldVal) {
+                    init();
+                    scope.$watch('loaderName', function (newVal, oldVal) {
                         console.log(oldVal, 'oldVal');
                         console.log(newVal, 'newVal');
                         updateVisibility(newVal);
@@ -3434,18 +3439,14 @@ directive('appVersion', ['version', function(version) {
                     console.log('scope in direct', scope.loaders, scope.loaderName)
                 }
                 return {
+                    //restrict: 'EA',
+                    //replace: false,
+                    //transclude: true,
+                    //bindToController: true,
                     scope: {
                         loaders: "=loading",
                         loaderName: "@loaderName"
                     },
-                    //restrict: 'EA',
-                    ////replace: true,
-                    //transclude: false,
-                    ////bindToController: true,
-                    //scope: {
-                    //    loading: '=',
-                    //    loaderName: '='
-                    //},
                     template: '<div class="loader-container" ng-show="loaders[loaderName]"><div class="loader-outer"><div class="loader"></div></div></div>',
                     link: link
                 };

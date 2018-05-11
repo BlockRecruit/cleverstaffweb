@@ -19,6 +19,7 @@
                         <div class="text-left">
                             <input type="file" oi-file="optionsForResumeFile" id="resume" class="hidden">
                             <label for="resume" type="button" ng-click="fastCandResumeClick()" class="btn btn-primary upload-cv-button">{{'Upload CV'|translate}}</label>
+                            <loader-directive loading="loaders" loader-name="uploadsCV"></loader-directive>
                         </div>
                         <ul>
                             <li class="operation"><i class="fa fa-file-text-o" aria-hidden="true"></i><a ng-click="showAddResumeFromText()">{{'Insert Text'|translate}}</a></li>
@@ -616,11 +617,11 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
-                <!--<loader-directive loading="loaders" loader-name="candidates"></loader-directive>-->
                 <div class="col-lg-12 status-info" ng-show="searchParam.searchCs">
                     <table class="table" ng-table="tableParams"
                            template-pagination="custom/pager"
-                           ng-show="candidateFound" id="mainTable" loader-directive loading="loaders" loader-name="candidates">
+                           ng-show="candidateFound" id="mainTable">
+                        <loader-directive loading="loaders" loader-name="candidates"></loader-directive>
                         <thead>
                         <tr>
                             <th class="text-center hidden-xs"><input ng-show="$root.me.recrutRole != 'client'" ng-checked="checkAllCandidates == true" ng-click="pushAllCandidatesToVacancy()" type="checkbox"/></th>
