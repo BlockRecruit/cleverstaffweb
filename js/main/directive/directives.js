@@ -4563,7 +4563,7 @@ directive('appVersion', ['version', function(version) {
 
                 scope.$watch('model', function(newVal) {
                     for (let i in scope.options) {
-                        if (scope.getPropertyValue(scope.options[i], scope.path) == newVal) {
+                        if (scope.getPropertyValue(scope.options[i], scope.path) === newVal) {
                             scope.selectedOpt = scope.options[i];
                         }
                     }
