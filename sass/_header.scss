@@ -912,12 +912,12 @@ body {
 					border: none;
 					background: transparent;
 					.btn-animated {
-						@include button-animated(transparent,#666,#666,white);
+						@include button-animated(transparent,#666,#f0ffea,#666);
 
 						width: 168px;
 						padding-left: 46px;
 
-						border: 2px solid #666;
+						border: 2px solid $theme-green;
 						svg {
 							position: absolute;
 							top: 4px;
@@ -927,10 +927,8 @@ body {
 
 							fill: #666;
 						}
-						&:hover {
-							svg {
-								fill: white;
-							}
+						&:active:before {
+							box-shadow: none;
 						}
 					}
 
@@ -1551,13 +1549,18 @@ ul.nav.navbar-nav {
 	}
 }
 
-@media (max-width: 500px) {
+@media (max-width: 750px) {
 	.trial .trial-info .hoverExtension {
-		left: -150px;
-
-		width: 300px;
+		right: -320px;
 	}
 }
+
+@media (max-width: 550px) {
+	.trial {
+		display: none;
+	}
+}
+
 
 @media (max-width: $screen-xs) {
 	.trial {
