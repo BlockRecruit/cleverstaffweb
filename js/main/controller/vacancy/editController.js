@@ -431,6 +431,7 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
                 $scope.clickedAddVacancy = false;
             }
         };
+
         Vacancy.all(Vacancy.searchOptions(), function(response) {
             $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
         });
@@ -440,6 +441,12 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
                 event.preventDefault();
 
         };
+
+        function showOrHiddenPublicSalary(salaryVisibility) {
+
+        }
+
+        $scope.showOrHiddenPublicSalary = showOrHiddenPublicSalary;
     }
 ]);
 
