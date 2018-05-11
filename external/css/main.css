@@ -2645,17 +2645,11 @@ select.webkit-fix {
     font-family: 'Marmelad E-Staff';
     color: #999999;
     font-size: 56px;
+    white-space: nowrap;
 }
 #home .potok-tittle h1 img {
     margin-top: -10px;
 }
-#home .potok-tittle h1 .logo-estaff {
-    margin-top: -17px;
-}
-/*#home .potok-tittle h1 .question-potok:after{*/
-    /*content: '?';*/
-    /*position: absolute;*/
-/*}*/
 #home .potok-tittle .why-we{
     padding: 0 20px;
 }
