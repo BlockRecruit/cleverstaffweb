@@ -2836,7 +2836,7 @@ directive('appVersion', ['version', function(version) {
                                 $scope.addedLang.push(e.added);
                                 var alreadySet = $scope.getSelect2Lang();
                                 var toStandardCase = alreadySet[alreadySet.length - 1];
-                                //toStandardCase.text = toStandardCase.text[0].toUpperCase() + toStandardCase.text.slice(1).toLowerCase();
+                                toStandardCase.text = toStandardCase.text[0].toUpperCase() + toStandardCase.text.slice(1).toLowerCase();
                                 alreadySet.pop();
                                 alreadySet.push(toStandardCase);
                                 $scope.setSelect2Lang(alreadySet);
@@ -4529,8 +4529,7 @@ directive('appVersion', ['version', function(version) {
                 options: '=options',
                 model: '=model',
                 label: '=label',
-                value: '=value',
-                disabled: '=disabled'
+                value: '=value'
             },
             link: function(scope, element, attrs) {
                 // Selecting model value
@@ -4570,17 +4569,12 @@ directive('appVersion', ['version', function(version) {
 
                 // DOM Event Listeners
                 labelDom.on('click', function() {
-                    if(!scope.disabled) {
-                        optionsDom.toggleClass('active');
-                        backdrop.toggleClass('active');
-                    } else {
-                        labelDom.addClass('disabled');
-                    }
+                    optionsDom.toggleClass('active');
+                    backdrop.toggleClass('active');
                 });
                 backdrop.on('click', function() {
                     optionsDom.removeClass('active');
                     backdrop.removeClass('active');
-                    labelDom.removeClass('disabled');
                 });
                 element.on('keydown', function(ev) {
                     switch (ev.which) {
@@ -9768,7 +9762,7 @@ angular.module('services.employee', [
                         $scope.ngShowNewImage = true;
                     });
                     file.$upload(uri, $scope.file, setings, $scope).then(function(data) {
-                        $('#file').val('');
+                        $scope.loading = false;
                         var resp = JSON.parse(data.response);
 
                         if (data.statusText == 'OK' && resp.status != 'error') {
@@ -9790,8 +9784,8 @@ angular.module('services.employee', [
                         }
                     }).catch(function(data) {
 
-                        $('#file').val('');
                         $rootScope.loading = false;
+
 //                            data.response= JSON.parse(data.response);
                         if (data.response[0].code == 'type') {
                             new PNotify({
@@ -11220,7 +11214,7 @@ angular.module('services.globalService', [
         }
 
         function setCookies(key, value) {
-            document.cookie = key + "=" + value + "; expires=Thu, 18 Dec 2033 12:00:00 UTC";
+            document.cookie = key + "=" + value;
         }
     };
 
@@ -15410,7 +15404,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=97'
+        suffix: '.json?b=93'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -18916,11 +18910,7 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             if($scope.addedLang != undefined){
                 angular.forEach($scope.addedLang, function (val) {
                     if(val.level != undefined && val.level != ''){
-                        if(val.level != undefined && val.level != ''){
-                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
-                        }else if(val.level == undefined && val.id == val.text){
-                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
-                        }
+                        candidate.languages.push({ name: val.text, level: val.level});
                     }
                 });
             }
@@ -20539,6 +20529,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     localStorage.countCandidate = 15;
                 }
 
+                console.log($scope.searchParam.status, '($scope.searchParam.status');
 
                 if($scope.searchParam.status.translate === "our employee"){
                     $scope.searchParam.status.value = 'work';
@@ -20546,14 +20537,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
                 $scope.searchParam.pages.count = params.$params.count;
 
-                if(activeParam.name == 'region'){
-                    Candidate.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
-                }else{
-                    Candidate.setOptions("country", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
-                }
-
-
                 Candidate.setOptions("allContainsWords", $scope.searchParam.allContainsWords);
+                Candidate.setOptions("country", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
                 Candidate.setOptions("city", $scope.searchParam.regionIdCity.value? $scope.searchParam.regionIdCity.value : null);
                 Candidate.setOptions("name", $scope.searchParam.name);
                 Candidate.setOptions("position", $scope.searchParam.position);
@@ -20874,6 +20859,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
         if(isDuplicateLanguage(data[indexLang],level, indexLang)) {
             notificationService.error("Language with this level is already selected");
+            // document.querySelectorAll('.language-level');
             console.log(scope.level = '', 'scope')
             return;
         }
@@ -21691,7 +21677,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.staticSearchParam[0].languages = 'null';
         $scope.searchParam.languages = [];
         $scope.currentLang = 'null';
-        $scope.level = "";
+        $scope.level = '_undefined';
         languagetLevelDataForTranslates = [];
     }
 
@@ -22856,9 +22842,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
                         if(val.level != undefined && val.level != ''){
-                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
-                        }else if(val.level == undefined && val.id == val.text){
-                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
+                            candidate.languages.push({ name: val.text, level: val.level});
                         }
                     });
                 }
@@ -30792,14 +30776,13 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
         Account.getAccountsInfo({},function (resp) {
             $rootScope.loading = false;
             if(!resp)return;
-
             $scope.data = resp['object'];
         });
 
 
 
         $scope.tableHeads = ['points','score','account','country','created','regUsers','tarif','trialEnd','block',
-                             'integratedEmails','invites', 'hrModule','balance','payUsers','latestPaymentByCard','generated invoices','amount',
+                             'integratedEmails','invites', 'hrModule','balance','payUsers','latestPaymentByCard','amount',
                              'purpose','activeUsers','vacancies','lastAtion','server'];
 
 
@@ -30833,7 +30816,7 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
                     elems[0].children[0].children[0].children[0].children[0].children[9].style.width = '1.7%';
                     elems[0].children[0].children[0].children[0].children[0].children[15].style.width = '4%';
                     elems[0].children[0].children[0].children[0].children[0].children[18].style.width = '2.7%';
-                    // elems[0].children[0].children[0].children[0].children[0].children[22].style.width = '3.5%';
+                    elems[0].children[0].children[0].children[0].children[0].children[22].style.width = '3.5%';
                     elems.forEach(item => {
                         if(max <= 0){
                             max = item.scrollWidth - item.scrollLeft - item.clientWidth - 1;
@@ -32786,12 +32769,6 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                 }
             });
-            if($rootScope.blockUserData && $rootScope.blockUserData.payment_min_users > $scope.paidUsers.length) {
-                const diff = $rootScope.blockUserData.payment_min_users - $scope.paidUsers.length;
-                for(let i = 0; i < diff + 2; i++) {
-                    $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
-                }
-            }
             $scope.countPeople = $scope.paidUsers.length;
         });
 
@@ -35487,9 +35464,7 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
                         if(val.level != undefined && val.level != ''){
-                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
-                        }else if(val.level == undefined && val.id == val.text){
-                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
+                            $scope.vacancy.languages.push({ name: val.text, level: val.level});
                         }
                     });
                 }
@@ -36630,11 +36605,7 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
                 $scope.vacancy.languages = [];
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
-                        if(val.level != undefined && val.level != ''){
-                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
-                        }else if(val.level == undefined && val.id == val.text){
-                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
-                        }
+                        $scope.vacancy.languages.push({ name: val.text, level: val.level});
                     });
                 }
                 $scope.vacancy.clientId.clientId = $("#clientAutocompleater").select2('data') !== null ? $("#clientAutocompleater").select2('data').id : null;
