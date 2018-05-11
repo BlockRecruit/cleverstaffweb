@@ -31,7 +31,6 @@
 	.client-add-information {
 		@include bt-margins-from-side();
 
-		margin-top: -10px;
 		& > .fullName-position {
 			float: none;
 			& > span {

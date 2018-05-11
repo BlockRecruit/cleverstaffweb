@@ -478,7 +478,7 @@
                             <div class="btn-group" uib-dropdown>
                                 <button type="button" class="btn btn-primary profile" uib-dropdown-toggle ng-disabled="disabled">
                                     <span class="profile-button-icon">
-                                        <svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px"
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px"
                                                      viewBox="0 0 19.916 20" style="enable-background:new 0 0 19.916 20;" xml:space="preserve">
                                                 <path class="st0" d="M19.2,7.6h-1.9c-0.1-0.2-0.1-0.4-0.2-0.5l0,0c-0.1-0.2-0.2-0.4-0.3-0.6l1.3-1.3l0,0c0.3-0.3,0.3-0.8,0-1.1
                                                     L16,1.8l0,0c-0.3-0.3-0.8-0.3-1.1,0l-1.4,1.4c-0.2-0.1-0.4-0.2-0.6-0.3c-0.2-0.1-0.4-0.1-0.6-0.2V0.8C12.4,0.4,12,0,11.5,0h-3
@@ -777,7 +777,7 @@
                     </a>
                 </li>
                 <li>
-                    <div class="btn-group" uib-dropdown>
+                    <div class="btn-group hidden-md"  uib-dropdown>
                         <a uib-dropdown-toggle id="tech-dropdown">
                             <i class="sprite sprite-support">
                                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px"
@@ -799,7 +799,7 @@
                             </i>
                             {{'Support'|translate}}
                         </a>
-                        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <ul class="dropdown-menu hidden-xs hidden-sm" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                             <li role="menuitem">
                                 <a href="#/faq" class="boldText">{{'FAQ'|translate}}</a>
                             </li>
@@ -811,6 +811,20 @@
                             </li>
                             <li role="menuitem">
                                 <a href="#/suggest_improvement_or_request_feature">{{'Suggest improvement or request feature'|translate}}</a>
+                            </li>
+                        </ul>
+                        <ul class="dropdown-menu hidden-md hidden-lg" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                            <li role="menuitem">
+                                <a href="#/faq" class="boldText">{{'FAQ'|translate}}</a>
+                            </li>
+                            <li role="menuitem">
+                                <a href="#/ask_question">{{'Ask question'|translate}}</a>
+                            </li>
+                            <li role="menuitem">
+                                <a href="#/report_problem_on_this_page">{{'Report problem'|translate}}</a>
+                            </li>
+                            <li role="menuitem">
+                                <a href="#/suggest_improvement_or_request_feature">{{'Suggest improvement'|translate}}</a>
                             </li>
                         </ul>
                     </div>
