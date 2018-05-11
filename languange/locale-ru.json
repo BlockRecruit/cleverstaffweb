@@ -3078,5 +3078,6 @@
   "Earlier you already registered in Cleverstaff, and activated the account by following this link. To use the system, sign in":"Ранее вы уже зарегистрировались в Cleverstaff, и активировали аккаунт перейдя по этой ссылке. Для использования системы авторизируйтесь",
   "You didn't make any payments yet":"У вас еще не было оплат",
   "No such appointmentId.":"К сожалению, такого теста не существует. Для уточнения информации обратитесь к рекрутеру, который отправил вам этот тест.",
-  "Sorry, this candidate was removed from the system":"Извините, данный кандидат был удален из системы"
+  "Sorry, this candidate was removed from the system":"Извините, данный кандидат был удален из системы",
+  "Not enough money, so your account is blocked. Please top up your account and it will be unlocked":"У вас закончились деньги на счету, поэтому ваш аккаунт заблокирован. Пополните счет и аккаунт будет разблокирован."
 }

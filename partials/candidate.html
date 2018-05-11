@@ -161,7 +161,8 @@
                                   ng-click="showChangeStatus(interview.vacancyId.vacancyId)"
                                   click-anywhere-but-here="showChangeStatus(null)">
                             </span>
-                                <div id="changeStatePop{{interview.vacancyId.vacancyId}}" class="clever-window status-vacancy"  ng-show="showChangeStatusValue == interview.vacancyId.vacancyId">
+                                <div id="changeStatePop{{interview.vacancyId.vacancyId}}" class="clever-window status-vacancy"
+                                     ng-show="showChangeStatusValue == interview.vacancyId.vacancyId">
                                     <div class="clever-window-element small"
                                          ng-repeat="istatus in interview.vacancyId.interviewStatus.split(',') track by $index"
                                          ng-show="interview.state != istatus"
