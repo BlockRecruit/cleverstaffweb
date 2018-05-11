@@ -34879,7 +34879,7 @@ span.custom-tooltip {
         align-self: center; }
         .block-public-test .block-info .buttons-wrap .next-question.cancel {
           position: absolute;
-          top: calc(50% - 25px);
+          top: calc(50% - 30px);
           left: 15%; }
         .block-public-test .block-info .buttons-wrap .next-question.left-side {
           left: 0; }
