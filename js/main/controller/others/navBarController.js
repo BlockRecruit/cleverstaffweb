@@ -1467,16 +1467,18 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
                                 $rootScope.news = resp.objects;
 
-                                $rootScope.modalInstance = $uibModal.open({
-                                    animation: true,
-                                    backdrop: 'static',
-                                    templateUrl: 'partials/modal/newsFB.html',
-                                    size: '',
-                                    resolve: function(){
+                                if(!$rootScope.modalInstance) {
+                                    $rootScope.modalInstance = $uibModal.open({
+                                        animation: true,
+                                        backdrop: 'static',
+                                        templateUrl: 'partials/modal/newsFB.html',
+                                        size: '',
+                                        resolve: function(){
 
-                                    }
-                                });
-                                $scope.modalInstance.opened.then(function(){
+                                        }
+                                    });
+                                }
+                                $rootScope.modalInstance.opened.then(function(){
                                     $('body').removeClass('modal-open');
                                     $('.modal-backdrop').css('z-index', '0');
                                     $('.modal-backdrop').css('opacity', '0');

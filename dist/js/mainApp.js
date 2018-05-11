@@ -33075,6 +33075,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         News.getNews(function(resp){
             if(resp.status == 'ok'){
                 var i = 0;
+                resp.objects = ["409922536079937"];
                 if(resp.objects.length > 0){
                     setTimeout(function(){
                         var interval = setInterval(function(){
@@ -33093,16 +33094,18 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
                                 $rootScope.news = resp.objects;
 
-                                $rootScope.modalInstance = $uibModal.open({
-                                    animation: true,
-                                    backdrop: 'static',
-                                    templateUrl: 'partials/modal/newsFB.html',
-                                    size: '',
-                                    resolve: function(){
+                                if(!$rootScope.modalInstance) {
+                                    $rootScope.modalInstance = $uibModal.open({
+                                        animation: true,
+                                        backdrop: 'static',
+                                        templateUrl: 'partials/modal/newsFB.html',
+                                        size: '',
+                                        resolve: function(){
 
-                                    }
-                                });
-                                $scope.modalInstance.opened.then(function(){
+                                        }
+                                    });
+                                }
+                                $rootScope.modalInstance.opened.then(function(){
                                     $('body').removeClass('modal-open');
                                     $('.modal-backdrop').css('z-index', '0');
                                     $('.modal-backdrop').css('opacity', '0');
