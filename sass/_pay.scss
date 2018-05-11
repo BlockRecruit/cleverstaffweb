@@ -746,6 +746,7 @@
 .payment.home {
 	padding: 0 10px;
 	.wrapper {
+		display: flex;
 		overflow: hidden;
 	}
 	.select-ops.active {
