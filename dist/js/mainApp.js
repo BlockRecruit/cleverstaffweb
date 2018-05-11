@@ -31587,6 +31587,32 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
         });
     }
 
+    const corporate = {
+        getMonthRate: function(resp) {
+            if($rootScope.me['orgParams']['tarif'] && $rootScope.me['orgParams']['tarif'] === 'corporate') {
+                return 450;
+            } else {
+                return resp.monthRate || 25;
+            }
+        },
+        getPrice: function() {
+            let bonus = 0;
+            if ($scope.invoice.months >= 12) {
+                bonus = 20;
+            }
+            else if ($scope.invoice.months >= 4) {
+                bonus = 10;
+            }
+            else {
+                bonus = 0;
+            }
+
+            const price = Math.floor($scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]);
+            const bonusAmount = Math.floor((price / 100) * bonus);
+            return (price - bonusAmount).toFixed(2);
+        }
+    };
+
     (() => {
         $rootScope.loading = true;
         Promise.all([
@@ -31595,7 +31621,7 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
             Invoice.getCurrenciesExchangeRates(['USD', 'RUB', 'EUR']),
             Invoice.getLastInvoice()
         ]).then(([allPersons, accountInfo, currencyExchangeRates, lastInvoiceData]) => {
-                accountInfo.object.monthRate = accountInfo.object.monthRate || 25;
+                accountInfo.object.monthRate = corporate.getMonthRate(accountInfo.object);
                 $rootScope.loading = false;
                 $scope.allPersons = allPersons.object;
                 $scope.accountInfo = accountInfo.object;
@@ -31618,8 +31644,9 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
                 }
 
                 if($rootScope.me['orgParams']['tarif'] && $rootScope.me['orgParams']['tarif'] === 'corporate') {
-                    $scope.invoice.users = $filter('translate')('up to 25');
-                    $scope.invoice.price = () => ($scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]).toFixed(2);
+                    $scope.invoice.users = 'up to 25';
+                    console.log(corporate.getPrice());
+                    $scope.invoice.price = () => corporate.getPrice();
                 }
 
                 $scope.$apply();
