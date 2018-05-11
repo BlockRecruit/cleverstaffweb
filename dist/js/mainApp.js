@@ -21271,6 +21271,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         }
     });
     $scope.tofullinformation = function(event,user){
+        if(event.ctrlKey) return false;
+
         if(event.button == 0){
             $location.path('candidates/' + user.localId);
         }
