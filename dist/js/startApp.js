@@ -6455,7 +6455,7 @@ angular.module('services.candidate', [
             $scope.file = {}; //Model
             $scope.options = {
                 change: function(file) {
-                    $rootScope.loading = true;
+                    $scope.loaders.attachFile = true;
                     var uri = serverAddress;
                     if (path != undefined)
                         uri = uri + "/" + path;
@@ -6471,9 +6471,8 @@ angular.module('services.candidate', [
                         $scope.ngShowNewImage = true;
                     });
                     file.$upload(uri, $scope.file, setings, $scope).then(function(data) {
-                        $scope.loading = false;
-                        $rootScope.loading = false;
                         var resp = JSON.parse(data.response);
+                        $scope.loaders.attachFile = false;
 
                         if (data.statusText == 'OK' && resp.status != 'error') {
                             if ($scope.callbackFile != undefined) {
@@ -6758,10 +6757,9 @@ angular.module('services.candidate', [
                     });
                     //$rootScope.loading = true;
                     //console.log($scope.loaders);
-                    $scope.loaders.attachFile = true;
+
                     file.$upload(uri, $scope.file, setings, $scope).then(function(data) {
                         //$rootScope.loading = false;
-                        $scope.loaders.attachFile = false;
                         console.log(data);
                         if (data.data.status == 'ok') {
                             if ($scope.callbackFileForTemplate != undefined) {
@@ -6794,7 +6792,7 @@ angular.module('services.candidate', [
                             });
                         }
                     }).catch(function(data) {
-                        $scope.loaders.attachFile = false;
+
                         if (data.response[0].code == 'type') {
                             new PNotify({
                                 styling: 'jqueryui',

@@ -181,6 +181,7 @@
                             </div>
                         </div>
                         <div class="col-lg-12 attachments not-for-print"  uib-dropdown is-open="status.isopen">
+                            <loader-directive loading="loaders" loader-name="attachFile"></loader-directive>
                             <div class="text-center employee" ng-show="candidate.employeeId">
                                 <a href="#/company/employees/{{candidate.employeeId}}">
                                     {{'candidate_status_assoc.' + 'work'|translate}}
@@ -254,7 +255,6 @@
                             </div>
                             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                                 <label role="menuitem" for="file">
-                                    <loader-directive loading="loaders" loader-name="attachFile"></loader-directive>
                                     <i class="fa fa-paperclip" aria-hidden="true"></i>
                                     {{'Attach file'|translate}}
                                 </label>
