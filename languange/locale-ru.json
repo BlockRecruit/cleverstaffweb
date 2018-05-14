@@ -3079,5 +3079,9 @@
   "You didn't make any payments yet":"У вас еще не было оплат",
   "No such appointmentId.":"К сожалению, такого теста не существует. Для уточнения информации обратитесь к рекрутеру, который отправил вам этот тест.",
   "Sorry, this candidate was removed from the system":"Извините, данный кандидат был удален из системы",
-  "Not enough money, so your account is blocked. Please top up your account and it will be unlocked":"У вас закончились деньги на счету, поэтому ваш аккаунт заблокирован. Пополните счет и аккаунт будет разблокирован."
+  "Not enough money, so your account is blocked. Please top up your account and it will be unlocked":"У вас закончились деньги на счету, поэтому ваш аккаунт заблокирован. Пополните счет и аккаунт будет разблокирован.",
+  "Delete account":"Удалить аккаунт",
+  "Are you really sure you want to delete this account?":"Вы действительно хотите удалить этот аккаунт?",
+  "The process the account deletion, as well as all data in it, will be launched. During the next 7 days you can stop the deletion, but after, all the data will be permanently deleted. The funds in your account are non-refundable in this case.Please leave us your feedback about the reasons for your account deletion":"Будет запущен процесс удаления аккаунта, а также всех данных в нем. В течении следующих 7 дней вы можете остановить удаление, однако потом все данные будут удалены безвозвратно. Средства на вашем счету возврату не подлежат.<br><br>Пожалуйста, оставьте для нас комментарий, о причинах удаления аккаунта",
+  "Reasons for your account deletion":"Причины удаления аккаунта"
 }

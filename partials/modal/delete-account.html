@@ -1,0 +1,16 @@
+<div class="delete-vacancy">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title" translate="Are you really sure you want to delete this account?"></h4>
+    </div>
+    <div class="modal-body">
+        <p translate="The process the account deletion, as well as all data in it, will be launched. During the next 7 days you can stop the deletion, but after, all the data will be permanently deleted. The funds in your account are non-refundable in this case.Please leave us your feedback about the reasons for your account deletion"></p>
+        <textarea placeholder="{{'Reasons for your account deletion' | translate}}"></textarea>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="closeModal()">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.saveStatusOfCandidate()">{{'Yes, delete'|translate}}</a>
+        </div>
+    </div>
+</div>

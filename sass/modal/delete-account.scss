@@ -1,0 +1,13 @@
+.delete-vacancy {
+	.modal-body {
+		textarea {
+			width: 100%;
+			min-height: 80px;
+			padding: 5px;
+
+			resize: none;
+
+			border-radius: 5px;
+		}
+	}
+}

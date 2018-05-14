@@ -15,87 +15,92 @@
             </div>
 
             <div class="col-lg-3 leftBar">
-                <div class="col-lg-12 company-settings-foto text-center" id="owner_photo_wrap">
-                    <input id="the-file-input" accept="image/*" type="file" style="display:none">
-                    <img ng-show="$root.companyLogo!=undefined" ng-src="{{$root.serverAddress}}/getapp?id={{$root.companyLogo}}&d=" alt=""/>
-                    <div ng-show="$root.me.recrutRole == 'admin' && $root.companyLogo!=undefined" id="owner_photo_bubble_wrap">
-                        <div id="owner_photo_bubble">
-                            <div class="owner_photo_bubble_action owner_photo_bubble_action_update" add-logo>
-                                <span class="owner_photo_bubble_action_in">{{'change_logo'|translate}}</span>
-                            </div>
-                            <div class="owner_photo_bubble_action owner_photo_bubble_action_crop" ng-click="$root.removeLogo()">
-                                <span class="owner_photo_bubble_action_in">{{'remove_logo'|translate}}</span>
+                <div class="wrapper">
+                    <div class="col-lg-12 company-settings-foto text-center" id="owner_photo_wrap">
+                        <input id="the-file-input" accept="image/*" type="file" style="display:none">
+                        <img ng-show="$root.companyLogo!=undefined" ng-src="{{$root.serverAddress}}/getapp?id={{$root.companyLogo}}&d=" alt=""/>
+                        <div ng-show="$root.me.recrutRole == 'admin' && $root.companyLogo!=undefined" id="owner_photo_bubble_wrap">
+                            <div id="owner_photo_bubble">
+                                <div class="owner_photo_bubble_action owner_photo_bubble_action_update" add-logo>
+                                    <span class="owner_photo_bubble_action_in">{{'change_logo'|translate}}</span>
+                                </div>
+                                <div class="owner_photo_bubble_action owner_photo_bubble_action_crop" ng-click="$root.removeLogo()">
+                                    <span class="owner_photo_bubble_action_in">{{'remove_logo'|translate}}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="addedPhotoProfile" id="logo-button">
-                    <a ng-if="$root.companyLogo == undefined && $root.me.recrutRole === 'admin'" type="button" add-logo class="btn btn-primary add-image">
-                        {{'Upload logo' | translate}}
-                        <br>
-                        <span class="size">
+                    <div class="addedPhotoProfile" id="logo-button">
+                        <a ng-if="$root.companyLogo == undefined && $root.me.recrutRole === 'admin'" type="button" add-logo class="btn btn-primary add-image">
+                            {{'Upload logo' | translate}}
+                            <br>
+                            <span class="size">
                                 {{'size_290x290'|translate}}
                             </span>
-                    </a>
-                    <div class="showBtn">
-                        <label class="company-label" for="company-settings">{{'Account name' | translate}}</label>
-                        <div class="showBtn-inner">
-                            <input class="form-control company-settings" id="company-settings" ng-model="newOrgName" ng-init="newOrgName=$root.me.orgName" type="text" ng-readonly="$root.me.recrutRole != 'admin'"/>
-                            <a type="button"
-                               style="display: block;"
-                               ng-click="changeOrgName()"
-                               ng-show="$root.me.recrutRole === 'admin'"
-                               class="btn btn-primary save-button ">
-                                {{'save'|translate}}
+                        </a>
+                        <div class="showBtn">
+                            <label class="company-label" for="company-settings">{{'Account name' | translate}}</label>
+                            <div class="showBtn-inner">
+                                <input class="form-control company-settings" id="company-settings" ng-model="newOrgName" ng-init="newOrgName=$root.me.orgName" type="text" ng-readonly="$root.me.recrutRole != 'admin'"/>
+                                <a type="button"
+                                   style="display: block;"
+                                   ng-click="changeOrgName()"
+                                   ng-show="$root.me.recrutRole === 'admin'"
+                                   class="btn btn-primary save-button ">
+                                    {{'save'|translate}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="changeWebSiteOrFb">
+                        <div class="ourSite">
+                            <span class="nameTittle">{{'Website'|translate}}</span>
+                            <a href="" ng-click="showInputForChangeWebSite(false);">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
                             </a>
+                            <div ng-show="showCompanyWebSite && changeWebSite.length > 0">
+                                <a ng-href="{{changeWebSite}}" target="_blank">
+                                    <span class="clever-font">{{changeWebSite| limitTo: 30}}{{changeWebSite.length > 30 ? '...' :''}}</span>
+                                </a>
+                            </div>
+                            <div ng-show="showCompanyWebSite==false">
+                                <input type="text" name="changeWebSite" ng-model="changeWebSite" ng-readonly="$root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'salesmanager'"/>
+                                <div class="text-center">
+                                    <a type="button" ng-click="showInputForChangeWebSite(true);" class="btn btn-primary cancel">
+                                        {{'cancel'|translate}}
+                                    </a>
+                                    <a type="button" ng-click="setChangeCompanyWebSite('companyWebSite');" class="btn btn-primary accept">
+                                        {{'save'|translate}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fbPage">
+                            <span class="nameTittle">{{'Facebook page'|translate}}</span>
+                            <a href="" ng-click="showInputForChangeFacebookPage(false);">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                            <div ng-show="showCompanyFacebookPage && changeFacebookPage.length > 0">
+                                <a ng-href="{{changeFacebookPage}}" target="_blank">
+                                    <span class="clever-font">{{changeFacebookPage | limitTo: 30}}{{changeFacebookPage.length > 30 ? '...' :''}}</span>
+                                </a>
+                            </div>
+                            <div ng-show="showCompanyFacebookPage==false">
+                                <input type="text" name="changeFacebookPage" ng-model="changeFacebookPage" ng-readonly="$root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'salesmanager'"/>
+                                <div class="text-center">
+                                    <a type="button" ng-click="showInputForChangeFacebookPage(true);" class="btn btn-primary cancel">
+                                        {{'cancel'|translate}}
+                                    </a>
+                                    <a type="button" ng-click="setChangeUserWebSite('companyFacebookPage');" class="btn btn-primary accept">
+                                        {{'save'|translate}}
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="changeWebSiteOrFb">
-                    <div class="ourSite">
-                        <span class="nameTittle">{{'Website'|translate}}</span>
-                        <a href="" ng-click="showInputForChangeWebSite(false);">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                        </a>
-                        <div ng-show="showCompanyWebSite && changeWebSite.length > 0">
-                            <a ng-href="{{changeWebSite}}" target="_blank">
-                                <span class="clever-font">{{changeWebSite| limitTo: 30}}{{changeWebSite.length > 30 ? '...' :''}}</span>
-                            </a>
-                        </div>
-                        <div ng-show="showCompanyWebSite==false">
-                            <input type="text" name="changeWebSite" ng-model="changeWebSite" ng-readonly="$root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'salesmanager'"/>
-                            <div class="text-center">
-                                <a type="button" ng-click="showInputForChangeWebSite(true);" class="btn btn-primary cancel">
-                                    {{'cancel'|translate}}
-                                </a>
-                                <a type="button" ng-click="setChangeCompanyWebSite('companyWebSite');" class="btn btn-primary accept">
-                                    {{'save'|translate}}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="fbPage">
-                        <span class="nameTittle">{{'Facebook page'|translate}}</span>
-                        <a href="" ng-click="showInputForChangeFacebookPage(false);">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                        </a>
-                        <div ng-show="showCompanyFacebookPage && changeFacebookPage.length > 0">
-                            <a ng-href="{{changeFacebookPage}}" target="_blank">
-                                <span class="clever-font">{{changeFacebookPage | limitTo: 30}}{{changeFacebookPage.length > 30 ? '...' :''}}</span>
-                            </a>
-                        </div>
-                        <div ng-show="showCompanyFacebookPage==false">
-                            <input type="text" name="changeFacebookPage" ng-model="changeFacebookPage" ng-readonly="$root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'salesmanager'"/>
-                            <div class="text-center">
-                                <a type="button" ng-click="showInputForChangeFacebookPage(true);" class="btn btn-primary cancel">
-                                    {{'cancel'|translate}}
-                                </a>
-                                <a type="button" ng-click="setChangeUserWebSite('companyFacebookPage');" class="btn btn-primary accept">
-                                    {{'save'|translate}}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="action-buttons" ng-show="$root.me.recrutRole == 'admin'">
+                    <button translate="Delete account" ng-click="openDeleteAccountModal()"></button>
                 </div>
             </div>
             <div class="col-lg-9 centerBar">

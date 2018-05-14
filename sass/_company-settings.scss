@@ -42,135 +42,149 @@
 			padding-bottom: 50px;
 
 			border-radius: 5px;
-			background-color: #fff;
-			& > .company-settings-foto {
-				padding: 15px;
-				& > img {
+			.wrapper {
+				padding-bottom: 15px;
+
+				background-color: #fff;
+				& > .company-settings-foto {
+					padding: 15px;
+					& > img {
+						width: 100%;
+						height: auto;
+					}
+				}
+				& > .addedPhotoProfile {
+					display: inline-block;
 					width: 100%;
-					height: auto;
-				}
-			}
-			& > .addedPhotoProfile {
-				display: inline-block;
-				width: 100%;
-				padding: 0 15px;
-				a.add-image {
-					font-weight: 600;
+					padding: 0 15px;
+					a.add-image {
+						font-weight: 600;
 
-					display: block;
-					margin-top: 15px;
+						display: block;
+						margin-top: 15px;
 
-					color: $theme-dark;
-					border: 1px solid $theme-dark-green;
-					background-color: $theme-white;
-					&:hover {
-						@include button-green-styling();
-					}
-					.size {
-						font-size: 11px;
-						font-weight: 300;
+						color: $theme-dark;
+						border: 1px solid $theme-dark-green;
+						background-color: $theme-white;
+						&:hover {
+							@include button-green-styling();
+						}
+						.size {
+							font-size: 11px;
+							font-weight: 300;
 
-						color: $theme-grey;
+							color: $theme-grey;
+						}
 					}
-				}
-				//&:hover .add-image {
-				//	@include button-green-styling();
-				//}
-				.showBtn {
-					&-inner {
-						@include flex(row, flex-start, flex-end);
-					}
-					.company-label {
-						font-weight: 500;
+					//&:hover .add-image {
+					//	@include button-green-styling();
+					//}
+					.showBtn {
+						&-inner {
+							@include flex(row, flex-start, flex-end);
+						}
+						.company-label {
+							font-weight: 500;
 
-						margin-left: 10px;
+							margin-left: 10px;
 
-						color: $theme-grey;
+							color: $theme-grey;
+						}
+						.company-settings {
+							@include input-styling();
+						}
+						.save-button {
+							@include button-green-styling();
+
+							display: none;
+							margin: -30px 0 5px 0;
+
+							color: $theme-white;
+							background-color: $theme-dark-green;
+							&:hover {
+								background-color: $theme-light-green-hover;
+							}
+						}
+						&:hover .save-button {
+							display: block;
+						}
 					}
-					.company-settings {
-						@include input-styling();
-					}
-					.save-button {
-						@include button-green-styling();
+					.add-image {
+						@include button-styling();
 
 						display: none;
-						margin: -30px 0 5px 0;
-
-						color: $theme-white;
-						background-color: $theme-dark-green;
-						&:hover {
-							background-color: $theme-light-green-hover;
-						}
-					}
-					&:hover .save-button {
-						display: block;
+						padding: 5px;
 					}
 				}
-				.add-image {
-					@include button-styling();
+				.changeWebSiteOrFb {
+					.ourSite {
+						display: inline-block;
+						width: 100%;
+						padding: 0 15px;
+					}
+					.fbPage {
+						display: inline-block;
+						width: 100%;
+						padding: 0 15px;
+					}
+					.nameTittle {
+						display: inline-block;
+						margin-top: 5px;
+						margin-left: 10px;
 
-					display: none;
-					padding: 5px;
+						color: $theme-grey;
+					}
+					a {
+						@include link-styling();
+
+						margin-left: 10px;
+						i {
+							color: $theme-dark-green;
+						}
+					}
+					input {
+						@include input-styling();
+						@include border-radius();
+
+						width: 100%;
+						padding-left: 15px;
+						&:focus {
+							outline: none;
+						}
+					}
+					.text-center {
+						margin-top: 10px;
+						.btn {
+							@include button-styling();
+						}
+						.accept {
+							color: $theme-white;
+							background-color: $theme-dark-green;
+							&:hover {
+								background-color: $theme-light-green-hover;
+							}
+						}
+						.cancel {
+							color: #585859;
+							background-color: #e3e3e3;
+							&:hover {
+								background-color: $theme-light-grey-hover;
+							}
+						}
+						&:last-child {
+							margin-left: 10px;
+						}
+					}
 				}
 			}
-			.changeWebSiteOrFb {
-				.ourSite {
-					display: inline-block;
-					width: 100%;
-					padding: 0 15px;
-				}
-				.fbPage {
-					display: inline-block;
-					width: 100%;
-					padding: 0 15px;
-				}
-				.nameTittle {
-					display: inline-block;
-					margin-top: 5px;
-					margin-left: 10px;
+			.action-buttons {
+				display: flex;
+				margin-top: 30px;
 
-					color: $theme-grey;
-				}
-				a {
-					@include link-styling();
-
-					margin-left: 10px;
-					i {
-						color: $theme-dark-green;
-					}
-				}
-				input {
-					@include input-styling();
-					@include border-radius();
-
-					width: 100%;
-					padding-left: 15px;
-					&:focus {
-						outline: none;
-					}
-				}
-				.text-center {
-					margin-top: 10px;
-					.btn {
-						@include button-styling();
-					}
-					.accept {
-						color: $theme-white;
-						background-color: $theme-dark-green;
-						&:hover {
-							background-color: $theme-light-green-hover;
-						}
-					}
-					.cancel {
-						color: #585859;
-						background-color: #e3e3e3;
-						&:hover {
-							background-color: $theme-light-grey-hover;
-						}
-					}
-					&:last-child {
-						margin-left: 10px;
-					}
+				align-items: center;
+				justify-content: center;
+				button {
+					@include button-animated(#f33, white, #c00);
 				}
 			}
 		}
@@ -307,5 +321,11 @@
 	.block-company-settings .company-settings #wrapperForPng {
 		max-width: 300px;
 		margin: auto;
+	}
+}
+
+@media screen and (max-width: $screen-xs) {
+	.block-company-settings .company-settings > .leftBar .action-buttons {
+		display: none;
 	}
 }

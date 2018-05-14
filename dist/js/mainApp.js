@@ -16168,6 +16168,15 @@ controller.controller('ActivityCompanySettingsController', ["$scope", "$rootScop
             $scope.oldValFacebookPage = newVal;
         }
     });
+    $scope.openDeleteAccountModal = function() {
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/delete-account.html',
+            resolve: {
+
+            }
+        });
+    }
 }]);
 
 controller.controller('ActivityFutureController', ["$scope", "$translate", "$rootScope", "Vacancy", "frontMode", "$filter", "Sticker",

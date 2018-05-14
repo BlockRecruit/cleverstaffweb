@@ -475,3 +475,73 @@
 		background-color: #ffc100;
 	}
 }
+
+@mixin button-animated($background-color: $theme-green, $color: white, $hover-bg-color: #009a3e, $hover-color: white) {
+	font-family: "Helvetica-Medium";
+	font-size: 14px;
+	line-height: 14px;
+
+	position: relative;
+
+	display: inline-block;
+	overflow: hidden;
+	width: 163px;
+	height: 33px;
+	padding: 0 20px;
+
+	-webkit-transition-duration: 0.3s;
+	transition-duration: 0.3s;
+	-webkit-transition-property: color;
+	transition-property: color;
+	-webkit-transform: perspective(1px) translateZ(0);
+	transform: perspective(1px) translateZ(0);
+	vertical-align: middle;
+	white-space: normal;
+	letter-spacing: 0.6px;
+
+	color: $color;
+	border: none;
+	border-radius: 25px;
+	background: $background-color;
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+	&:before {
+		position: absolute;
+		z-index: -1;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+
+		content: "";
+		-webkit-transition-timing-function: ease-out;
+		transition-timing-function: ease-out;
+		-webkit-transition-duration: 0.3s;
+		transition-duration: 0.3s;
+		-webkit-transition-property: transform;
+		transition-property: transform;
+		-webkit-transform: scale(0);
+		transform: scale(0);
+
+		border-radius: 100%;
+		background: $hover-bg-color;
+	}
+	&:hover,
+	&:focus,
+	&:active {
+		outline: none;
+	}
+	&:hover,
+	&:active {
+		color: $hover-color;
+	}
+	&:hover:before,
+	&:active:before {
+		-webkit-transform: scale(2);
+		transform: scale(2);
+	}
+	&:active:before {
+		-webkit-box-shadow: inset 0 6px 10px 1px rgba(0, 0, 0, 0.75);
+		-moz-box-shadow: inset 0 6px 10px 1px rgba(0, 0, 0, 0.75);
+		box-shadow: inset 0 6px 10px 1px rgba(0, 0, 0, 0.75);
+	}
+}
