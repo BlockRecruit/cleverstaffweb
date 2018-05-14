@@ -15205,7 +15205,7 @@ angular.module('RecruitingApp', [
             templateUrl: 'partials/invoice.html',
             controller: 'invoiceController',
             title: "Invoice ",
-            pageName: "Invoice generation",
+            pageName: "Invoice",
         })
         //.when('/hr-module-info', {
         //    title: "HR-module",
@@ -15409,7 +15409,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=98'
+        suffix: '.json?b=99'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -33108,16 +33108,18 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
                                 $rootScope.news = resp.objects;
 
-                                $rootScope.modalInstance = $uibModal.open({
-                                    animation: true,
-                                    backdrop: 'static',
-                                    templateUrl: 'partials/modal/newsFB.html',
-                                    size: '',
-                                    resolve: function(){
+                                if(!$rootScope.modalInstance && !$rootScope.newsModalInstance) {
+                                    $rootScope.newsModalInstance = $uibModal.open({
+                                        animation: true,
+                                        backdrop: 'static',
+                                        templateUrl: 'partials/modal/newsFB.html?1',
+                                        size: '',
+                                        resolve: function(){
 
-                                    }
-                                });
-                                $scope.modalInstance.opened.then(function(){
+                                        }
+                                    });
+                                }
+                                $rootScope.newsModalInstance.opened.then(function(){
                                     $('body').removeClass('modal-open');
                                     $('.modal-backdrop').css('z-index', '0');
                                     $('.modal-backdrop').css('opacity', '0');
@@ -33127,7 +33129,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                         FB.XFBML.parse();
                                     }, 3000);
                                 });
-                                $rootScope.modalInstance.closed.then(function() {
+                                $rootScope.newsModalInstance.closed.then(function() {
                                     $('body').removeClass('modal-open-news');
                                     var array = [];
                                     angular.forEach($rootScope.news, function(data,key){
@@ -35012,7 +35014,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
     function ($scope, Person, $rootScope, $routeParams, $location, $translate, Service, notificationService, $filter, Account, Pay, Company, $timeout) {
         $scope.numberVacancy = 0;
         $scope.trueVisionBlockUser = $rootScope.blockUser;
-        $rootScope.blockUser = false;
+        $rootScope.blockUser = $rootScope.blockUser || false;
         $scope.bonus = 0;
         $scope.paidUsers = [];
         $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];

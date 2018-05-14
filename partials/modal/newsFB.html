@@ -16,8 +16,8 @@
     <div style="position: relative; height: 60px;z-index: 99999999999;background-color: white;border-bottom: 1px solid rgba(0, 0, 0, 0.32);">
         <div class="modal-footer" style="position: absolute; width: 100%;height: 100%;">
             <div class="text-center button">
-                <a type="button" class="btn btn-primary cancel" href="#/news" ng-click="$root.closeModal()">{{'Show previous news' | translate}}</a>
-                <a type="button" class="btn btn-primary accept" href="" ng-click="$root.closeModal()">{{'Got it' | translate}}</a>
+                <a type="button" class="btn btn-primary cancel" href="#/news" ng-click="$root.newsModalInstance.close()">{{'Show previous news' | translate}}</a>
+                <a type="button" class="btn btn-primary accept" href="" ng-click="$root.newsModalInstance.close()">{{'Got it' | translate}}</a>
             </div>
         </div>
     </div>
