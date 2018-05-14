@@ -441,6 +441,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                     $scope.showErrorEnterLatinCharacters = false;
                     $('#password').addClass('error');
                 }
+
                 if($scope.password != $scope.password2){
                     notificationService.error($filter('translate')('wrong_password2'));
                     $scope.showErrorEnterPassword = false;
@@ -2362,7 +2363,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                     $scope.showErrorEnterNumberCharacters = false;
                     $scope.showErrorEnterLatinCharacters = false;
                     $scope.showErrorGoodSuccess = true;
-                    $('#password2').addClass('error');
+                    $('#password, #password2').addClass('error');
                     return false;
                 }else{
                     console.log('form is not valid')
@@ -4456,9 +4457,11 @@ angular.module('RecruitingAppStart.directives', [])
                   var checkpassword1 = password1.test(newVal);
                   var checkpassword2 = password2.test(newVal);
                   var checkpassword3 = password3.test(newVal);
+
                   if(newVal != undefined){
                       var checkpassword4 = newVal.length > 7 && newVal.length < 31;
                   }
+
                   if((!checkpassword1 || !checkpassword2 || !checkpassword3 || !checkpassword4) && scope.$parent.restoreForm.password.$dirty){
                       scope.$parent.showError = true;
                       if(!checkpassword1){
@@ -4489,17 +4492,20 @@ angular.module('RecruitingAppStart.directives', [])
                     );
                     return $country;
                 }
+
                 function format(state) {
                     if(state != undefined && state.value != undefined){
                         var phone = state.value.replace("+","");
                         localStorage.setItem("phone", phone);
                     }
                     if (!state.id) return state.text;
+
                     var $state = $(
                         '<span class="flag-icon flag-icon-'+ state.id.toLowerCase() +' flag-icon-squared"></span>' +
                         '<span class="flag-text" style="margin-left: 5px;">'+ state.text.replace(/[A-z]/g, "").replace(/\(*\)*\.*\-*\s*/g,"").replace(/,/g,"").replace(/'/g,"").replace(/&/g,"")+"</span>");
                     return $state;
                 }
+
                 var isoCountries = [
                     { id: 'AF', text: 'Afghanistan (+93)', value: '+93'},
                     { id: 'AX', text: 'Aland Islands (+358)', value: '+358'},

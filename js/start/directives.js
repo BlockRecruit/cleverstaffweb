@@ -172,9 +172,11 @@ angular.module('RecruitingAppStart.directives', [])
                   var checkpassword1 = password1.test(newVal);
                   var checkpassword2 = password2.test(newVal);
                   var checkpassword3 = password3.test(newVal);
+
                   if(newVal != undefined){
                       var checkpassword4 = newVal.length > 7 && newVal.length < 31;
                   }
+
                   if((!checkpassword1 || !checkpassword2 || !checkpassword3 || !checkpassword4) && scope.$parent.restoreForm.password.$dirty){
                       scope.$parent.showError = true;
                       if(!checkpassword1){

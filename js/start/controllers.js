@@ -319,6 +319,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                     $scope.showErrorEnterLatinCharacters = false;
                     $('#password').addClass('error');
                 }
+
                 if($scope.password != $scope.password2){
                     notificationService.error($filter('translate')('wrong_password2'));
                     $scope.showErrorEnterPassword = false;
@@ -2240,7 +2241,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                     $scope.showErrorEnterNumberCharacters = false;
                     $scope.showErrorEnterLatinCharacters = false;
                     $scope.showErrorGoodSuccess = true;
-                    $('#password2').addClass('error');
+                    $('#password, #password2').addClass('error');
                     return false;
                 }else{
                     console.log('form is not valid')

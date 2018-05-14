@@ -1,7 +1,17 @@
 body {
 	padding-bottom: 30px;
 	&.bgc-green {
-		background-color: #e3f2dd;
+		height: 100%;
+
+		background-image: url(../../images/sprite/bg-invitereg.png);
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+	}
+	@media (max-width: $screen-sm) {
+		&.bgc-green {
+			background-color: #e3f2dd;
+			background-image: none;
+		}
 	}
 	.loader-outer {
 		position: fixed;
