@@ -130,6 +130,7 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
             }
         },
         getPrice() {
+            console.log(this.isCorporate());
             if(this.isCorporate()) {
                 let bonus = 0;
 
