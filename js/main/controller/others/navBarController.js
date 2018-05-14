@@ -871,6 +871,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     $scope.changeScope = function (name, orgId, event) {
         if(event && isCheckBoxChecked(event.target)) return;
+
         setCurrentScopeForNavBar(name);
 
         if (name == 'region') {
@@ -907,7 +908,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 return;
             }
         } else if (name == 'company') {
-            $timeout(setDefualtValueRegionSelect);
+            $timeout(setDefualtValueRegionSelect.bind(null, name));
             $timeout(function(){
                 $scope.orgId = orgId;
                 $scope.changeOrg(function () {
@@ -918,7 +919,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             });
 
         } else if (name == 'onlyMy') {
-            $timeout(setDefualtValueRegionSelect);
+            $timeout(setDefualtValueRegionSelect.bind(null, name));
             localStorageService.set($rootScope.userId, 'onlyme');
             localStorageService.set($rootScope.userId + "_regionId", null);
             ScopeService.setActiveScopeObject(name);
@@ -1510,12 +1511,19 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         });
     }
 
-    function setDefualtValueRegionSelect(){
-        var optionsHtml = `<option ng-selected="true" value="" selected style="color:#999">${$scope.translate}</option>`;
-        let region = JSON.parse(localStorage.getItem(`ls.${$rootScope.userId}_regionId`));
-        console.log(region, 'region');
+    function setDefualtValueRegionSelect(name){
+        let optionsHtml = `<option ng-selected="true" value="" selected style="color:#999">${$scope.translate}</option>`,
+            region  = JSON.parse(localStorage.getItem(`ls.${$rootScope.userId}_regionId`)),
+            elements = $('.cs-region-filter-select-scope2'),
+            max = elements.length, i;
+
+
+        for(i = elements[1].options.length - 1 ; i >= 0 ; i--) {
+            elements[1].remove(i);
+        }
+
         angular.forEach($scope.regions, function (value) {
-            if(region && region.value === value["value"]){
+            if(region && region.value === value["value"] && name === region){
                 optionsHtml += "<option style='color: #000000' selected  value='" + (value.id).replace(/\'/gi,"") + "'>" + value.name + "</option>";
             }else{
                 optionsHtml += "<option style='color: #000000'  value='" + (value.id).replace(/\'/gi,"") + "'>" + value.name + "</option>";
@@ -1523,7 +1531,8 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         });
 
         $('#cs-region-filter-select-scope').html(optionsHtml);
-        $('.cs-region-filter-select-scope2').html(optionsHtml);
+        elements.html(optionsHtml);
+        $scope.regionId = null;
     }
 
     $scope.dataChangeScopeAccount = ScopeService.dataChangeScopeAccount;
