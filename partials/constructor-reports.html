@@ -551,18 +551,18 @@
                                 <td>
                                     {{outerIndex+1}}.{{$index + 1}}.
                                 </td>
-                                <td class="payment">
+                                <td class="_payment">
                                     <a href="#/candidates/{{candidate.candidate.localId}}">{{candidate.candidate.fullName}}</a>
                                 </td>
-                                <td class="payment">
+                                <td class="_payment">
                                     {{candidate.interview.state | translate}}
                                 </td>
-                                <td class="payment">
+                                <td class="_payment">
                                     <div ng-show="candidate.candidate.currency && candidate.candidate.salary">
                                         {{candidate.candidate.salary}} {{candidate.candidate.currency}}
                                     </div>
                                 </td>
-                                <td class="payment">
+                                <td class="_payment">
                                     {{candidate.candidate.regionfullName}}
                                 </td>
                                 <td class="language">
@@ -577,7 +577,7 @@
                                 <td class="comment" popup data-html="{{candidate.interview.comment}}">
                                     {{candidate.interview.comment}}
                                 </td>
-                                <td class="payment">
+                                <td class="_payment">
                                     {{candidate.interview.dateEmployee | dateFormat}}
                                 </td>
                             </tr>
