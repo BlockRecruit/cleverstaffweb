@@ -1467,11 +1467,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
                                 $rootScope.news = resp.objects;
 
-                                if(!$rootScope.modalInstance) {
+                                if(!$rootScope.modalInstance && !$rootScope.newsModalInstance) {
                                     $rootScope.newsModalInstance = $uibModal.open({
                                         animation: true,
                                         backdrop: 'static',
-                                        templateUrl: 'partials/modal/newsFB.html',
+                                        templateUrl: 'partials/modal/newsFB.html?1',
                                         size: '',
                                         resolve: function(){
 
