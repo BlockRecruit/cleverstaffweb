@@ -33108,16 +33108,18 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
                                 $rootScope.news = resp.objects;
 
-                                $rootScope.modalInstance = $uibModal.open({
-                                    animation: true,
-                                    backdrop: 'static',
-                                    templateUrl: 'partials/modal/newsFB.html',
-                                    size: '',
-                                    resolve: function(){
+                                if(!$rootScope.modalInstance && !$rootScope.newsModalInstance) {
+                                    $rootScope.newsModalInstance = $uibModal.open({
+                                        animation: true,
+                                        backdrop: 'static',
+                                        templateUrl: 'partials/modal/newsFB.html?1',
+                                        size: '',
+                                        resolve: function(){
 
-                                    }
-                                });
-                                $scope.modalInstance.opened.then(function(){
+                                        }
+                                    });
+                                }
+                                $rootScope.newsModalInstance.opened.then(function(){
                                     $('body').removeClass('modal-open');
                                     $('.modal-backdrop').css('z-index', '0');
                                     $('.modal-backdrop').css('opacity', '0');
@@ -33127,7 +33129,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                         FB.XFBML.parse();
                                     }, 3000);
                                 });
-                                $rootScope.modalInstance.closed.then(function() {
+                                $rootScope.newsModalInstance.closed.then(function() {
                                     $('body').removeClass('modal-open-news');
                                     var array = [];
                                     angular.forEach($rootScope.news, function(data,key){
