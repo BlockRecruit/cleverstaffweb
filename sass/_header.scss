@@ -1,5 +1,8 @@
 body {
 	padding-bottom: 30px;
+	&.bgc-green {
+		background-color: #e3f2dd;
+	}
 	.loader-outer {
 		position: fixed;
 		z-index: 1060;
@@ -32,6 +35,10 @@ body {
 				transform: rotate(360deg);
 			}
 		}
+	}
+	.transparent-block {
+		background-color: transparent;
+		box-shadow: none !important;
 	}
 	.backdrop-custom-fields {
 		position: fixed;

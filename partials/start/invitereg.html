@@ -5,13 +5,14 @@
             <div class="loader"></div>
         </div>
     </div>
+    <span class="h">123123123123</span>
     <div class="row" style="display: flex;flex-direction: column; align-items: center; justify-content: center;">
         <div class="col-lg-8 col-md-7 col-sm-7  wrapper">
             <div class="invitesYou"  ng-show="$root.inviteState == 'activeInvite'">
-                <h4 class="text-center">{{'Welcome to CleverStaff!'|translate}}</h4>
+                <h4 class="text-left">{{'Welcome to CleverStaff!'|translate}}</h4>
                 <div class="inviteregYouAccount">
-                    <div><b>{{registration.inviter}}</b> {{'invites you at the account of the company'|translate}} <b>{{registration.orgName}}</b> {{"in"|translate}} CleverStaff — {{'ATS & Recruitment Software' | translate}}.</div>
-                    <div style="padding-top: 3px;">{{'To complete the registration please fill in the form below.'|translate}}</div>
+                    <div><b>{{registration.inviter}}</b> {{'invites you at the account of the company'|translate}} <b>{{registration.orgName}}</b> {{"in"|translate}} CleverStaff <br /> — {{'ATS & Recruitment Software' | translate}}.</div>
+                    <div style="padding-top: 13px;">{{'To complete the registration please fill in the form below.'|translate}}</div>
                 </div>
             </div>
         </div>

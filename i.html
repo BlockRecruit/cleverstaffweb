@@ -25,7 +25,7 @@
     <meta property="og:site_name" content="CleverStaff"/>
 
 </head>
-<body ng-controller="mainController">
+<body ng-controller="mainController" ng-class="($root.activeController === 'SignupController')? 'bgc-green' : null">
 <!--[if lt IE 10]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -34,7 +34,7 @@
 <!-- /builddist -->
 
 <!-- Fixed navbar -->
-<div class="navbar navbar-static-top" ng-cloak ng-show="$root.activeController != 'PublicCompanyController' && $root.activeController != 'PublicVacancyController' && $root.activeController != 'PublicTestController'  && $root.activeController">
+<div class="navbar navbar-static-top" ng-class="($root.activeController === 'SignupController')? 'transparent-block' : null" ng-cloak ng-show="$root.activeController != 'PublicCompanyController' && $root.activeController != 'PublicVacancyController' && $root.activeController != 'PublicTestController'  && $root.activeController">
     <div class="container-fluid">
         <div class="navbar-header-public-vacancy">
             <!--<a href="../" class="navbar-brand">-->
@@ -46,7 +46,8 @@
                 <!--<span>Staff</span>-->
             <!--</a>-->
             <a href="../">
-                <img src="images/sprite/CS_logo_white_transparent.png" width="50px" alt="CS-logo">
+                <img ng-show="$root.activeController !== 'SignupController'" src="images/sprite/CS_logo_white_transparent.png" width="50px" alt="CS-logo">
+                <img ng-show="$root.activeController === 'SignupController'" src="images/sprite/icon_128_128_png.png" width="50px" alt="CS-logo">
             </a>
         </div>
     </div>

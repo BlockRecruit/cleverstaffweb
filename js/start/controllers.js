@@ -2034,6 +2034,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             $('#password').removeClass('error');
             $scope.showError = false;
         };
+        console.log($rootScope, '$rootScope');
         $scope.ngClickRegistration = function() {
             $scope.resetError();
             var password1 = /^[a-zA-Z0-9!,.?%$#@*_\-+=\\|/[\]{}()]{8,30}$/;
@@ -2520,6 +2521,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
 
         var userLang = navigator.language || navigator.userLanguage;
         var lST = userLang.substring(0, 2);
+
     })
     .controller('PublicVacancyController', ["$rootScope", "$scope", "$filter", "$location", "$routeParams", "$sce" , "$translate", "Service",
         "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal" ,

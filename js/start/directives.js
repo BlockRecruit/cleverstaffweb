@@ -205,17 +205,20 @@ angular.module('RecruitingAppStart.directives', [])
                     );
                     return $country;
                 }
+
                 function format(state) {
                     if(state != undefined && state.value != undefined){
                         var phone = state.value.replace("+","");
                         localStorage.setItem("phone", phone);
                     }
                     if (!state.id) return state.text;
+
                     var $state = $(
                         '<span class="flag-icon flag-icon-'+ state.id.toLowerCase() +' flag-icon-squared"></span>' +
                         '<span class="flag-text" style="margin-left: 5px;">'+ state.text.replace(/[A-z]/g, "").replace(/\(*\)*\.*\-*\s*/g,"").replace(/,/g,"").replace(/'/g,"").replace(/&/g,"")+"</span>");
                     return $state;
                 }
+
                 var isoCountries = [
                     { id: 'AF', text: 'Afghanistan (+93)', value: '+93'},
                     { id: 'AX', text: 'Aland Islands (+358)', value: '+358'},

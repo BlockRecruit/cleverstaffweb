@@ -1,4 +1,17 @@
 .block-invitereg {
+	.h {
+		&:after {
+			position: absolute;
+
+			display: block;
+			width: 50px;
+			height: 50px;
+
+			content: "\003E";
+
+			border: 1px solid black;
+		}
+	}
 	.loader-outer {
 		position: fixed;
 		z-index: 1060;
@@ -44,6 +57,7 @@
 			padding: 15px;
 
 			background-color: $theme-white;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 			h4 {
 				@include bold();
 			}
@@ -65,7 +79,7 @@
 
 			border-radius: 8px;
 			background-color: $theme-white;
-			box-shadow: 0 1px 35px 1px #d6ead1;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 			.question-form {
 				.form-gr {
 					position: relative;
