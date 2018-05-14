@@ -369,7 +369,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                         }else if(answer.answerType == 'one_answer'){
                             $scope.checkAnswerText = [];
                             angular.forEach(rightAnswer.variantsArray, function (val) {
-                                $scope.checkAnswerText = [val];
+                                $scope.checkAnswerText = val;
                                 $scope.variantsAnswer = undefined;
                                 $scope.textAnswers = undefined;
                             });

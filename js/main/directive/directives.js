@@ -1340,14 +1340,18 @@
                 }
             }
         }]
-    ).directive('statusColorDiv', ["$filter", "$translate", function($filter,  $translate) {
+    ).directive('statusColorDiv', ["$filter", "$translate","$compile", function($filter,  $translate, $compile) {
             return {
                 restrict: "EA",
                 scope: {
                     old: "="
                 },
                 link: function(scope, element) {
-                    element.html(createDivForInterviewStatusHistory(scope.old, $filter, $translate));
+                    let a = createDivForInterviewStatusHistory(scope.old, $filter, $translate);
+                    console.log(a, 'a')
+                    let angularElem = angular.element(a);
+                    $compile(angularElem)(scope)
+                    element.html(angularElem);
                 }
             }
         }]
@@ -2101,73 +2105,66 @@
                         initSelect2();
                     });
 
-                    if(!translatedPositions) {
-                        initSelect2();
-                    }
-                    function initSelect2() {
-                        translatedPositions = true;
-                        if ($(element[0])) {
-                            element.select2({
-                                placeholder: $translate.instant('client'),
-                                minimumInputLength: 0,
-                                allowClear: true,
-                                createSearchChoice: function(term, data) {
-                                    if ($(data).filter(function() {
-                                            return this.text.localeCompare(term) === 0;
-                                        }).length === 0) {
-                                        inputText = term;
-                                        return {id: term, text: term};
-                                    }
+                if(!translatedPositions) {
+                    initSelect2();
+                }
+                function initSelect2() {
+                    translatedPositions = true;
+                    if ($(element[0])) {
+                        element.select2({
+                            placeholder: $translate.instant('client'),
+                            minimumInputLength: 0,
+                            allowClear: true,
+                            ajax: {
+                                url: serverAddress + "/client/autocompleteClients",
+                                dataType: 'json',
+                                crossDomain: true,
+                                quietMillis: 500,
+                                type: "POST",
+                                data: function(term, page) {
+                                    return {
+                                        text: term.trim()
+                                    };
                                 },
-                                ajax: {
-                                    url: serverAddress + "/client/autocompleteClients",
-                                    dataType: 'json',
-                                    crossDomain: true,
-                                    type: "POST",
-                                    data: function(term, page) {
-                                        return {
-                                            text: term.trim()
-                                        };
-                                    },
-                                    results: function(data, page) {
-                                        var results = [];
-                                        var inVacancy = false;
-                                        var status = "";
-                                        var realName = "";
-                                        if (data['objects'] !== undefined) {
-                                            angular.forEach(data['objects'], function(item) {
-                                                results.push({
-                                                    id: item.clientId,
-                                                    text: item.name,
-                                                    name: item.name
-                                                });
+                                results: function(data, page) {
+                                    var results = [];
+                                    var inVacancy = false;
+                                    var status = "";
+                                    var realName = "";
+                                    if (data['objects'] !== undefined) {
+                                        angular.forEach(data['objects'], function(item) {
+                                            results.push({
+                                                id: item.clientId,
+                                                text: item.name,
+                                                name: item.name
                                             });
-                                        }
-                                        return {
-                                            results: results
-                                        };
+                                        });
                                     }
-                                },
-                                dropdownCssClass: "bigdrop"
-                            }).on("select2-close", function(e) {
-                                $scope.searchParam.clientId = $(element[0]).select2("data").text;
-                            }).on("change", function(e) {
-                                $scope.searchParam.clientId = $(element[0]).select2("data") ? $(element[0]).select2("data").text : null;
-                            }).on("select2-opening", function(e){
-                                setTimeout(function () {
-                                    $('#select2-drop .select2-results .select2-searching')[0].innerText = $filter("translate")("Searching");
-                                }, 0);
-                            })
-                        }
+                                    return {
+                                        results: results
+                                    };
+                                }
+                            },
+                            dropdownCssClass: "bigdrop"
+                        }).on("select2-close", function(e) {
+                            $scope.searchParam.clientId = $(element[0]).select2("data").text;
+                        }).on("change", function(e) {
+                            $scope.searchParam.clientId = $(element[0]).select2("data") ? $(element[0]).select2("data").text : null;
+                        }).on("select2-opening", function(e){
+                            setTimeout(function () {
+                                $('#select2-drop .select2-results .select2-searching')[0].innerText = $filter("translate")("Searching");
+                            }, 0);
+                        })
                     }
                 }
             }
-        }])
-        .directive('industryAutocomplete', ["$filter", "$rootScope", "$translate", "Service", function($filter, $rootScope, $translate, Service) {
-            return {
-                restrict: 'EA',
-                replace: true,
-                link: function($scope, element) {
+        }
+    }])
+    .directive('industryAutocomplete', ["$filter", "$rootScope", "$translate", "Service", function($filter, $rootScope, $translate, Service) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            link: function($scope, element) {
 
                     let industries = Service.getIndustries(),
                         translatedIndustries = [];
@@ -4818,19 +4815,21 @@ function createDivForInterviewStatusHistory(status, $filter, $translate) {
     var span = "<div class='grey-hover vacancy-stages' style='border-radius: 5px;padding-left: 4px;padding-right: 4px;color:white;background-color:";
     switch (status) {
         case "longlist":
-            return span + "#5e6d86'>" + ( $translate.instant("interview_status_assoc_full.longlist")) + "</div>";
+            return `${span}#5e6d86'">{{'longlist'|translate}}<div>`;
         case "shortlist":
-            return span + "#7887a0;'>" + ( $translate.instant("interview_status_assoc_full.shortlist")) + "</div>";
+            return `${span}#7887a0'">{{'interview_status_assoc_full.shortlist'|translate}}</div>`;
         case "interview":
-            return span + "#3E3773'>" + ( $translate.instant("interview_status_assoc_full.interview")) + "</div>";
+            return `${span}#3E3773'">{{'interview_status_assoc_full.interview'|translate}}</div>`;
         case "notafit":
-            return span + "#407682'>" + ( $translate.instant("interview_status_assoc_full.notafit")) + "</div>";
+            return `${span}#407682'">{{'interview_status_assoc_full.notafit'|translate}}</div>`;
         case "approved":
-            return span + "#76a563'>" + ( $translate.instant("interview_status_assoc_full.approved")) + "</div>";
+            return `${span}#76a563'">{{'interview_status_assoc_full.approved'|translate}}</div>`;
         case "declinedoffer":
-            return span + "#a56484'>" + ( $translate.instant("interview_status_assoc_full.declinedoffer")) + "</div>";
+            return `${span}#a56484'">{{'interview_status_assoc_full.declinedoffer'|translate}}</div>`;
         default:
-            return span + "rgba(88,88,88,0.96)'>" + ($translate.instant(status)) + "</div>"
+            return `${span}rgba(88,88,88,0.96)'" translate="${status}"></div>`;
+
+
     }
 }
 })();

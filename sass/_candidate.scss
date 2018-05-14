@@ -29,10 +29,10 @@
 			.remove-candidate {
 				span {
 					font-size: 14px;
-					font-weight: normal;
-					&.bold {
-						font-weight: bold;
-					}
+					font-weight: bold;
+					//&.bold {
+					//	font-weight: bold;
+					//}
 					&.active-link {
 						font-weight: bold;
 

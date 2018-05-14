@@ -4091,7 +4091,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                         }else if(answer.answerType == 'one_answer'){
                             $scope.checkAnswerText = [];
                             angular.forEach(rightAnswer.variantsArray, function (val) {
-                                $scope.checkAnswerText = [val];
+                                $scope.checkAnswerText = val;
                                 $scope.variantsAnswer = undefined;
                                 $scope.textAnswers = undefined;
                             });
@@ -8403,7 +8403,7 @@ angular.module('services.globalService', [
         }
 
         function setCookies(key, value) {
-            document.cookie = key + "=" + value + "; expires=Thu, 18 Dec 2033 12:00:00 UTC";
+            document.cookie = key + "=" + value + "; expires=Thu, 18 Dec 2033 12:00:00 UTC; path=/";
         }
     };
 
