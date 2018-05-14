@@ -20,7 +20,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
     $scope.status = Vacancy.status();
     $scope.employmentType = Service.employmentType();
     $scope.regionId = null;
-    $scope.loader = false;
+    $scope.loaders = {"vacancies": false};
     $scope.searchStatus = '';
     $scope.chosenStatuses = [];
     $scope.currentStatus = null;

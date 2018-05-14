@@ -16,6 +16,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
         $scope.client = {logoId: null};
         $scope.industries = Service.getIndustries();
         localStorage.setItem("isAddCandidates", false);
+        $scope.loaders = {"clients": false};
     $scope.status = [
         {value: "future", name: "future"},
         {value: "in_work", name: "in work"},

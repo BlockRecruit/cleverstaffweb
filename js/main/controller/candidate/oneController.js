@@ -1798,6 +1798,10 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             //$scope.onlyComments = !$scope.onlyComments;
             $scope.historyLimit = 5;
             $scope.loaders.history = true;
+            if($scope.loaders.history == true){
+                var spinnerImage = angular.element.find('.loader-outer');
+                $(spinnerImage).replaceWith( "<div class='loader'></div>" );
+            }
             Service.history({
                 "vacancyId": $scope.vacancy != undefined ? $scope.vacancy.vacancyId : null,
                 "page": {"number": 0, "count": 5},
@@ -1821,6 +1825,10 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             //$scope.onlyComments = !$scope.onlyComments;
             $scope.historyLimit = 5;
             $scope.loaders.history = true;
+            if($scope.loaders.history == true){
+                var spinnerImage = angular.element.find('.loader-outer');
+                $(spinnerImage).replaceWith( "<div class='loader'></div>" );
+            }
             Service.history({
                 "page": {"number": 0, "count": 5},
                 "candidateId": $scope.candidate !== undefined ? $scope.candidate.candidateId : null,

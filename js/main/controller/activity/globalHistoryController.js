@@ -2,7 +2,8 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
     function($scope, $rootScope, Service, Person, Company, notificationService, $filter, $translate, $uibModal, vacancyStages, Action, CacheCandidates) {
     $scope.showHistory = true;
     localStorage.setItem("isAddCandidates", JSON.stringify(false));
-    $rootScope.loading = true;
+    //$rootScope.loading = true;
+    $scope.loaders = {"full_history": false};
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -21,6 +22,7 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
         });
         var array = [];
         $scope.updateHistory = function(){
+            $scope.loaders.full_history = true;
             Service.history({
                 country: country, city: city,
                 //"ignoreType":['sent_candidate_to_client'],
@@ -45,7 +47,8 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
 
                 $scope.historyLimit = 20;
                 $scope.historyTotal = res.total;
-                $rootScope.loading = false;
+                $scope.loaders.full_history = false;
+                //$rootScope.loading = false;
             });
         };
         $scope.updateHistory();
@@ -53,6 +56,7 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
 
     $scope.search();
     $scope.getMoreHistory = function() {
+        $scope.loaders.full_history = true;
         var country = null;
         var city = null;
         if ($scope.regionId) {
@@ -68,7 +72,8 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
             "page": {"number": 0, "count": $scope.historyLimit *= 2}
         }, function(res) {
             $scope.history = res.objects;
-            $rootScope.loading = false;
+            //$rootScope.loading = false;
+            $scope.loaders.full_history = false;
 
         }, function(error) {
         });

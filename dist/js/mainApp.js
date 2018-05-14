@@ -3229,7 +3229,7 @@ directive('appVersion', ['version', function(version) {
                     console.log(scope);
                     console.log(element);
                     console.log(attrs);
-                    console.log($q, '$q');
+                    console.log(element[0].parentElement, 'parentElement');
 
                     //scope.loading = true;
                     //var directiveId = 'loaderContainer';
@@ -3249,43 +3249,7 @@ directive('appVersion', ['version', function(version) {
                         //console.log(targetElement[0].attributes['loader-name'].value, 'targetElement5');
 
                         //paneElement = angular.element('<div>');
-                        paneElement = angular.element.find('.loader-container');
-                        //paneElement = angular.element('.loader-container');
-                        //console.log($(paneElement), 'paneElement');
-                        //if (attrs['id']) {
-                        //    $(paneElement).attr('data-target-id', attrs['id']);
-                        //}
-                        //$(paneElement).attr('ng-if', '$root.loading');
-                        $(paneElement).css({
-                            'left': 330,
-                            'top': 300,
-                            'width': 918,
-                            'height': 250,
-                            'position': 'absolute'
-                        });
 
-                        //spinnerImage = angular.element('<div>');
-                        spinnerImage = angular.element.find('.loader-outer');
-                        $(spinnerImage).appendTo(paneElement);
-                        $(spinnerImage).css({
-                            //    'left': 330,
-                            //    'top': 400,
-                            'width': 918,
-                            'height': 250,
-                            'position': 'initial'
-                        });
-
-                        //loader = angular.element('<div>');
-                        loader = angular.element.find('.loader');
-                        $(loader).css({
-                            'position': 'absolute',
-                            'left': 380,
-                            'top': 255
-                        });
-                        $(loader).appendTo(spinnerImage);
-                        $(paneElement).addClass(scope.loaderName);
-                        console.log($(paneElement));
-                        console.log(scope.loaderName);
 
                         //angular.element('body').append(paneElement);
 
@@ -3303,31 +3267,55 @@ directive('appVersion', ['version', function(version) {
                         //console.log(scope.loaderName, 'scope.loaderName');
 
                         if((scope.loaderName == 'candidates' || scope.loaderName == 'vacancies' || scope.loaderName == 'clients') && scope.loaderName != 'history'){
-                            console.log('c v c');
-                        }else if(scope.loaderName == 'history'){
-                            console.log('history');
+                            paneElement = angular.element.find('.loader-container');
+                            console.log(paneElement, 'paneElement');
+                            //paneElement = angular.element('.loader-container');
+                            //console.log($(paneElement), 'paneElement');
+                            //if (attrs['id']) {
+                            //    $(paneElement).attr('data-target-id', attrs['id']);
+                            //}
+                            //$(paneElement).attr('ng-if', '$root.loading');
+                            $(paneElement).css({
+                                'left': 330,
+                                'top': 300,
+                                //'width': 917,
+                                'width': element[0].parentElement.clientWidth,
+                                //'height': 250,
+                                'height': element[0].parentElement.clientHeight,
+                                'position': 'absolute'
+                            });
+
+                            //spinnerImage = angular.element('<div>');
+                            spinnerImage = angular.element.find('.loader-outer');
+                            console.log(spinnerImage, 'spinnerImage');
+                            //$(spinnerImage).appendTo(paneElement);
+                            $(spinnerImage).css({
+                                    'left': 330,
+                                    'top': 400,
+                                //'width': 917,
+                                'width': element[0].parentElement.clientWidth,
+                                //'height': 250,
+                                'height': element[0].parentElement.clientHeight,
+                                'position': 'initial'
+                            });
+
+                            //loader = angular.element('<div>');
+                            $(loader).replaceWith( "<div class='loader-outer'><div class='loader'></div></div>" );
+                            loader = angular.element.find('.loader');
+                            console.log(loader, 'loader');
+                            $(loader).css({
+                                'position': 'absolute',
+                                'left': 380,
+                                'top': 255
+                            });
+                            //$(loader).appendTo(spinnerImage);
+                            console.log(scope.loaderName);
+                        }else if(scope.loaderName != 'candidates' || scope.loaderName != 'vacancies' || scope.loaderName != 'clients'){
+                            console.log('else first');
                             $(paneElement).removeAttr( 'style' );
-                            $(spinnerImage).removeAttr( 'style' );
                             $(loader).removeAttr( 'style' );
-                            $(spinnerImage).remove();
-                            $(loader).appendTo(paneElement);
-                            console.log($(paneElement));
-                        }else if(scope.loaderName == 'attachFile'){
-                            console.log('attachFile');
-                            $(paneElement).removeAttr( 'style' );
-                            $(spinnerImage).removeAttr( 'style' );
-                            $(loader).removeAttr( 'style' );
-                            $(loader).remove();
-                            $(spinnerImage).appendTo(paneElement);
-                            $(loader).appendTo(spinnerImage);
-                        }else {
-                            console.log('else');
-                            $(paneElement).removeAttr( 'style' );
-                            $(spinnerImage).removeAttr( 'style' );
-                            $(loader).removeAttr( 'style' );
-                            console.log($(paneElement));
-                            $(spinnerImage).remove();
-                            $(loader).appendTo(paneElement);
+                            var spinnerImage = angular.element.find('.loader-outer');
+                            $(spinnerImage).replaceWith( "<div class='loader'></div>" );
                         }
                     }
 
@@ -3355,50 +3343,65 @@ directive('appVersion', ['version', function(version) {
                         //console.log(targetElement);
                         //console.log($(window).scrollTop());
                         if((scope.loaderName == 'candidates' || scope.loaderName == 'vacancies' || scope.loaderName == 'clients') && scope.loaderName != 'history'){
-                        //if(($rootScope.activePage == 'Candidates' || $rootScope.activePage == 'Vacancies' || $rootScope.activePage == 'Clients') && attrs.loaderName != 'history'){
+                            console.log($(targetElement));
                             $(paneElement).css({
                                 'left': targetElement.offset().left,
                                 //'top': targetElement.offset().top - $(window).scrollTop(),
-                                'top': 400,
-                                //'width': targetElement.outerWidth(),
-                                //'height': targetElement.outerHeight(),
-                                'width': targetElement == undefined ? 918 : targetElement[0].clientWidth,
-                                'height': targetElement == undefined ? 1000 : targetElement[0].clientHeight - 30,
+                                'top': 360,
+                                'width': element[0].parentElement.clientWidth,
+                                'height': element[0].parentElement.clientHeight - 100,
+                                //'width': targetElement[0].offsetParent == undefined ? 917 : targetElement[0].offsetParent.clientWidth,
+                                //'height': targetElement[0].offsetParent == undefined ? 960 : targetElement[0].offsetParent.clientHeight - 30,
                                 'position': 'absolute'
                             });
                             $(spinnerImage).css({
                                 'left': 330,
                                 'top': $(window).scrollTop() >= 0 && $(window).scrollTop() < 380 ? targetElement[0].clientTop : $(window)[0].screenTop + 150,
-                                'width': targetElement == undefined ? 918 : targetElement[0].clientWidth,
-                                'height': targetElement == undefined ? 1000 : targetElement[0].clientHeight - 30,
+                                'width': element[0].parentElement.clientWidth,
+                                //'width': targetElement[0].offsetParent == undefined ? 917 : targetElement[0].offsetParent.clientWidth,
+                                //'height': targetElement[0].offsetParent == undefined ? 960 : targetElement[0].offsetParent.clientHeight - 30,
+                                'height': element[0].parentElement.clientHeight - 100,
                                 'position': 'initial'
                             });
                             $(loader).css({
                                 'top': $(window).scrollTop() >= 0 && $(window).scrollTop() < 380 ? $(window).scrollTop() + 150 : $(window).scrollTop(),
                                 'position': 'absolute'
                             });
-                            alert('2');
+                            //alert('123')
+                        }else if(scope.loaderName == 'history'){
+                            console.log('history');
+                            //$(paneElement).removeAttr( 'style' );
+                            //$(spinnerImage).removeAttr( 'style' );
+                            //$(loader).removeAttr( 'style' );
+                            //$(spinnerImage).remove();
+                            //$(loader).appendTo(paneElement);
+                            $(spinnerImage).replaceWith( "<div class='loader'></div>" );
+                        }else if( scope.loaderName == 'uploadsCV'){
+                            console.log('uploadsCV');
+                            //$(paneElement).removeAttr( 'style' );
+                            //$(spinnerImage).removeAttr( 'style' );
+                            //$(loader).removeAttr( 'style' );
+                            //$(spinnerImage).remove();
+                            //$(loader).appendTo(paneElement);
+                            //$(spinnerImage).replaceWith( "<div class='loader'></div>" );
+                        }else if(scope.loaderName == 'attachFile'){
+                            console.log('attachFile');
+                            $(paneElement).removeAttr( 'style' );
+                            $(spinnerImage).removeAttr( 'style' );
+                            $(loader).removeAttr( 'style' );
+                            //$(loader).remove();
+                            //$(spinnerImage).appendTo(paneElement);
+                            //$(loader).appendTo(spinnerImage);
+                            $(loader).replaceWith( "<div class='loader-outer'><div class='loader'></div></div>" );
+                        }else {
+                            console.log('else');
+                            $(paneElement).removeAttr( 'style' );
+                            $(spinnerImage).removeAttr( 'style' );
+                            $(loader).removeAttr( 'style' );
+                            //$(spinnerImage).remove();
+                            //$(loader).appendTo(paneElement);
+                            $(spinnerImage).replaceWith( "<div class='loader'></div>" );
                         }
-                        //else if(attrs.loaderName == 'history'){
-                        //    console.log('history');
-                        //    $(spinnerImage).remove();
-                        //    $(loader).appendTo(paneElement);
-                        //}else if(attrs.loaderName == 'attachFile'){
-                        //    console.log('attachFile');
-                        //    $(paneElement).removeAttr( 'style' );
-                        //    $(spinnerImage).removeAttr( 'style' );
-                        //    $(loader).removeAttr( 'style' );
-                        //    $(loader).remove();
-                        //    $(spinnerImage).appendTo(paneElement);
-                        //    $(loader).appendTo(spinnerImage);
-                        //}else {
-                        //    console.log('else');
-                        //    $(paneElement).removeAttr( 'style' );
-                        //    $(spinnerImage).removeAttr( 'style' );
-                        //    $(loader).removeAttr( 'style' );
-                        //    $(spinnerImage).remove();
-                        //    $(loader).appendTo(paneElement);
-                        //}
                     }
 
                     function show() {
@@ -3420,14 +3423,6 @@ directive('appVersion', ['version', function(version) {
                         console.log(newVal, 'newVal');
                         updateVisibility(newVal);
                     });
-                    //scope.$watch('candidate', function(newval, oldval) {
-                    //    console.log(oldval, 'oldVal');
-                    //    console.log(newval, 'newVal');
-                    //    if(newval != oldval){
-                    //        updateVisibility(newval);
-                    //        init(element, newval.files);
-                    //    }
-                    //});
                     scope.$on('$destroy', function cleanup() {
                         //$(paneElement).remove();
                         $(paneElement).removeAttr( 'style' );
@@ -3441,7 +3436,7 @@ directive('appVersion', ['version', function(version) {
                 return {
                     //restrict: 'EA',
                     //replace: false,
-                    //transclude: true,
+                    transclude: true,
                     //bindToController: true,
                     scope: {
                         loaders: "=loading",
@@ -9478,6 +9473,10 @@ angular.module('services.employee', [
             $scope.options = {
                 change: function(file) {
                     $scope.loaders.attachFile = true;
+                    if($scope.loaders.attachFile == true){
+                        var loader = angular.element.find('.loader');
+                        $(loader).replaceWith( "<div class='loader-outer'><div class='loader'></div></div>" );
+                    }
                     var uri = serverAddress;
                     if (path != undefined)
                         uri = uri + "/" + path;
@@ -9518,8 +9517,7 @@ angular.module('services.employee', [
                         }
                     }).catch(function(data) {
 
-                        $rootScope.loading = false;
-                        $rootScope.loadingNoBlock = false;
+                        $scope.loaders.attachFile = false;
 
 //                            data.response= JSON.parse(data.response);
                         if (data.response[0].code == 'type') {
@@ -9777,8 +9775,6 @@ angular.module('services.employee', [
                         $scope.fileName = data.item.filename;
                         $scope.ngShowNewImage = true;
                     });
-                    //$rootScope.loading = true;
-                    //console.log($scope.loaders);
 
                     file.$upload(uri, $scope.file, setings, $scope).then(function(data) {
                         //$rootScope.loading = false;
@@ -17449,7 +17445,8 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
     function($scope, $rootScope, Service, Person, Company, notificationService, $filter, $translate, $uibModal, vacancyStages, Action, CacheCandidates) {
     $scope.showHistory = true;
     localStorage.setItem("isAddCandidates", JSON.stringify(false));
-    $rootScope.loading = true;
+    //$rootScope.loading = true;
+    $scope.loaders = {"full_history": false};
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -17468,6 +17465,7 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
         });
         var array = [];
         $scope.updateHistory = function(){
+            $scope.loaders.full_history = true;
             Service.history({
                 country: country, city: city,
                 //"ignoreType":['sent_candidate_to_client'],
@@ -17492,7 +17490,8 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
 
                 $scope.historyLimit = 20;
                 $scope.historyTotal = res.total;
-                $rootScope.loading = false;
+                $scope.loaders.full_history = false;
+                //$rootScope.loading = false;
             });
         };
         $scope.updateHistory();
@@ -17500,6 +17499,7 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
 
     $scope.search();
     $scope.getMoreHistory = function() {
+        $scope.loaders.full_history = true;
         var country = null;
         var city = null;
         if ($scope.regionId) {
@@ -17515,7 +17515,8 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
             "page": {"number": 0, "count": $scope.historyLimit *= 2}
         }, function(res) {
             $scope.history = res.objects;
-            $rootScope.loading = false;
+            //$rootScope.loading = false;
+            $scope.loaders.full_history = false;
 
         }, function(error) {
         });
@@ -20732,6 +20733,11 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         total: 0,
         getData: function ($defer, params) {
             $rootScope.loading = true;
+            //$scope.loaders.candidates = true;
+            //if($scope.loaders.candidates == true){
+            //    var spinnerImage = angular.element.find('.loader-outer');
+            //    $(spinnerImage).replaceWith( "<div class='loader'></div>" );
+            //}
             if ($rootScope.previousLocation == '/candidates/:id') {
                 // if ($rootScope.searchParamInCandidate != undefined) {
                 //     $scope.searchParam = $rootScope.searchParamInCandidate;
@@ -26989,6 +26995,10 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             //$scope.onlyComments = !$scope.onlyComments;
             $scope.historyLimit = 5;
             $scope.loaders.history = true;
+            if($scope.loaders.history == true){
+                var spinnerImage = angular.element.find('.loader-outer');
+                $(spinnerImage).replaceWith( "<div class='loader'></div>" );
+            }
             Service.history({
                 "vacancyId": $scope.vacancy != undefined ? $scope.vacancy.vacancyId : null,
                 "page": {"number": 0, "count": 5},
@@ -27012,6 +27022,10 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             //$scope.onlyComments = !$scope.onlyComments;
             $scope.historyLimit = 5;
             $scope.loaders.history = true;
+            if($scope.loaders.history == true){
+                var spinnerImage = angular.element.find('.loader-outer');
+                $(spinnerImage).replaceWith( "<div class='loader'></div>" );
+            }
             Service.history({
                 "page": {"number": 0, "count": 5},
                 "candidateId": $scope.candidate !== undefined ? $scope.candidate.candidateId : null,
@@ -28585,6 +28599,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
         $scope.client = {logoId: null};
         $scope.industries = Service.getIndustries();
         localStorage.setItem("isAddCandidates", false);
+        $scope.loaders = {"clients": false};
     $scope.status = [
         {value: "future", name: "future"},
         {value: "in_work", name: "in work"},
@@ -34114,6 +34129,7 @@ controller.controller('usersController', ["$localStorage", "$translate", "$scope
         $scope.sortReverseDisabled = true;
         $scope.toggleDisabledUsers = true;
         $scope.toggleInvitedUsers = true;
+        $scope.loaders = {"users": false};
         localStorage.setItem("isAddCandidates", false);
         $localStorage.remove("previousHistoryCustomFields");
         //listenerForScope($scope, $rootScope);
@@ -35845,7 +35861,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
     $scope.status = Vacancy.status();
     $scope.employmentType = Service.employmentType();
     $scope.regionId = null;
-    $scope.loader = false;
+    $scope.loaders = {"vacancies": false};
     $scope.searchStatus = '';
     $scope.chosenStatuses = [];
     $scope.currentStatus = null;

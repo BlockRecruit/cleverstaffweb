@@ -6456,6 +6456,10 @@ angular.module('services.candidate', [
             $scope.options = {
                 change: function(file) {
                     $scope.loaders.attachFile = true;
+                    if($scope.loaders.attachFile == true){
+                        var loader = angular.element.find('.loader');
+                        $(loader).replaceWith( "<div class='loader-outer'><div class='loader'></div></div>" );
+                    }
                     var uri = serverAddress;
                     if (path != undefined)
                         uri = uri + "/" + path;
@@ -6496,8 +6500,7 @@ angular.module('services.candidate', [
                         }
                     }).catch(function(data) {
 
-                        $rootScope.loading = false;
-                        $rootScope.loadingNoBlock = false;
+                        $scope.loaders.attachFile = false;
 
 //                            data.response= JSON.parse(data.response);
                         if (data.response[0].code == 'type') {
@@ -6755,8 +6758,6 @@ angular.module('services.candidate', [
                         $scope.fileName = data.item.filename;
                         $scope.ngShowNewImage = true;
                     });
-                    //$rootScope.loading = true;
-                    //console.log($scope.loaders);
 
                     file.$upload(uri, $scope.file, setings, $scope).then(function(data) {
                         //$rootScope.loading = false;

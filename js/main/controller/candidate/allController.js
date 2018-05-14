@@ -913,6 +913,11 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         total: 0,
         getData: function ($defer, params) {
             $rootScope.loading = true;
+            //$scope.loaders.candidates = true;
+            //if($scope.loaders.candidates == true){
+            //    var spinnerImage = angular.element.find('.loader-outer');
+            //    $(spinnerImage).replaceWith( "<div class='loader'></div>" );
+            //}
             if ($rootScope.previousLocation == '/candidates/:id') {
                 // if ($rootScope.searchParamInCandidate != undefined) {
                 //     $scope.searchParam = $rootScope.searchParamInCandidate;

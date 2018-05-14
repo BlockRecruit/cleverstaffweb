@@ -17,9 +17,9 @@
                             <i class="fa fa-bolt" aria-hidden="true"></i><span>{{'Quickly_add_candidate'|translate}}</span>
                         </h5>
                         <div class="text-left">
+                            <loader-directive loading="loaders" loader-name="uploadsCV"></loader-directive>
                             <input type="file" oi-file="optionsForResumeFile" id="resume" class="hidden">
                             <label for="resume" type="button" ng-click="fastCandResumeClick()" class="btn btn-primary upload-cv-button">{{'Upload CV'|translate}}</label>
-                            <loader-directive loading="loaders" loader-name="uploadsCV"></loader-directive>
                         </div>
                         <ul>
                             <li class="operation"><i class="fa fa-file-text-o" aria-hidden="true"></i><a ng-click="showAddResumeFromText()">{{'Insert Text'|translate}}</a></li>
