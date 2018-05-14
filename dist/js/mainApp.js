@@ -15205,7 +15205,7 @@ angular.module('RecruitingApp', [
             templateUrl: 'partials/invoice.html',
             controller: 'invoiceController',
             title: "Invoice ",
-            pageName: "Invoice generation",
+            pageName: "Invoice",
         })
         //.when('/hr-module-info', {
         //    title: "HR-module",
@@ -15409,7 +15409,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=98'
+        suffix: '.json?b=99'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');

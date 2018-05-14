@@ -293,6 +293,9 @@
 								background-color: #fff;
 							}
 						}
+						&:focus {
+							text-decoration: none;
+						}
 					}
 				}
 				.total-info {
