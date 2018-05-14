@@ -1,4 +1,15 @@
 .block-invitereg {
+	.checkbox-sprite {
+		position: relative;
+		top: 4px;
+
+		display: inline-block;
+		width: 15px;
+		height: 16px;
+
+		background: url(../../images/sprite/sprite-checkbox.png);
+		background-repeat: no-repeat;
+	}
 	.loader-outer {
 		position: fixed;
 		z-index: 1060;
@@ -253,6 +264,8 @@
 		}
 		.role {
 			margin-top: 10px;
+
+			opacity: 0.8;
 			span {
 				font-weight: bold;
 			}

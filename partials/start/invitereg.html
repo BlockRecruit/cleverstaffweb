@@ -66,7 +66,8 @@
                         </div>
                     </div>
                     <div class="form-gr text-center">
-                        <input type="checkbox" id="access" ng-model="checkPrivacyOrTerms" style="display: inline-block; width: auto; position: relative;top: 2px">
+                        <div class="checkbox-sprite" ng-click="checkPrivacyOrTerms = !checkPrivacyOrTerms" ng-style="(!checkPrivacyOrTerms)? {'background-position-x': '-20px'}:null"></div>
+                        <!--<input type="checkbox" id="access" ng-model="checkPrivacyOrTerms" style="display: inline-block; width: auto; position: relative;top: 2px">-->
                         <label  class="terms" for="access" style="font-size: 13px; font-weight: normal;" translate="I have read the Privacy Policy and the Terms and Conditions and I accept both of them"></label>
                     </div>
                     <div class="clearfix"></div>
