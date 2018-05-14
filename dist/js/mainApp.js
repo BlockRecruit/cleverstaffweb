@@ -31557,10 +31557,10 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
 
     function setInvoiceData(data) {
         $scope.invoice = {
-            users: Pay.paymentInfo.countPeople || data.numberOfUsers || $scope.paidUsers.length,
+            users: paymentParams.getUsers() || $scope.paidUsers.length,
             months: Pay.paymentInfo.countMonths || data.numberOfMonths || 4,
             currency: data.currency,
-            price: () => ($scope.invoice.users * $scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]).toFixed(2)
+            price: () => paymentParams.getPrice()
         };
 
         $scope.$apply();
@@ -31597,7 +31597,6 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
             }
         },
         getPrice() {
-            console.log(this.isCorporate());
             if(this.isCorporate()) {
                 let bonus = 0;
 
