@@ -2479,5 +2479,8 @@
   "You didn't make any payments yet":"You didn't make any transitions yet",
   "No such appointmentId.":"Unfortunately, such test does not exist. For more information, contact the recruiter who sent you this test.",
   "Sorry, this candidate was removed from the system":"Sorry, this candidate was removed from the system",
-  "Not enough money, so your account is blocked. Please top up your account and it will be unlocked":"Not enough money, so your account is blocked. Please top up your account and it will be unlocked"
+  "Not enough money, so your account is blocked. Please top up your account and it will be unlocked":"Not enough money, so your account is blocked. Please top up your account and it will be unlocked",
+  "Consent status undefined": "Personal Data consent status is <b>undefined</b>",
+  "Consent status denied": "This candidate has <b>denied</b> the consent for Personal Data processing request",
+  "Consent status confirmed": "The candidate has <b>given</b> the consent for his personal data processing"
 }

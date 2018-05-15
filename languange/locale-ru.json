@@ -3079,5 +3079,8 @@
   "You didn't make any payments yet":"У вас еще не было оплат",
   "No such appointmentId.":"К сожалению, такого теста не существует. Для уточнения информации обратитесь к рекрутеру, который отправил вам этот тест.",
   "Sorry, this candidate was removed from the system":"Извините, данный кандидат был удален из системы",
-  "Not enough money, so your account is blocked. Please top up your account and it will be unlocked":"У вас закончились деньги на счету, поэтому ваш аккаунт заблокирован. Пополните счет и аккаунт будет разблокирован."
+  "Not enough money, so your account is blocked. Please top up your account and it will be unlocked":"У вас закончились деньги на счету, поэтому ваш аккаунт заблокирован. Пополните счет и аккаунт будет разблокирован.",
+  "Consent status undefined": "Статус разрешения на <br> обработку персональных <br> данных <b>не определен</b>",
+  "Consent status denied": "Этот кандидат <b>запретил</b> использовать его Персональные Данные",
+  "Consent status confirmed": "Кандидат <b>дал разрешение</b> на обработку его персональных данных"
 }
