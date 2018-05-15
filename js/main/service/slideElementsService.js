@@ -180,6 +180,7 @@ angular.module('services.slider', [
                    }
                }
            })();
+
        sliderElements.nextOrPrevElements = function ($scope, event) {
            let i = event.pageX, j = event.pageY,
                buttons = document.querySelectorAll('.leftBlockArrow, .rightBlockArrow'),
@@ -190,17 +191,6 @@ angular.module('services.slider', [
                blockElementOffsetLeft = coords.left,
                blockCandidateOffsetRight = coords.right;
 
-           if( event.target.classList[1] === 'fa-chevron-left'  ||
-               event.target.classList[1] === 'fa-chevron-right' ||
-               event.target.classList[0] === 'leftBlockArrow'        ||
-               event.target.classList[0] === 'rightBlockArrow') return;
-
-           if(buttons && buttons.length >= 1 && mass.indexOf('main-block') === -1){
-               buttons.forEach((elem)=>{
-                   elem.remove();
-               });
-               return;
-           }
 
            if( i <= blockElementOffsetLeft){
                iterator.current();
@@ -218,9 +208,7 @@ angular.module('services.slider', [
        sliderElements.nextElement = function ($scope, event) {
            let element;
 
-           console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
            sliderElements.nextElement["cacheCurrentPosition"] = +localStorage.getItem('numberPage');
-           console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
 
            if(event.target.dataset.btn === 'right'){
                element =  iterator.next($scope);
@@ -236,8 +224,6 @@ angular.module('services.slider', [
 
            $location.path("candidates/" + element);
        };
-
-       // sliderElements.nextElement["cacheCurrentPosition"] = +localStorage.getItem('numberPage');
 
        sliderElements.setCurrent = () =>{
            currentPage = getLocation();
@@ -265,6 +251,7 @@ angular.module('services.slider', [
                    resault--;
                }
            }
+
            localStorage.setItem('numberPage', resault);
            return resault;
        }
@@ -272,7 +259,6 @@ angular.module('services.slider', [
        function createArrowLeft(width, mainBlock) {
            let currentIndex = iterator.index,
                number = sliderElements.params.page.number + 1;
-           console.log(sliderElements.nextElement.cacheCurrentPosition, 'sliderElements.nextElement.cacheCurrentPosition');
 
            if((number === 1) && (currentIndex == 0) || !$rootScope.isAddCandidates || sliderElements.nextElement.cacheCurrentPosition < 0){
                mainBlock.style.cursor = 'initial';
@@ -288,8 +274,6 @@ angular.module('services.slider', [
                currentLength = iterator.length - 1,
                number = sliderElements.params.page.number + 1,
                count = sliderElements.params.page.count;
-
-           console.log(sliderElements.nextElement.cacheCurrentPosition, 'sliderElements.nextElement.cacheCurrentPosition');
 
            if((number === Math.ceil(max / count)) && (currentIndex == currentLength) || !$rootScope.isAddCandidates || sliderElements.nextElement.cacheCurrentPosition < 0){
                mainBlock.style.cursor = 'initial';
