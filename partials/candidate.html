@@ -60,6 +60,23 @@
                                 <img id="page-avatar" class="photoWidth small-image-for-print" ng-src="{{serverAddress}}/getapp?id={{candidate.photo}}&d={{$root.me.personId}}" alt="" ng-if="candidate.photo"/>
                             </div>
                         </div>
+                        <div class="col-md-12 pd-consent-status">
+                            <div class="pd-consent-title">GDPR</div>
+                            <div class="pd-consent-content">
+                                <div class="pd-consent-text">
+                                    Этот кандидат
+                                    разрешил использовать
+                                    его Персональные Данные
+                                </div>
+                                <div class="pd-consent-dropdown-status-block">
+                                    <div class="pd-consent-dropdown-status-element">
+                                        <div class="pd-consent-status"></div>
+                                        <div class="pd-consent-dropdown-btn"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pd-consent-bottom-line"></div>
+                        </div>
                         <div class="col-sm-12 col-xs-6 candidate-control not-for-print" ng-class="{'groups': candidate.groups.length > 0}">
                             <h5>{{'Control'|translate}}</h5>
                             <span class="title">{{'status'|translate}}</span>
