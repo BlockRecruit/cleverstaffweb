@@ -176,3 +176,13 @@ section.gdpr .gdpr__footer .footer__descr {
 section.gdpr .gdpr__footer img.thumbs-up {
     margin-right: 60px;
 }
+
+section.gdpr .gdpr__footer .gdpr-logo{
+    position: absolute;
+}
+
+section.gdpr .gdpr__footer .gdpr-logo img {
+    width: 155px;
+    height: 37px;
+    transform: rotate(-12deg);
+}
