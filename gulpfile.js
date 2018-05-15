@@ -31,6 +31,7 @@ gulp.task('css', function () {
             './external/css/animate.min.css',
             './external/css/font-awesome.min.css',
             './external/css/carousel.css',
+            './external/css/gdpr.css',
             './external/css/main.css',
     ])
         .pipe(concatCss("main.min.css"))

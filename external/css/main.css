@@ -23,6 +23,12 @@
     font-style: normal;
 }
 @font-face {
+    font-family: 'Helv-3-Bold';
+    src: url('/fonts/inner/Helvetica-Bold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
     font-family: 'Segoe Print';
     src: url('../fonts/segoepr.ttf') format('truetype');
     font-weight: normal;
