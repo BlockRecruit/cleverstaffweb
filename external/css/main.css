@@ -2541,6 +2541,15 @@ select.webkit-fix {
     color: #333;
     background-color: #e3f2dd;
 }
+.error404 .block{
+    background-color: #fff;
+}
+.error404 .content{
+    margin-top: 60px;
+}
+.error404 .content h3{
+    margin-bottom: 18px;
+}
 .error404 #banner-load{
     position: relative;
     margin: 10px 0 15px 0;
