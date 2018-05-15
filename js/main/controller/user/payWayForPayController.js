@@ -46,7 +46,6 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             $scope.balance = resp.object;
             $scope.isOnBilling = !resp.object.monthRate;
             $rootScope.loading = false;
-            watchSelectForChanges();
             if($rootScope.me['orgParams']['tarif']) {
                 $scope.tarif = $rootScope.me['orgParams']['tarif'];
             } else {
@@ -116,41 +115,6 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         $scope.$watchGroup(['countPeople', 'countMonth'], function() {
             calculatePaymentData();
         });
-
-        function watchSelectForChanges() {
-            $timeout(() => {
-                $('.checkoutInner select').on('change', function () {
-                    $scope.countMonth = $('#countMonth').val();
-                    $scope.countPeople = $('#countPeople').val();
-
-                    $scope.monthRate = $scope.monthRate || 25;
-
-                    if ($scope.countMonth >= 12) {
-                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                        $scope.bonuce = 20;
-                        $scope.priceWithBonusBilling = ($scope.price - ($scope.bonuce * $scope.price)/100);
-                        $('#bonuce').removeClass('hidden');
-                        $('#amountBonus').html($scope.priceWithBonusBilling);
-                    }
-                    else if ($scope.countMonth >= 4) {
-                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                        $scope.bonuce = 10;
-                        $scope.priceWithBonusBilling = ($scope.price - ($scope.bonuce * $scope.price)/100);
-                        $('#bonuce').removeClass('hidden');
-                        $('#amountBonus').html($scope.priceWithBonusBilling);
-                    }
-                    else {
-                        $('#bonuce').addClass('hidden');
-                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                        $scope.priceWithBonusBilling = $scope.price;
-                    }
-
-                    // $('#price').html($scope.price + " USD");
-                    $('#price').html($scope.priceWithBonusBilling + " USD");
-                    $scope.$apply();
-                });
-            })
-        }
 
         $scope.payClick = function () {
             Pay.createPaymentUsage({
