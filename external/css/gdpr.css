@@ -2,35 +2,35 @@
     background-color: #e3f2dd;
 }
 
-section.gdrp {
+section.gdpr {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     max-width: 1060px;
-    margin: 0 auto;
+    margin: 0 auto 50px;
 }
 
-section.gdrp .gdrp__logo {
+section.gdpr .gdpr__logo {
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 20px 0 55px;
 }
 
-section.gdrp .gdrp__logo img {
+section.gdpr .gdpr__logo img {
     display: inline-block;
     margin-right: 10px;
 }
 
-section.gdrp .gdrp__logo h1 {
+section.gdpr .gdpr__logo h1 {
     color: #164194;
     font-size: 110px;
     font-weight: bold;
     margin: 0;
 }
 
-section.gdrp .slides__title {
+section.gdpr .slides__title {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -41,33 +41,33 @@ section.gdrp .slides__title {
     position: relative;
 }
 
-section.gdrp .slides__title .title {
+section.gdpr .slides__title .title {
     margin: 0;
     padding: 20px 20px 30px 20px;
     border-radius: 5px 5px 0 0;
 }
 
-section.gdrp .slides__title .title:nth-child(1) {
+section.gdpr .slides__title .title:nth-child(1) {
     max-width: 260px;
 }
 
-section.gdrp .slides__title .title:nth-child(2) {
+section.gdpr .slides__title .title:nth-child(2) {
     max-width: 335px;
 }
 
-section.gdrp .slides__title .title:nth-child(3) {
+section.gdpr .slides__title .title:nth-child(3) {
     max-width: 240px;
 }
 
-section.gdrp .slides__title .title.active {
+section.gdpr .slides__title .title.active {
     background-color: #fff;
 }
 
-section.gdrp .slides__title .title.active h6{
+section.gdpr .slides__title .title.active h6{
     color: #164194;
 }
 
-section.gdrp .slides__title h6 {
+section.gdpr .slides__title h6 {
     color: #ffffff;
     font-family: "Helv-3-Bold";
     line-height: 18px;
@@ -76,29 +76,34 @@ section.gdrp .slides__title h6 {
     text-align: center;
 }
 
-section.gdrp .slides__title .toggle {
+section.gdpr .slides__title .toggle {
     position: absolute;
     color: #ffffff;
     top: calc(50% - 11px);
 }
 
-section.gdrp .slides__title .toggle.left {
+section.gdpr .slides__title .toggle.left {
     left: 35px;
 }
 
-section.gdrp .slides__title .toggle.right {
+section.gdpr .slides__title .toggle.right {
     right: 35px;
 }
 
-section.gdrp .slides {
+section.gdpr .slides {
     display: flex;
     background-color: #fff;
     border-left:1px solid #cccccc;
     border-right:1px solid #ccc;
     padding: 30px 0;
+    width: 100%;
 }
 
-section.gdrp .slides .slide .questions {
+section.gdpr .slides .slide {
+    width: 100%;
+}
+
+section.gdpr .slides .slide .questions {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -106,38 +111,68 @@ section.gdrp .slides .slide .questions {
     padding: 0 120px;
 }
 
-section.gdrp .slides .slide .questions .question {
+section.gdpr .slides .slide .questions .question {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
-    padding-top: 20px;
-    margin-bottom: 20px;
+    padding: 15px 0;
     position: relative;
     border-top: 1px solid #ccc;
     width: 100%;
 }
 
-section.gdrp .slides .slide .questions .question .q-text {
-    font-family: "Helv-3-Medium";
-    color: #000000;
-    margin-bottom: 20px;
-    font-size: 21px;
+section.gdpr .slides .slide .questions .question:last-child {
+    border-bottom: 1px solid #ccc;
 }
 
-section.gdrp .slides .slide .questions .question .q-answer {
+section.gdpr .slides .slide .questions .question .q-text {
+    font-family: "Helv-3-Medium";
+    color: #000000;
+    font-size: 18px;
+}
+
+section.gdpr .slides .slide .questions .question .q-answer {
     background-color: #edf2fb;
-    display: block;
     padding: 15px;
     color: #333333;
     font-family: "Helv-3-Light";
+    display: none;
+    font-size: 18px;
+    margin-top: 20px;
 }
 
-section.gdrp .slides .slide .questions .question .q-answer-toggle {
+section.gdpr .slides .slide .questions .question .q-answer.active {
+    display: block;
+}
+
+section.gdpr .slides .slide .questions .question .q-answer-toggle {
     position: absolute;
-    top: 7px;
+    top: -1px;
     right: 23px;
     color: #164194;
     font-size: 40px;
     font-family: "Helvetica-Light";
+}
+
+section.gdpr .gdpr__footer {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 15% 25px 60px;
+    background-color: #164194;
+    width: 100%;
+    border-radius:0 0 5px 5px;
+}
+
+section.gdpr .gdpr__footer .footer__descr {
+    color: #ffffff;
+    font-family: "Helv-3-Medium";
+    margin: 0;
+    font-size: 18px;
+}
+
+section.gdpr .gdpr__footer img.thumbs-up {
+    margin-right: 60px;
 }
