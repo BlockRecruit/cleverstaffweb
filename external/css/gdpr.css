@@ -95,12 +95,17 @@ section.gdpr .slides {
     background-color: #fff;
     border-left:1px solid #cccccc;
     border-right:1px solid #ccc;
-    padding: 30px 0;
+    padding-top: 30px;
     width: 100%;
 }
 
 section.gdpr .slides .slide {
     width: 100%;
+    display: none;
+}
+
+section.gdpr .slides .slide.active {
+    display: block;
 }
 
 section.gdpr .slides .slide .questions {
@@ -108,7 +113,7 @@ section.gdpr .slides .slide .questions {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0 120px;
+    padding: 0 120px 30px;
 }
 
 section.gdpr .slides .slide .questions .question {
@@ -168,9 +173,14 @@ section.gdpr .gdpr__footer {
 
 section.gdpr .gdpr__footer .footer__descr {
     color: #ffffff;
-    font-family: "Helv-3-Medium";
+    font-family: "Helv-3-Light";
     margin: 0;
     font-size: 18px;
+    letter-spacing: 0.6px;
+}
+
+section.gdpr .gdpr__footer .footer__descr span.bold{
+    font-family: "Helv-3-Medium";
 }
 
 section.gdpr .gdpr__footer img.thumbs-up {
@@ -179,10 +189,57 @@ section.gdpr .gdpr__footer img.thumbs-up {
 
 section.gdpr .gdpr__footer .gdpr-logo{
     position: absolute;
+    right: -15px;
+    bottom: 3px;
 }
 
 section.gdpr .gdpr__footer .gdpr-logo img {
-    width: 155px;
-    height: 37px;
+    width: 262px;
+    height: 63px;
     transform: rotate(-12deg);
+}
+
+section.gdpr .slides .slide .slide__intro {
+    display: block;
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 15px;
+    font-family: "Helv-3-Medium";
+    text-align: center;
+    color: #000000;
+    letter-spacing: 0.4px;
+}
+
+section.gdpr .slides .slide .gdpr-criteria {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+section.gdpr .slides .slide .gdpr-criteria .criteria {
+    padding: 15px 70px 15px 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+}
+
+section.gdpr .slides .slide .gdpr-criteria .criteria:nth-child(odd) {
+    background-color: #edf2fb;
+}
+
+section.gdpr .slides .slide .gdpr-criteria .criteria img {
+    margin-right: 35px;
+}
+
+section.gdpr .slides .slide .gdpr-criteria .criteria .descr {
+    font-family: "Helv-3-Light";
+    font-size: 18px;
+    margin: 0;
+}
+
+section.gdpr .slides .slide .gdpr-criteria .criteria .descr span.bold {
+    font-family: "Helv-3-Medium";
 }
