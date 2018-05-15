@@ -4515,6 +4515,7 @@ directive('appVersion', ['version', function(version) {
     }])
     .directive("customSelect",setCustomSelect)
     .directive("tooltipMove", tooltipMove)
+    .directive("pdConsent",pdConsent)
     .directive('customSelectNew', ['$window', function($window) {
         return {
             restrict: "E",
@@ -4634,6 +4635,28 @@ directive('appVersion', ['version', function(version) {
                         <select class="custom-new" style="display:none!important;" ng-options="opt.value as opt.label for opt in options" model="model"></select>`
         };
     }]);
+
+function pdConsent($document) {
+    return {
+        restrict: "AE",
+        templateUrl: "partials/pdConsent.html",
+        link: function (element, attrs) {
+            let dropdownPdConsentElement = $('.pd-consent-dropdown');
+            $document.unbind().on('click', ($event) => {
+                toggleDropdowns($event);
+            });
+
+            function toggleDropdowns(event) {
+                if($(event.target).hasClass("show-pd-consent-dropdown")) {
+                    dropdownPdConsentElement.toggle();
+                } else {
+                    dropdownPdConsentElement.hide();
+                }
+            }
+
+        }
+    }
+}
 
 function tooltipMove($filter){
     let restrict  = "EACM"

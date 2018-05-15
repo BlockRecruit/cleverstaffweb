@@ -3082,5 +3082,9 @@
   "Not enough money, so your account is blocked. Please top up your account and it will be unlocked":"У вас закончились деньги на счету, поэтому ваш аккаунт заблокирован. Пополните счет и аккаунт будет разблокирован.",
   "Consent status undefined": "Статус разрешения на <br> обработку персональных <br> данных <b>не определен</b>",
   "Consent status denied": "Этот кандидат <b>запретил</b> использовать его Персональные Данные",
-  "Consent status confirmed": "Кандидат <b>дал разрешение</b> на обработку его персональных данных"
+  "Consent status confirmed": "Кандидат <b>дал разрешение</b> на обработку его персональных данных",
+  "Change the status as I have the consent from this candidate": "Изменить статус, так как разрешение от кандидата получено",
+  "Change the status as I haven't the consent from this candidate": "Изменить статус, так как разрешения от кандидата нет",
+  "Send the email to this candidate with the consent request": "Отправить письмо этому кандидату с запросом разрешения использовать его персональные данные",
+  "Delete candidate, the consent is unobtainable or denied": "Удалить кандидата, разрешение не получено или невозможно получить"
 }

@@ -2482,5 +2482,9 @@
   "Not enough money, so your account is blocked. Please top up your account and it will be unlocked":"Not enough money, so your account is blocked. Please top up your account and it will be unlocked",
   "Consent status undefined": "Personal Data consent status is <b>undefined</b>",
   "Consent status denied": "This candidate has <b>denied</b> the consent for Personal Data processing request",
-  "Consent status confirmed": "The candidate has <b>given</b> the consent for his personal data processing"
+  "Consent status confirmed": "The candidate has <b>given</b> the consent for his personal data processing",
+  "Change the status as I have the consent from this candidate": "Change the status as I have the consent from this candidate",
+  "Change the status as I haven't the consent from this candidate": "Change the status as I haven't the consent from this candidate",
+  "Send the email to this candidate with the consent request": "Send the email to this candidate with the consent request",
+  "Delete candidate, the consent is unobtainable or denied": "Delete candidate, the consent is unobtainable or denied"
 }
