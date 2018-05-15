@@ -12171,9 +12171,7 @@ angular.module('services.slider', [
                    }else{
                        Vacancy.requestGetCandidatesInStages(sliderElements.params)
                            .then((resp) => {
-                               console.log(resp, 'resp');
                                collection = collection.concat(resp.objects.map(item => item.candidateId.localId));
-                               console.log(collection, 'collection!2222!!!!!');
                                return {
                                    collection: collection,
                                    params: sliderElements.params
@@ -12246,9 +12244,6 @@ angular.module('services.slider', [
                    return null;
                }
 
-
-               // currentPage = getLocation();
-               //      sliderElements.getData = getData;
                function getData() {
                    sliderElements.params ;
 
@@ -12310,54 +12305,17 @@ angular.module('services.slider', [
                        getData();
                        index = collection.indexOf(localId);
                        length = collection.length;
-                       console.log(collection, 'collection')
-                       console.log(index, 'index')
                        this.length = length;
                        this.index = index;
                    }
                }
            })();
-       sliderElements.nextOrPrevElements = function ($scope, event) {
-           let i = event.pageX, j = event.pageY,
-               buttons = document.querySelectorAll('.leftBlockArrow, .rightBlockArrow'),
-               mass = [].slice.apply(event.target.classList);
 
-           const   mainBlock = document.querySelector('.main-block'),
-               coords = getCoords(mainBlock.firstElementChild),
-               blockElementOffsetLeft = coords.left,
-               blockCandidateOffsetRight = coords.right;
-
-           if( event.target.classList[1] === 'fa-chevron-left'  ||
-               event.target.classList[1] === 'fa-chevron-right' ||
-               event.target.classList[0] === 'leftBlockArrow'        ||
-               event.target.classList[0] === 'rightBlockArrow') return;
-
-           if(buttons && buttons.length >= 1 && mass.indexOf('main-block') === -1){
-               buttons.forEach((elem)=>{
-                   elem.remove();
-               });
-               return;
-           }
-
-           if( i <= blockElementOffsetLeft){
-               iterator.current();
-               event.target.style.cursor = 'pointer';
-               createArrowLeft(blockElementOffsetLeft, mainBlock);
-           }else if( i >= blockCandidateOffsetRight){
-               iterator.current();
-               event.target.style.cursor = 'pointer';
-               createArrowRight(blockElementOffsetLeft, mainBlock);
-           }else{
-               mainBlock.style.cursor = 'initial';
-           }
-       };
 
        sliderElements.nextElement = function ($scope, event) {
            let element;
 
-           console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
            sliderElements.nextElement["cacheCurrentPosition"] = +localStorage.getItem('numberPage');
-           console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
 
            if(event.target.dataset.btn === 'right'){
                element =  iterator.next($scope);
@@ -12374,8 +12332,6 @@ angular.module('services.slider', [
            $location.path("candidates/" + element);
        };
 
-       // sliderElements.nextElement["cacheCurrentPosition"] = +localStorage.getItem('numberPage');
-
        sliderElements.setCurrent = () =>{
            currentPage = getLocation();
            $rootScope.setCurrent = $rootScope.setCurrent || JSON.parse(localStorage.getItem('setCurrent'));
@@ -12383,6 +12339,7 @@ angular.module('services.slider', [
            if(+$rootScope.setCurrent){
                sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [true]);
            }
+
            $rootScope.setCurrent = false;
            localStorage.setItem('setCurrent', false);
        };
@@ -12402,6 +12359,7 @@ angular.module('services.slider', [
                    resault--;
                }
            }
+
            localStorage.setItem('numberPage', resault);
            return resault;
        }
@@ -12409,7 +12367,6 @@ angular.module('services.slider', [
        function createArrowLeft(width, mainBlock) {
            let currentIndex = iterator.index,
                number = sliderElements.params.page.number + 1;
-           console.log(sliderElements.nextElement.cacheCurrentPosition, 'sliderElements.nextElement.cacheCurrentPosition');
 
            if((number === 1) && (currentIndex == 0) || !$rootScope.isAddCandidates || sliderElements.nextElement.cacheCurrentPosition < 0){
                mainBlock.style.cursor = 'initial';
@@ -12426,8 +12383,6 @@ angular.module('services.slider', [
                number = sliderElements.params.page.number + 1,
                count = sliderElements.params.page.count;
 
-           console.log(sliderElements.nextElement.cacheCurrentPosition, 'sliderElements.nextElement.cacheCurrentPosition');
-
            if((number === Math.ceil(max / count)) && (currentIndex == currentLength) || !$rootScope.isAddCandidates || sliderElements.nextElement.cacheCurrentPosition < 0){
                mainBlock.style.cursor = 'initial';
                return;
@@ -12436,13 +12391,6 @@ angular.module('services.slider', [
            $('.main-block').append('<div class="rightBlockArrow" ng-show="currentIndex" data-btn="right"  style="width:' + width + 'px"; data-btn="right"><i  data-btn="right" class="fa fa-chevron-right nextElements"></i></div>');
        };
 
-       function getCoords(elem) {
-           var box = elem.getBoundingClientRect();
-           return {
-               right: box.right + pageXOffset,
-               left: box.left + pageXOffset
-           };
-       }
 
        function getLocation() {
            currentPage =  localStorage.getItem('currentPage');
@@ -27302,10 +27250,10 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
         sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
         sliderElements.setCurrent();
-        $scope.nextOrPrevElements = sliderElements.nextOrPrevElements.bind(null, $scope);
+
         $scope.nextElement = sliderElements.nextElement.bind(null, $scope);
-        $scope.candidateLength = $rootScope.objectSize || localStorage.getItem('objectSize');
-        $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 || (+localStorage.getItem('numberPage')) + 1;
+        $scope.candidateLength = +($rootScope.objectSize || localStorage.getItem('objectSize'));
+        $scope.currentIndex = +(sliderElements.nextElement.cacheCurrentPosition + 1 || (+localStorage.getItem('numberPage')) + 1);
     }catch (e) {
         console.log(e)
         localStorage.setItem("isAddCandidates", false);

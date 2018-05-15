@@ -2327,10 +2327,10 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
         sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
         sliderElements.setCurrent();
-        $scope.nextOrPrevElements = sliderElements.nextOrPrevElements.bind(null, $scope);
+
         $scope.nextElement = sliderElements.nextElement.bind(null, $scope);
-        $scope.candidateLength = $rootScope.objectSize || localStorage.getItem('objectSize');
-        $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 || (+localStorage.getItem('numberPage')) + 1;
+        $scope.candidateLength = +($rootScope.objectSize || localStorage.getItem('objectSize'));
+        $scope.currentIndex = +(sliderElements.nextElement.cacheCurrentPosition + 1 || (+localStorage.getItem('numberPage')) + 1);
     }catch (e) {
         console.log(e)
         localStorage.setItem("isAddCandidates", false);

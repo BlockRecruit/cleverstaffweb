@@ -34,9 +34,7 @@ angular.module('services.slider', [
                    }else{
                        Vacancy.requestGetCandidatesInStages(sliderElements.params)
                            .then((resp) => {
-                               console.log(resp, 'resp');
                                collection = collection.concat(resp.objects.map(item => item.candidateId.localId));
-                               console.log(collection, 'collection!2222!!!!!');
                                return {
                                    collection: collection,
                                    params: sliderElements.params
@@ -109,9 +107,6 @@ angular.module('services.slider', [
                    return null;
                }
 
-
-               // currentPage = getLocation();
-               //      sliderElements.getData = getData;
                function getData() {
                    sliderElements.params ;
 
@@ -173,37 +168,12 @@ angular.module('services.slider', [
                        getData();
                        index = collection.indexOf(localId);
                        length = collection.length;
-                       console.log(collection, 'collection')
-                       console.log(index, 'index')
                        this.length = length;
                        this.index = index;
                    }
                }
            })();
 
-       sliderElements.nextOrPrevElements = function ($scope, event) {
-           let i = event.pageX, j = event.pageY,
-               buttons = document.querySelectorAll('.leftBlockArrow, .rightBlockArrow'),
-               mass = [].slice.apply(event.target.classList);
-
-           const   mainBlock = document.querySelector('.main-block'),
-               coords = getCoords(mainBlock.firstElementChild),
-               blockElementOffsetLeft = coords.left,
-               blockCandidateOffsetRight = coords.right;
-
-
-           if( i <= blockElementOffsetLeft){
-               iterator.current();
-               event.target.style.cursor = 'pointer';
-               createArrowLeft(blockElementOffsetLeft, mainBlock);
-           }else if( i >= blockCandidateOffsetRight){
-               iterator.current();
-               event.target.style.cursor = 'pointer';
-               createArrowRight(blockElementOffsetLeft, mainBlock);
-           }else{
-               mainBlock.style.cursor = 'initial';
-           }
-       };
 
        sliderElements.nextElement = function ($scope, event) {
            let element;
@@ -232,6 +202,7 @@ angular.module('services.slider', [
            if(+$rootScope.setCurrent){
                sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [true]);
            }
+
            $rootScope.setCurrent = false;
            localStorage.setItem('setCurrent', false);
        };
@@ -283,13 +254,6 @@ angular.module('services.slider', [
            $('.main-block').append('<div class="rightBlockArrow" ng-show="currentIndex" data-btn="right"  style="width:' + width + 'px"; data-btn="right"><i  data-btn="right" class="fa fa-chevron-right nextElements"></i></div>');
        };
 
-       function getCoords(elem) {
-           var box = elem.getBoundingClientRect();
-           return {
-               right: box.right + pageXOffset,
-               left: box.left + pageXOffset
-           };
-       }
 
        function getLocation() {
            currentPage =  localStorage.getItem('currentPage');

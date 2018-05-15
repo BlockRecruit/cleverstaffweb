@@ -7,6 +7,60 @@
 		margin: 0;
 	}
 
+	& ~ .slider-btn {
+		@include flex(row, center, center);
+
+		position: fixed;
+		z-index: 0;
+		top: 0;
+
+		width: 3.4%;
+		height: 100%;
+
+		cursor: pointer;
+		transition: all 1s;
+
+		background-color: #aeacacc4;
+		&.previous-candidate {
+			left: 0;
+		}
+		&.next-candidate {
+			right: 0;
+		}
+		&:hover {
+			opacity: 0.5;
+			background: #00b549;
+		}
+
+		& > .fa {
+			font-size: 22px;
+
+			position: absolute;
+
+			transition: all 0.5s;
+
+			color: black;
+			&.fa-arrow-left {
+				right: 20px;
+			}
+			&.fa-arrow-right {
+				left: 20px;
+			}
+		}
+		&:hover > .fa {
+			cursor: pointer;
+			transform: scale(1.3);
+
+			color: white;
+			&.fa-arrow-left {
+				right: 26px;
+			}
+			&.fa-arrow-right {
+				left: 26px;
+			}
+		}
+	}
+
 	.candidate-information {
 		@include bt-margins-from-side();
 		.fullName-position {
